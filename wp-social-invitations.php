@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://www.timersys.com/plugins-wordpress/wordpress-social-invitations/
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
-Version: 1.3
+Version: 1.3.1
 Author: timersys
 Author URI: http://www.timersys.com
 License: http://codecanyon.net/licenses/regular
@@ -28,13 +28,13 @@ class WP_Social_Invitations extends WP_Plugin_Base
 {
 
 	
-	static $_options;
+	protected $_options;
 	var $_credits;
 	var $_defaults;
 	var $assets_url;
 	private $hybridauth;
 	protected $sections;
-	public static $providers;
+	protected $providers;
 	 /** Refers to a single instance of this class. */
     private static $instance = null;
  
@@ -62,19 +62,20 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		$this->WPB_PREFIX		=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'WP Social Invitatios';
-		$this->WPB_VERSION		=	'1.3';
+		$this->WPB_VERSION		=	'1.3.1';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		
-		self::$providers 		= 	array('google' 		=> 'Gmail',
+		$this->providers 		= 	array('google' 		=> 'Gmail',
 										  'yahoo'		=> 'Yahoo Mail',
 										  'live'		=> 'Live, Hotmail',
 										  'foursquare'	=> 'Foursquare'
 									); 
 		
-		$this->sections['general']      		= __( 'Main Settings', $this->WPB_PREFIX );
-		$this->sections['messages']        		= __( 'Default Messages', $this->WPB_PREFIX );
-		$this->sections['upgrade']        		= __( 'Upgrade', $this->WPB_PREFIX );
+		$this->sections['wsi_general']      		= __( 'Main Settings', $this->WPB_PREFIX );
+		$this->sections['wsi_messages']        		= __( 'Default Messages', $this->WPB_PREFIX );
+		$this->sections['wsi_stats']        		= __( 'Stats', $this->WPB_PREFIX );
+		$this->sections['wsi_upgrade']        		= __( 'Upgrade', $this->WPB_PREFIX );
 		
 		
 		//activation hook
@@ -102,10 +103,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		add_action('wp_ajax_wsi_order', array(&$this,'change_widget_order'));
 		
 		//Info boxes
-		add_action('general_wpb_print_box' ,array(&$this,'print_general_box'));
-		add_action('messages_wpb_print_box' ,array(&$this,'print_messages_box'));
-		add_action('upgrade_wpb_print_box' ,array(&$this,'print_upgrade_box'));
-		add_action('styling_wpb_print_box' ,array(&$this,'print_styling_box'));
+		add_action('wsi_general_wpb_print_box' ,array(&$this,'print_general_box'));
+		add_action('wsi_messages_wpb_print_box' ,array(&$this,'print_messages_box'));
+		add_action('wsi_upgrade_wpb_print_box' ,array(&$this,'print_upgrade_box'));
+		add_action('wsi_styling_wpb_print_box' ,array(&$this,'print_styling_box'));
+		add_action('wsi_stats_wpb_print_box' ,array(&$this,'print_stats_box'));
 		
 		//hook to proccess auth if detected
 		add_action( 'init', array(&$this, 'process_auth' ));
@@ -129,7 +131,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		
 		if( is_array($providers_order))
 		{
-			$missing_provider = array_diff(self::$providers , $providers_order);
+			$missing_provider = array_diff($this->providers , $providers_order);
 			
 			if( !empty($missing_provider))
 			{
@@ -137,7 +139,21 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				update_option( 'wsi_widget_order' , $providers_order);
 			}
 		}
+		global $wpdb;
 		
+		$wpdb->query("CREATE TABLE IF NOT EXISTS `".$wpdb->base_prefix."wsi_stats` (
+				  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Index ID',
+				  `provider` varchar(32) NOT NULL COMMENT 'Provider Name',
+				  `user_id` INT NULL COMMENT 'User''s ID',
+				  `quantity` INT NULL COMMENT 'Quantity of friends invited',
+				  `i_datetime` datetime NOT NULL,
+				  `data` text COMMENT 'Misc data associated with the query at hand',
+			  PRIMARY KEY (`id`),
+			  KEY (`provider`),
+			  INDEX (`i_datetime`, `user_id`)
+			) ENGINE = MYISAM ;
+		");
+
 		do_action( $this->WPB_PREFIX.'_activate' );
 		
 		
@@ -175,7 +191,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		if(!is_admin())
 		{
 			wp_enqueue_style('wsi-css', plugins_url( 'assets/css/style.css', __FILE__ ) ,'',$this->WPB_VERSION,'all' );
-			wp_localize_script( 'jquery', 'MyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
+			wp_localize_script( 'jquery', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
 		}
 		else
 		{
@@ -189,9 +205,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	/**
 	* Function to load the javscript for big widget
 	*/
-	static function load_wsi_js(){
+	public function load_wsi_js(){
 	
-			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),self::$WPB_VERSION,true);
+			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
 	}
 
 	
@@ -211,7 +227,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	function loadOptions()
 	{
 
-		self::$_options = get_option($this->WPB_PREFIX.'_settings',$this->_defaults);
+		$this->_options = get_option($this->WPB_PREFIX.'_settings',$this->_defaults);
 
 	}
 	
@@ -299,7 +315,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	/**
 	* Function to display the extended widget
 	*/
-	static function display_widget()
+	public function display_widget()
 	{
 
 		require_once( dirname (__FILE__).'/widget/widget.php');
@@ -309,9 +325,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	/**
 	* Function to use inside themes that display widget and enqueue necessary js
 	*/
-	static function widget($title="")
+	public function widget($title="")
 	{
-		self::load_wsi_js();
+		$this->load_wsi_js();
 		require_once( dirname (__FILE__).'/widget/widget.php');
 	}
 	
@@ -344,7 +360,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		}	
 		try{
 		
-		$settings = self::$_options;
+		$settings = $this->_options;
 		$provider = @ trim( strip_tags( $_REQUEST["provider"] ) );
 		if( $provider != 'live')
 		{
@@ -366,7 +382,6 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 				<script>
 					$(document).ready(function(){
-						$('#nonce').val(window.opener.MyAjax.nonce);
 						$('#select_all').click(function(){
 							$('#collect_emails').find(':checkbox').prop('checked', this.checked);
 						});
@@ -397,17 +412,14 @@ class WP_Social_Invitations extends WP_Plugin_Base
 							
 							<?php  
 							//Jaxl seems to fail with wordpress ajax, so we cal lit directly
-							$ajax_url = $provider == 'facebook' ?   '\''.$this->WPB_PLUGIN_URL.'/jaxl/xfacebook_platform_client.php\'' : 'window.opener.MyAjax.admin_url';?>
+							$ajax_url = $provider == 'facebook' ?   '\''.$this->WPB_PLUGIN_URL.'/jaxl/xfacebook_platform_client.php\'' : 'window.opener.WsiMyAjax.admin_url';?>
 							$.post(<?php echo $ajax_url;?>, $('#collect_emails').serialize(), function(response){
 								$('#<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
 								$('#wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
 								$('.wsi_success',window.opener.document).fadeIn('slow',function(){
 								
 								window.self.close();  
-							<?php if( $settings['redirect_url'] != '' ) :?>	
-								window.opener.location.href = '<?php echo $settings['redirect_url'];?>';
-							<?php endif;?>	
-							});
+														});
 
 								
 								
@@ -553,13 +565,19 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				<form id="collect_emails" method="post" action="<?php echo $return_to.'&collected_data=true';?>">
 					
 					<input type="hidden" name="action" value="<?php echo $provider == 'facebook'? 'wsi_facebook' : 'wsi_collect_emails';?>"/>
-					<input type="hidden" id="nonce" name="nonce" value=""/>
+					<input type="hidden" id="nonce" name="nonce" value="<?php echo wp_create_nonce( 'wsi-ajax-nonce' );?>"/>
 					<input type="hidden" id="provider" name="provider" value="<?php echo $provider;?>"/>
 				<?php if( $provider != 'live'):?>
 					<input type="hidden" name="uid" value="<?php echo $user_profile->identifier;?>">
 					<input type="hidden" name="app_id" value="<?php echo $adapter->config['keys']['id'];?>">
 					<input type="hidden" name="access_token" value="<?php echo $at['access_token']?>">
 				<?php endif;?>	
+				<?php if( is_user_logged_in()) :
+						  global $current_user;
+						  get_currentuserinfo(); ?>
+						  <input type="hidden" name="user_ID" value="<?php echo $current_user->ID;?>"/>
+						  <input type="hidden" name="user_email" value="<?php echo $current_user->user_email;?>"/>
+				<?php endif;?>
 				
 				<?php 
 					if( $provider == 'live' )
@@ -683,16 +701,16 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	* AJAX Callback that send emails
 	*/	
 	function send_emails_callback(){
-
-			
-			$nonce = $_POST['nonce'];
+$nonce = $_POST['nonce'];
 			if ( ! wp_verify_nonce( $nonce, 'wsi-ajax-nonce' ) )
 				 die ( 'Not good not good');
 			
 			$emails		= $_REQUEST['friend'];
 			$subject 	= $_REQUEST['subject'];
 			$message 	= $_REQUEST['message'];
-			set_time_limit(60*10);
+			$quantity 	= count($emails);
+			 
+			set_time_limit(60*60);
 			
 			if( $_REQUEST['provider'] == 'linkedin')
 			{
@@ -711,44 +729,73 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					$twitter->sendDM(array('uid'=> $uid,'msg' => $message));
 					sleep(1);
 				}	
+				
+				$twitter->logout();
 			} 
 			else
 			{
-			$site_url 	= str_replace(array('http://','https://'), '', site_url());
-			$headers = 'From: '.$_POST['user_id'].' <no-reply@'.$site_url.'>' . "\r\n";
-			add_filter('wp_mail_content_type',create_function('', 'return "text/html";'));
-			
-			
-			if( count($emails) < 40 ){
-				
-				foreach( $emails as $email )
+				$headers = array();
+				$site_url 	= str_replace(array('http://','https://'), '', site_url());
+				if( $_REQUEST['user_email'] != '' )
 				{
-					wp_mail( $email, $subject, $message, $headers);
-					sleep(1);
+					$headers[] = 'From: '.$_POST['user_id'].' <'.$_REQUEST['user_email'].'>';
 				}
-				
-			}
-			else
-			{
-				$counter = 0;
-				//Lets create batches
-				foreach( $emails as $email )
+				else
 				{
-					$counter++;
-					wp_mail( $email, $subject, $message, $headers);
-					sleep(1);
+					$headers[] = 'From: '.$_POST['user_id'].' <no-reply@'.$site_url.'>';
+				}	
+				$to_email = 'no-reply@'.str_replace('www.', '', $_SERVER['SERVER_NAME']);
+				
+				add_filter('wp_mail_content_type',create_function('', 'return "text/html";'));
+				
+				
+				if( $quantity < 30 ){
 					
-					if( $counter == 50 )
+					foreach( $emails as $email )
 					{
-						sleep(10);
-						$counter = 0;
+						$headers[] = 'Bcc: '.$email;
 					}
+					
+					
+					$result = wp_mail( $to_email , $subject, $message,$headers);
+
+
+				}
+				else
+				{
+					$counter = 0;
+					$chunks = array_chunk($emails, 30);
+					$headers = array();
+					
+					//Lets create batches
+					foreach ( $chunks as $chunk) 
+					{
+						foreach( $chunk as $email )
+						{
+							
+							$headers[] = 'Bcc: '.$email;											
+							
+						}
+						
+						wp_mail( $to_email, $subject, $message, $headers);
+						sleep(10);
+					}	
 				}
 			}
-			}
+		$this->log( $_REQUEST['user_ID'],$_REQUEST['provider'], $quantity);	
 		echo 'Invitations Sent!';
 		die();			 
 	}//send emails
+
+	/**
+	* Function to log stats of the plugin
+	*/
+	public function log($user_id, $provider, $quantity)
+	{
+		global $wpdb;
+		
+		$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->base_prefix}wsi_stats (provider, user_id, quantity, i_datetime) VALUES (%s, %d, %d, NOW())", array($provider, $user_id, $quantity)));
+	}
 	
 	/**
 	* Loading Page
@@ -806,7 +853,115 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		<?php
 			die();
 	}
+		/**
+	* Print STATS
+	*/
+	function print_stats_box(){
+		global $wpdb;
+		
+		$total_invites = $wpdb->get_var("SELECT SUM(quantity) as c FROM {$wpdb->prefix}wsi_stats");
+	?>
+
+		<div class="info-box">
+		<h2><?php printf(__('So far %s invitations were sent using WSI!',$this->WPB_PREFIX),$total_invites);?></h2>
+		<br>
+		<table class="widefat ia-stats" style="min-width:1000px">
+			<thead><tr>
+				<th scope="col" class="in-the-last"><?php _e('In the last...',$this->WPB_PREFIX);?></th>
+				<?php
+				#$providers = $wpdb->get_results("SELECT DISTINCT provider FROM {$wpdb->prefix}wsi_stats  ORDER BY provider ASC");
+				$providers = $this->providers;
+				foreach( $providers as $p )
+				{
+					echo '<th scope="col">'.ucfirst($p).'</th>';
+				}
+					echo '<th scope="col">Total</th>';
+				?>
+			</tr></thead>
+			<tbody>
+				<tr>
+					<th scope="row"><?php _e('24 Hours',$this->WPB_PREFIX);?></th>
+					<?php
+						foreach( $this->providers as $p => $p_name)
+						{
+							
+							$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE provider = '{$p}' AND i_datetime >= ( NOW( ) - INTERVAL 1 DAY ) ");
+							echo '<td>'.$stat.'</td>';
+						}
+						$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE i_datetime >= ( NOW( ) - INTERVAL 1 DAY ) ");
+						echo '<td>'.$stat.'</td>';
+						
+					?>	
+				</tr>
+				<tr>
+					<th scope="row"><?php _e('3 Days',$this->WPB_PREFIX);?></th>
+					<?php
+						foreach( $this->providers as $p => $p_name)
+						{
+							$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE provider = '{$p}' AND i_datetime >= ( NOW( ) - INTERVAL 3 DAY ) ");
+							echo '<td>'.$stat.'</td>';
+						}
+						$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE i_datetime >= ( NOW( ) - INTERVAL 3 DAY ) ");
+						echo '<td>'.$stat.'</td>';
+					?>	
+
+				</tr>
+				<tr>
+					<th scope="row"><?php _e('1 Week',$this->WPB_PREFIX);?></th>
+					<?php
+						foreach( $this->providers as $p => $p_name)
+						{
+							$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE provider = '{$p}' AND i_datetime >= ( NOW( ) - INTERVAL 7 DAY ) ");
+							echo '<td>'.$stat.'</td>';
+						}
+						$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE i_datetime >= ( NOW( ) - INTERVAL 7 DAY ) ");
+						echo '<td>'.$stat.'</td>';
+					?>	
 	
+				</tr>
+				<tr>
+					<th scope="row"><?php _e('1 Month',$this->WPB_PREFIX);?></th>
+					<?php
+						foreach( $this->providers as $p => $p_name)
+						{
+							$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE provider = '{$p}' AND i_datetime >= ( NOW( ) - INTERVAL 1 MONTH ) ");
+							echo '<td>'.$stat.'</td>';
+						}
+						$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE i_datetime >= ( NOW( ) - INTERVAL 1 MONTH ) ");
+						echo '<td>'.$stat.'</td>';
+					?>		
+				</tr>
+				<tr>
+					<th scope="row"><?php _e('3 Months',$this->WPB_PREFIX);?></th>
+					<?php
+						foreach( $this->providers as $p => $p_name)
+						{
+							$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE provider = '{$p}' AND i_datetime >= ( NOW( ) - INTERVAL 3 MONTH ) ");
+							echo '<td>'.$stat.'</td>';
+						}
+						$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE i_datetime >= ( NOW( ) - INTERVAL 3 MONTH ) ");
+						echo '<td>'.$stat.'</td>';
+					?>		
+				</tr>
+				<tr>
+					<th scope="row"><?php _e('All Time',$this->WPB_PREFIX);?></th>
+					<?php
+						foreach( $this->providers as $p => $p_name)
+						{
+							$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats WHERE provider = '{$p}' ");
+							echo '<td>'.$stat.'</td>';
+						}
+						$stat = $wpdb->get_var("SELECT IFNULL(SUM(quantity),0) as c FROM {$wpdb->prefix}wsi_stats");
+						echo '<td>'.$stat.'</td>';
+					?>		
+				</tr>
+				
+			</tbody>
+		</table>
+				
+		</div><?php
+	}
+
 	/**
 	* Errors pages
 	*/
@@ -898,7 +1053,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	
 	private function connect_to_provider($provider = '')
 	{
-		$settings = self::$_options;
+		$settings = $this->_options;
 		
 		# Hybrid_Auth already used?
 		if ( class_exists('Hybrid_Auth', false) ) {
@@ -973,9 +1128,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	* Return plugin providers
 	*/
 	
-	public static function get_providers(){
+	public function get_providers(){
 		$providers = get_option('wsi_widget_order',true);
-		return is_array($providers) ? $providers : self::$providers;
+		return is_array($providers) ? $providers : $this->providers;
 	}
 	
 	/**
@@ -983,7 +1138,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	*/
 	function change_widget_order(){
 	
-		$providers = self::get_providers();
+		$providers = $this->get_providers();
 		$new_order = array();
 		$order = explode(',', $_POST['order']);
 		foreach( $order as $p )
@@ -997,7 +1152,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	}
 }
 
-WP_Social_Invitations::get_instance();
+$wsi = WP_Social_Invitations::get_instance();
 
 add_shortcode('wsi-widget','wsi_shortcode_func');
 
@@ -1006,7 +1161,8 @@ function wsi_shortcode_func($atts){
 		'title' => ''
 	), $atts ) );
 	ob_start();
-	WP_Social_Invitations::widget($title);
+	global $wsi;
+	$wsi->widget($title);
 	$widget = ob_get_contents();
 	ob_clean();
 	return $widget;

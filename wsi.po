@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wsi\n"
-"POT-Creation-Date: 2013-07-02 18:07-0300\n"
-"PO-Revision-Date: 2013-07-02 18:07-0300\n"
+"POT-Creation-Date: 2013-07-27 23:13-0300\n"
+"PO-Revision-Date: 2013-07-27 23:13-0300\n"
 "Last-Translator: Damian Logghe <info@timersys.com>\n"
 "Language-Team: \n"
 "Language: en_EN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -24,19 +24,19 @@ msgid "Default Messages"
 msgstr ""
 
 #: wp-social-invitations.php:77
-msgid "Styling"
+msgid "Stats"
 msgstr ""
 
 #: wp-social-invitations.php:78
 msgid "Upgrade"
 msgstr ""
 
-#: wp-social-invitations.php:235
+#: wp-social-invitations.php:250
 #, php-format
 msgid "Welcome to <a href=\"%s\">Wordpress Social Invitations</a>!"
 msgstr ""
 
-#: wp-social-invitations.php:236
+#: wp-social-invitations.php:251
 #, php-format
 msgid ""
 "To start using the plugin you need to fill out the OAuth settings of the "
@@ -45,135 +45,154 @@ msgid ""
 "\">support forum</a>."
 msgstr ""
 
-#: wp-social-invitations.php:237
+#: wp-social-invitations.php:252
 msgid ""
 "You can place the invitation widget on any page by using the following "
 "shortcode:"
 msgstr ""
 
-#: wp-social-invitations.php:252
+#: wp-social-invitations.php:267
 msgid ""
 "By default your users will be able to edit the default invitation message. "
 "Here you will be able to change the default message and forbid users to "
 "change it."
 msgstr ""
 
-#: wp-social-invitations.php:263
-msgid ""
-"If you have <a href=\"http://buddypress.org/\">Buddypress</a> or the <a href="
-"\"http://wordpress.org/plugins/invite-anyone/\">Invite Anyone plugin</a> "
-"installed, you will be able to hook Wordpress Social Invitations into them "
-"from here."
-msgstr ""
-
-#: wp-social-invitations.php:264
-msgid ""
-"Also if you wish you can set a redirection url to send users after they sent "
-"the invitations to one of the providers"
-msgstr ""
-
-#: wp-social-invitations.php:275
+#: wp-social-invitations.php:303
 msgid ""
 "Here you can drag and drop the providers to change the order in the widget "
 "and also you will be able to add custom CSS."
 msgstr ""
 
-#: wp-social-invitations.php:284
+#: wp-social-invitations.php:312
 msgid "You can also add email addresses from:"
 msgstr ""
 
-#: wp-social-invitations.php:353
+#: wp-social-invitations.php:381
 msgid "Select your Friends"
 msgstr ""
 
-#: wp-social-invitations.php:514
+#: wp-social-invitations.php:538
 msgid ""
 "To import your contacts emails addresses please follow these two simple steps"
 msgstr ""
 
-#: wp-social-invitations.php:516
+#: wp-social-invitations.php:540
 msgid "Download WLMContacts.csv to your computer by clicking"
 msgstr ""
 
-#: wp-social-invitations.php:517
+#: wp-social-invitations.php:541
 msgid ""
 "Find WLMContacts.csv in your computer, usually located in downloads folder "
 "and drag and drop it the \"drag & drop\" zone "
 msgstr ""
 
-#: wp-social-invitations.php:520
+#: wp-social-invitations.php:544
 msgid "Drop your files here"
 msgstr ""
 
-#: wp-social-invitations.php:533
+#: wp-social-invitations.php:557
 msgid "Select who you want to send the invite email"
 msgstr ""
 
-#: wp-social-invitations.php:572
+#: wp-social-invitations.php:602
 msgid "Check/Uncheck All"
 msgstr ""
 
-#: wp-social-invitations.php:608
+#: wp-social-invitations.php:638
 msgid ""
 "Your contacts list on this provider is empty. Add some contacts first! - "
 "Providers like Yahoo or Mail only return contacts created with them, and not "
 "contacts imported from other networks."
 msgstr ""
 
-#: wp-social-invitations.php:620
+#: wp-social-invitations.php:650
 msgid "Write your invitation message"
 msgstr ""
 
-#: wp-social-invitations.php:628 admin/fields.php:152
+#: wp-social-invitations.php:658 admin/fields.php:152
 msgid "Subject"
 msgstr ""
 
-#: wp-social-invitations.php:639 admin/fields.php:171
+#: wp-social-invitations.php:669 admin/fields.php:171
 msgid "Message"
 msgstr ""
 
-#: wp-social-invitations.php:644
+#: wp-social-invitations.php:674
 msgid "Send"
 msgstr ""
 
-#: wp-social-invitations.php:650
+#: wp-social-invitations.php:680
 msgid "Sending Invitations, please wait..."
 msgstr ""
 
-#: wp-social-invitations.php:756
+#: wp-social-invitations.php:815
 msgid "Redirecting..."
 msgstr ""
 
-#: wp-social-invitations.php:785
+#: wp-social-invitations.php:844
 #, php-format
 msgid "Contacting <b>%s</b>, please wait..."
 msgstr ""
 
-#: wp-social-invitations.php:804
+#: wp-social-invitations.php:866
+#, php-format
+msgid "So far %s invitations were sent using WSI!"
+msgstr ""
+
+#: wp-social-invitations.php:870
+msgid "In the last..."
+msgstr ""
+
+#: wp-social-invitations.php:883
+msgid "24 Hours"
+msgstr ""
+
+#: wp-social-invitations.php:897
+msgid "3 Days"
+msgstr ""
+
+#: wp-social-invitations.php:910
+msgid "1 Week"
+msgstr ""
+
+#: wp-social-invitations.php:923
+msgid "1 Month"
+msgstr ""
+
+#: wp-social-invitations.php:935
+msgid "3 Months"
+msgstr ""
+
+#: wp-social-invitations.php:947
+msgid "All Time"
+msgstr ""
+
+#: wp-social-invitations.php:971
 msgid "Unspecified error!"
 msgstr ""
 
-#: wp-social-invitations.php:808
+#: wp-social-invitations.php:975
 msgid "Unspecified error."
 msgstr ""
 
-#: wp-social-invitations.php:809
+#: wp-social-invitations.php:976
 msgid "Hybriauth configuration error."
 msgstr ""
 
-#: wp-social-invitations.php:810
+#: wp-social-invitations.php:977
 msgid "Provider not properly configured."
 msgstr ""
 
-#: wp-social-invitations.php:811
+#: wp-social-invitations.php:978
 msgid "Unknown or disabled provider."
 msgstr ""
 
-#: wp-social-invitations.php:812
+#: wp-social-invitations.php:979
 msgid "Missing provider application credentials."
 msgstr ""
 
-#: wp-social-invitations.php:813
+#: wp-social-invitations.php:980
 #, php-format
 msgid ""
 "<b>What does this error mean ?</b><br />Most likely, you didn't setup the "
@@ -182,44 +201,44 @@ msgid ""
 "WordPress Social Login to work."
 msgstr ""
 
-#: wp-social-invitations.php:813
+#: wp-social-invitations.php:980
 msgid ""
 "<br />Instructions for use can be found in the <a href=\"http://hybridauth."
 "sourceforge.net/wsl/configure.html\" target=\"_blank\">User Manual</a>."
 msgstr ""
 
-#: wp-social-invitations.php:815
+#: wp-social-invitations.php:982
 msgid ""
 "Authentification failed. The user has canceled the authentication or the "
 "provider refused the connection."
 msgstr ""
 
-#: wp-social-invitations.php:816
+#: wp-social-invitations.php:983
 msgid ""
 "User profile request failed. Most likely the user is not connected to the "
 "provider and he should to authenticate again."
 msgstr ""
 
-#: wp-social-invitations.php:819
+#: wp-social-invitations.php:986
 msgid "User not connected to the provider."
 msgstr ""
 
-#: wp-social-invitations.php:822
+#: wp-social-invitations.php:989
 msgid "Provider does not support this feature."
 msgstr ""
 
-#: wp-social-invitations.php:867
+#: wp-social-invitations.php:1034
 msgid "Something bad happen!"
 msgstr ""
 
-#: wp-social-invitations.php:893
+#: wp-social-invitations.php:1060
 msgid ""
 "Error: Another plugin seems to be using HybridAuth Library and made "
 "WordPress Social Invitation unusable. We use a custom version of HybridAuth "
 "but it should work with other plugins"
 msgstr ""
 
-#: wp-social-invitations.php:906
+#: wp-social-invitations.php:1073
 msgid "Unknown or disabled provider"
 msgstr ""
 
@@ -327,24 +346,6 @@ msgstr ""
 msgid "Enable / Disable users to change the default message."
 msgstr ""
 
-#: admin/fields.php:196
-msgid "Widget Order"
-msgstr ""
-
-#: admin/fields.php:197
-msgid "Drag and drop to order widget providers"
-msgstr ""
-
-#: admin/fields.php:206
-msgid "Custom CSS"
-msgstr ""
-
-#: admin/fields.php:207
-msgid ""
-"<p>Enter your custom CSS rules. By default WSI widget use the following "
-"structure:</p>"
-msgstr ""
-
 #: admin/header.php:6
 msgid " options updated."
 msgstr ""
@@ -359,14 +360,28 @@ msgid "If you enjoyed, please support this plugin:"
 msgstr ""
 
 #: admin/sidebar.php:15
-msgid "Rate the plugin 5★ on Codecanyon.net"
+msgid "Buy the premium version on Codecanyon.net"
 msgstr ""
 
 #: admin/sidebar.php:18
 msgid "Translate the plugin to your language"
 msgstr ""
 
-#: admin/sidebar.php:34
+#: admin/sidebar.php:22
+msgid "Save Settings"
+msgstr ""
+
+#: widget/widget.php:14
+#, php-format
+msgid "Invite your friends to join %s"
+msgstr ""
+
+#: widget/widget.php:47
+#, php-format
+msgid ""
+"Thanks for inviting your %s friends. Please try other network if you wish."
+msgstr ""
+.php:34
 msgid "Save Settings"
 msgstr ""
 

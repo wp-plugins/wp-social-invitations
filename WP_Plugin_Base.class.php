@@ -27,7 +27,7 @@
  * @author      Damian Logghe <info@timersys.com>
  * @license     MIT License https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
  * @link        GitHub Repository: https://github.com/timersys/wp-plugin-base
- * @version     1.2
+ * @version     1.2.3
  */
 
 /*
@@ -43,14 +43,14 @@ if( !class_exists('WP_Plugin_Base') ) {
   
 class WP_Plugin_Base {
 
-	static $WPB_PREFIX		=	'wpb';
-	static $WPB_SLUG			=	'wp-plugin-base'; // Need to match plugin folder name
-	static $WPB_PLUGIN_NAME	=	'WP Plugin Base';
-	static $WPB_VERSION		=	'1.0';
-	static $WPB_ABS_PATH;	
-	static $WPB_REL_PATH;
-	static $WPB_PLUGIN_URL;
-	static $PLUGIN_FILE;
+	protected $WPB_PREFIX		=	'wpb';
+	protected $WPB_SLUG			=	'wp-plugin-base'; // Need to match plugin folder name
+	protected $WPB_PLUGIN_NAME	=	'WP Plugin Base';
+	protected $WPB_VERSION		=	'1.0';
+	protected $WPB_ABS_PATH;	
+	protected $WPB_REL_PATH;
+	protected $WPB_PLUGIN_URL;
+	protected $PLUGIN_FILE;
 	protected $current_page;
 	protected $options_name;
 	
@@ -58,7 +58,7 @@ class WP_Plugin_Base {
 	protected $checkboxes;
 	protected $settings;
 	
-	static $_options;
+	protected $_options;
 	var $_credits;
 	var $_defaults;
 	
@@ -480,6 +480,14 @@ class WP_Plugin_Base {
 				$("#ui-tabs a").removeClass("nav-tab-active");
 				$(this).addClass("nav-tab-active");
 				$('.ui-tabs-panel').hide();
+				if( $(this).attr('href') == '#stats' || $(this).attr('href') == '#wsi_stats')
+				{
+					$('#right-sidebar').fadeOut();
+				}
+				else
+				{
+					$('#right-sidebar').fadeIn();
+				}
 				$($(this).attr('href')).fadeIn();
 				return false;
 			});

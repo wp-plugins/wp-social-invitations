@@ -1,11 +1,14 @@
 === Wordpress Social Invitations ===
 Author: Damian Logghe
+Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo
 License: http://codecanyon.net/licenses/regular
-Version: 1.3
-Tested on: 3.5.1
+Version: 1.3.1
+Tested on: 3.5.2
+
+Allow your visitors to invite friends of their social networks such as  Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress.
 
 == Description ==
 
@@ -29,6 +32,10 @@ Check premium version on [http://www.timersys.com/wordpress-plugins/wordpress-so
 You're done!
 
 == Changelog ==
+
+= 1.3.1 =
+* Updated WP_Plugin_Base class for compatibility with my other plugins
+* Added stats
 
 = 1.3 =
 * Added foursquare

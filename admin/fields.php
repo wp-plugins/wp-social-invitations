@@ -6,7 +6,7 @@
 	
 
 	$this->settings['g_heading'] = array(
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'std'   => 'Google', // Not used for headings.
 		'title'	=> '',
 		'desc'    => '',
@@ -18,7 +18,7 @@
 		'desc'    => __( 'Enable / Disable Google Invitations.' , $this->WPB_PREFIX),
 		'std'     => 'false',
 		'type'    => 'select',
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'choices' => array(
 			'true' => __( 'Yes' , $this->WPB_PREFIX),
 			'false' => __( 'No' , $this->WPB_PREFIX)
@@ -30,7 +30,7 @@
 		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), $this->WPB_PLUGIN_URL.'/docs/index.html#google' ),
 		'std'     => '',
 		'type'    => 'text',
-		'section' => 'general'
+		'section' => 'wsi_general'
 	);
 
 	$this->settings['google_secret'] = array(
@@ -38,12 +38,12 @@
 		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), $this->WPB_PLUGIN_URL.'/docs/index.html#google' ),
 		'std'     => '',
 		'type'    => 'text',
-		'section' => 'general'
+		'section' => 'wsi_general'
 	);
 
 
 	$this->settings['yahoo_heading'] = array(
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'std'   => 'Yahoo', // Not used for headings.
 		'title'	=> '',
 		'desc'    => '',
@@ -55,7 +55,7 @@
 		'desc'    => __( 'Enable / Disable Yahoo Invitations.' , $this->WPB_PREFIX),
 		'std'     => 'false',
 		'type'    => 'select',
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'choices' => array(
 			'true' => __( 'Yes' , $this->WPB_PREFIX),
 			'false' => __( 'No' , $this->WPB_PREFIX)
@@ -67,7 +67,7 @@
 		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), $this->WPB_PLUGIN_URL.'/docs/index.html#yahoo' ),
 		'std'     => '',
 		'type'    => 'text',
-		'section' => 'general'
+		'section' => 'wsi_general'
 	);
 
 	$this->settings['yahoo_secret'] = array(
@@ -75,11 +75,11 @@
 		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), $this->WPB_PLUGIN_URL.'/docs/index.html#yahoo' ),
 		'std'     => '',
 		'type'    => 'text',
-		'section' => 'general'
+		'section' => 'wsi_general'
 	);
 
 	$this->settings['foursquare_heading'] = array(
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'std'   => 'Foursquare', // Not used for headings.
 		'title'	=> '',
 		'desc'    => '',
@@ -91,7 +91,7 @@
 		'desc'    => __( 'Enable / Disable Foursquare Invitations.' , $this->WPB_PREFIX),
 		'std'     => 'false',
 		'type'    => 'select',
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'choices' => array(
 			'true' => __( 'Yes' , $this->WPB_PREFIX),
 			'false' => __( 'No' , $this->WPB_PREFIX)
@@ -103,7 +103,7 @@
 		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), $this->WPB_PLUGIN_URL.'/docs/index.html#foursquare' ),
 		'std'     => '',
 		'type'    => 'text',
-		'section' => 'general'
+		'section' => 'wsi_general'
 	);
 
 	$this->settings['foursquare_secret'] = array(
@@ -111,11 +111,11 @@
 		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), $this->WPB_PLUGIN_URL.'/docs/index.html#foursquare' ),
 		'std'     => '',
 		'type'    => 'text',
-		'section' => 'general'
+		'section' => 'wsi_general'
 	);
 	
 	$this->settings['live_heading'] = array(
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'std'   => 'Windows Live', // Not used for headings.
 		'title'	=> '',
 		'desc'    => '',
@@ -129,7 +129,7 @@
 		'desc'    => __( 'Enable / Disable Windows Live Invitations.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
-		'section' => 'general',
+		'section' => 'wsi_general',
 		'choices' => array(
 			'true' => __( 'Yes' , $this->WPB_PREFIX),
 			'false' => __( 'No' , $this->WPB_PREFIX)
@@ -153,7 +153,7 @@
 		'desc'    => __('Default Subject for invitations',$this->WPB_PREFIX),
 		'std'     => sprintf(__('I invite you to join %s', $this->WPB_PREFIX), get_bloginfo('name')),
 		'type'    => 'text',
-		'section' => 'messages'
+		'section' => 'wsi_messages'
 	);
 	
 	$this->settings['subject_editable'] = array(
@@ -161,7 +161,7 @@
 		'desc'    => __( 'Enable / Disable users to change the default subject.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
-		'section' => 'messages',
+		'section' => 'wsi_messages',
 		'choices' => array(
 			'true' => __( 'Yes' , $this->WPB_PREFIX),
 			'false' => __( 'No' , $this->WPB_PREFIX)
@@ -172,7 +172,7 @@
 		'desc'    => __('Default Message for invitations',$this->WPB_PREFIX),
 		'std'     => sprintf(__('I invite you to join %s', $this->WPB_PREFIX), get_bloginfo('name')),
 		'type'    => 'textarea',
-		'section' => 'messages'
+		'section' => 'wsi_messages'
 	);
 	
 	$this->settings['message_editable'] = array(
@@ -180,7 +180,7 @@
 		'desc'    => __( 'Enable / Disable users to change the default message.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
-		'section' => 'messages',
+		'section' => 'wsi_messages',
 		'choices' => array(
 			'true' => __( 'Yes' , $this->WPB_PREFIX),
 			'false' => __( 'No' , $this->WPB_PREFIX)
