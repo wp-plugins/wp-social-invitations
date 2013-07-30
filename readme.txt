@@ -5,7 +5,7 @@ Description: Allow your visitors to invite friends of their social networks such
 Website: http://www.timersys.com
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo
 License: http://codecanyon.net/licenses/regular
-Version: 1.3.1
+Version: 1.3.2
 Tested on: 3.5.2
 
 Allow your visitors to invite friends of their social networks such as  Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress.
@@ -33,26 +33,13 @@ You're done!
 
 == Changelog ==
 
+= 1.3.2 =
+* Fixed js bug that was preventing the widget to work properly.
+* Corrected changelog as it was using premium version
+
 = 1.3.1 =
 * Updated WP_Plugin_Base class for compatibility with my other plugins
 * Added stats
 
 = 1.3 =
-* Added foursquare
-* Fixed documentation
-* Minor fixes
-
-= 1.2 =
-* Fixed with Live provider
-* Added Twitter
-* Added feature to redirect users after they send invitations
-* Improved documentation
-
-= 1.1 =
-* Added facebook
-* Added ordering feature for widget providers
-* Added custom CSS
-* Minor fixes
-
-= 1.0 =
 * Plugin released, woohoo!

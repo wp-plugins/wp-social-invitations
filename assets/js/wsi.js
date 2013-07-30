@@ -7,7 +7,7 @@
 			provider = $(this).attr("data-provider");
 
 			window.open(
-				MyAjax.url+"?action=wsi_authenticate&redirect_to"+encodeURIComponent(popupurl)+"&provider="+provider+ "&_ts=" + (new Date()).getTime(),
+				WsiMyAjax.url+"?action=wsi_authenticate&redirect_to"+encodeURIComponent(popupurl)+"&provider="+provider+ "&_ts=" + (new Date()).getTime(),
 				"hybridauth_social_sing_on", 
 				"location=1,status=0,scrollbars=1,width=900,height=530"
 			); 

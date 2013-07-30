@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://www.timersys.com/plugins-wordpress/wordpress-social-invitations/
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
-Version: 1.3.1
+Version: 1.3.2
 Author: timersys
 Author URI: http://www.timersys.com
 License: http://codecanyon.net/licenses/regular
@@ -62,7 +62,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		$this->WPB_PREFIX		=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'WP Social Invitatios';
-		$this->WPB_VERSION		=	'1.3.1';
+		$this->WPB_VERSION		=	'1.3.2';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		
@@ -88,7 +88,8 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		add_action( 'admin_menu',array(&$this,'register_menu' ) );
 		
 		//load js and css 
-		add_action( 'init',array(&$this,'load_scripts' ),50 );	
+		add_action( 'init',array(&$this,'load_back_scripts' ),50 );	
+		add_action( 'init',array(&$this,'load_front_scripts' ));		
 		
 		#$this->upgradePlugin();
 			
@@ -184,22 +185,21 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	}
 
 	/**
-	* Load scripts and styles
+	* Load scripts for backend
 	*/
-	function load_scripts()
+	function load_back_scripts()
 	{
-		if(!is_admin())
-		{
-			wp_enqueue_style('wsi-css', plugins_url( 'assets/css/style.css', __FILE__ ) ,'',$this->WPB_VERSION,'all' );
-			wp_localize_script( 'jquery', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
-		}
-		else
-		{
+		if( is_admin()){
 			wp_enqueue_style('wsi-back-css', plugins_url( 'admin/assets/style.css', __FILE__ ) ,'',$this->WPB_VERSION, 'all' );
 			wp_enqueue_script('codemirror');
 		}
-
-		
+	}
+	
+	/**
+	* Load frontend scripts
+	*/
+	function load_front_scripts(){
+			wp_enqueue_style('wsi-css', plugins_url( 'assets/css/style.css', __FILE__ ) ,'',$this->WPB_VERSION,'all' );
 	}
 	
 	/**
@@ -208,6 +208,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	public function load_wsi_js(){
 	
 			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
+			wp_localize_script( 'wsi-js', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
 	}
 
 	
