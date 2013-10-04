@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wsi\n"
 "POT-Creation-Date: 2013-09-25 14:28-0300\n"
-"PO-Revision-Date: 2013-09-25 14:29-0300\n"
+"PO-Revision-Date: 2013-09-30 18:37-0300\n"
 "Last-Translator: Damian Logghe <info@timersys.com>\n"
 "Language-Team: \n"
 "Language: en_EN\n"
@@ -188,16 +188,16 @@ msgstr ""
 
 #: wp-social-invitations.php:770
 msgid "Select your Friends"
-msgstr ""
+msgstr "Choisissez vos amis"
 
 #: wp-social-invitations.php:996 admin/fields.php:348 admin/fields.php:412
 msgid "Subject"
-msgstr ""
+msgstr "Objet"
 
 #: wp-social-invitations.php:1030 wp-social-invitations.php:1066
 #: wp-social-invitations.php:1084
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #: wp-social-invitations.php:1035
 #, php-format
@@ -293,7 +293,7 @@ msgstr ""
 
 #: admin/fields.php:16
 msgid "\"Redirect to\" URL"
-msgstr ""
+msgstr "\"Redirection vers\" URL"
 
 #: admin/fields.php:17
 msgid "Users will be redirected to this url after they send invitations"
@@ -435,8 +435,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:367
+#, fuzzy
 msgid "HTML Message"
-msgstr ""
+msgstr "Message"
 
 #: admin/fields.php:368
 msgid ""
@@ -472,8 +473,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:395
+#, fuzzy
 msgid "Footer Message"
-msgstr ""
+msgstr "Message"
 
 #: admin/fields.php:396
 msgid ""
@@ -506,8 +508,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:432
+#, fuzzy
 msgid "Text Message"
-msgstr ""
+msgstr "Message"
 
 #: admin/fields.php:433
 msgid ""
@@ -542,8 +545,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:470
+#, fuzzy
 msgid "Twitter Message"
-msgstr ""
+msgstr "Message"
 
 #: admin/fields.php:471
 #, php-format
@@ -640,8 +644,9 @@ msgid "Your hosting has limits. Find out more here"
 msgstr ""
 
 #: admin/fields.php:630
+#, fuzzy
 msgid "Send..."
-msgstr ""
+msgstr "Envoyer"
 
 #: admin/fields.php:639
 msgid "Every..."
@@ -745,8 +750,9 @@ msgid ""
 msgstr ""
 
 #: classes/class.Wsi_Widget.php:64
+#, fuzzy
 msgid "Invite some friends!"
-msgstr ""
+msgstr "Invitez vos amis à rejoindre %s"
 
 #: classes/class.Wsi_Widget.php:68
 msgid "Title:"
@@ -760,8 +766,9 @@ msgid ""
 msgstr ""
 
 #: templates/popup/collector.php:12
+#, fuzzy
 msgid "Select your friends"
-msgstr ""
+msgstr "Choisissez vos amis"
 
 #: templates/popup/collector.php:25
 msgid "Unselect All"
@@ -772,8 +779,9 @@ msgid "Select All"
 msgstr ""
 
 #: templates/popup/collector.php:29
+#, fuzzy
 msgid "Search friends"
-msgstr ""
+msgstr "Choisissez vos amis"
 
 #: templates/popup/collector.php:69
 msgid ""
@@ -781,18 +789,21 @@ msgid ""
 "Providers like Yahoo or Mail only return contacts created with them, and not "
 "contacts imported from other networks."
 msgstr ""
+"Votre liste de contacts est vide. Veuillez ajouter des contacts avant!  - "
+"Les fournisseurs tels que Yahoo ou Gmail ne proposent que des contacts créés "
+"avec eux, et non des contacts importés."
 
 #: templates/popup/collector.php:98
 msgid "Send"
-msgstr ""
+msgstr "Envoyer"
 
 #: templates/popup/error.php:20
 msgid "Unspecified error!"
-msgstr ""
+msgstr "Une erreur est survenue!"
 
 #: templates/popup/error.php:24
 msgid "Unspecified error."
-msgstr ""
+msgstr "Une erreur est survenue."
 
 #: templates/popup/error.php:25
 msgid "Hybriauth configuration error."
@@ -853,41 +864,60 @@ msgstr ""
 msgid ""
 "To import your contacts emails addresses please follow these two simple steps"
 msgstr ""
+"Pour importer les adresses emails de vos contacts, veuillez suivre ces deux "
+"étapes simples"
 
 #: templates/popup/live-upload.php:6
 msgid "Download WLMContacts.csv to your computer by clicking"
 msgstr ""
+"T&eacute;l&eacute;chargez WLMContacts.csv sur votre ordinateur en cliquant "
+"sur: "
 
 #: templates/popup/live-upload.php:7
 msgid ""
 "Find WLMContacts.csv in your computer, usually located in downloads folder "
 "and drag and drop it the \"drag & drop\" zone "
 msgstr ""
+"Trouvez WLMContacts.csv sur votre ordinateur (il est g&eacute;n&eacute;"
+"ralement situ&eacute; dans le dossier de t&eacute;l&eacute;chargement par "
+"d&eacute;faut) et faites un glisser-d&eacute;posez dans l'encadr&eacute; ci-"
+"dessous."
 
 #: templates/popup/live-upload.php:10
 msgid "Drop your files here"
-msgstr ""
+msgstr "D&eacute;placez vos fichiers ici"
 
 #: templates/popup/loading.php:5
 msgid "Redirecting..."
-msgstr ""
+msgstr "En cours de traitement..."
 
 #: templates/popup/loading.php:34
 #, php-format
 msgid "Contacting <b>%s</b>, please wait..."
-msgstr ""
+msgstr "Connexion <b>%s</b> en cours , veuillez patienter..."
 
 #: templates/popup/sending.php:4
 msgid "Sending Invitations, please wait..."
-msgstr ""
+msgstr "Invitations en cours d'envoi, veuillez patienter..."
 
 #: templates/widget/sidebar-widget.php:32 templates/widget/widget.php:53
 #, php-format
 msgid ""
 "Thanks for inviting your %s friends. Please try other network if you wish."
 msgstr ""
+"Merci d'avoir invit&eacute; vos %s amis. Si vous le souhaitez, vous pouvez "
+"utiliser un autre réseau pour inviter plus d'amis."
 
 #: templates/widget/widget.php:20
 #, php-format
 msgid "Invite your friends to join %s"
-msgstr ""
+msgstr "Invitez vos amis à rejoindre %s"
+
+#~ msgid "Select who you want to send the invite email"
+#~ msgstr "Choisissez les contacts auxquels vous voulez envoyer un email."
+
+#~ msgid "Check/Uncheck All"
+#~ msgstr "Cocher/Décocher tout"
+
+#~ msgid "Write your invitation message"
+#~ msgstr "Cliquez sur le bouton ci-dessous pour envoyer"

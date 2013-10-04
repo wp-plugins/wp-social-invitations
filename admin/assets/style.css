@@ -50,3 +50,8 @@
 .widefat.ia-stats td {
 text-align: center;
 }
+#sending .updated, 
+#sending .error, 
+{
+	display: block !important;
+}

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wsi\n"
 "POT-Creation-Date: 2013-09-25 14:28-0300\n"
-"PO-Revision-Date: 2013-09-25 14:29-0300\n"
+"PO-Revision-Date: 2013-09-30 18:37-0300\n"
 "Last-Translator: Damian Logghe <info@timersys.com>\n"
 "Language-Team: \n"
 "Language: en_EN\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: wp-social-invitations.php:85
 msgid "Main Settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: wp-social-invitations.php:86
 msgid "Default Messages"
@@ -179,7 +179,7 @@ msgstr ""
 
 #: wp-social-invitations.php:625
 msgid "You can also add email addresses from:"
-msgstr ""
+msgstr "También puedes importar emails desde:"
 
 #: wp-social-invitations.php:720
 #, php-format
@@ -188,16 +188,16 @@ msgstr ""
 
 #: wp-social-invitations.php:770
 msgid "Select your Friends"
-msgstr ""
+msgstr "Selecciona a tus amigos"
 
 #: wp-social-invitations.php:996 admin/fields.php:348 admin/fields.php:412
 msgid "Subject"
-msgstr ""
+msgstr "Asunto"
 
 #: wp-social-invitations.php:1030 wp-social-invitations.php:1066
 #: wp-social-invitations.php:1084
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: wp-social-invitations.php:1035
 #, php-format
@@ -274,8 +274,9 @@ msgid "Save Changes"
 msgstr ""
 
 #: admin/fields.php:9
+#, fuzzy
 msgid "General settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: admin/fields.php:11
 msgid ""
@@ -435,8 +436,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:367
+#, fuzzy
 msgid "HTML Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: admin/fields.php:368
 msgid ""
@@ -472,8 +474,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:395
+#, fuzzy
 msgid "Footer Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: admin/fields.php:396
 msgid ""
@@ -506,8 +509,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:432
+#, fuzzy
 msgid "Text Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: admin/fields.php:433
 msgid ""
@@ -542,8 +546,9 @@ msgid ""
 msgstr ""
 
 #: admin/fields.php:470
+#, fuzzy
 msgid "Twitter Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: admin/fields.php:471
 #, php-format
@@ -580,8 +585,9 @@ msgid "Third Party SMTP"
 msgstr ""
 
 #: admin/fields.php:512
+#, fuzzy
 msgid "Gmail Settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: admin/fields.php:521 admin/fields.php:563
 msgid "Username"
@@ -592,8 +598,9 @@ msgid "Password"
 msgstr ""
 
 #: admin/fields.php:543
+#, fuzzy
 msgid "SMTP Settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: admin/fields.php:552
 msgid "SMTP host"
@@ -640,8 +647,9 @@ msgid "Your hosting has limits. Find out more here"
 msgstr ""
 
 #: admin/fields.php:630
+#, fuzzy
 msgid "Send..."
-msgstr ""
+msgstr "Enviar"
 
 #: admin/fields.php:639
 msgid "Every..."
@@ -746,7 +754,7 @@ msgstr ""
 
 #: classes/class.Wsi_Widget.php:64
 msgid "Invite some friends!"
-msgstr ""
+msgstr "Invita algunos amigos!"
 
 #: classes/class.Wsi_Widget.php:68
 msgid "Title:"
@@ -760,8 +768,9 @@ msgid ""
 msgstr ""
 
 #: templates/popup/collector.php:12
+#, fuzzy
 msgid "Select your friends"
-msgstr ""
+msgstr "Selecciona a tus amigos"
 
 #: templates/popup/collector.php:25
 msgid "Unselect All"
@@ -772,8 +781,9 @@ msgid "Select All"
 msgstr ""
 
 #: templates/popup/collector.php:29
+#, fuzzy
 msgid "Search friends"
-msgstr ""
+msgstr "Selecciona a tus amigos"
 
 #: templates/popup/collector.php:69
 msgid ""
@@ -781,10 +791,13 @@ msgid ""
 "Providers like Yahoo or Mail only return contacts created with them, and not "
 "contacts imported from other networks."
 msgstr ""
+"Tu lista de contactos esta vacía. Añade algunos contactos primero! - Algunos "
+"proveedores como Yahoo o Live solo dejar exportan contactos creados con "
+"ellos, y no contactos que hayas importado de otras redes."
 
 #: templates/popup/collector.php:98
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: templates/popup/error.php:20
 msgid "Unspecified error!"
@@ -852,21 +865,23 @@ msgstr ""
 #: templates/popup/live-upload.php:4
 msgid ""
 "To import your contacts emails addresses please follow these two simple steps"
-msgstr ""
+msgstr "Para importar tus contactos sigue estos dos simples pasos"
 
 #: templates/popup/live-upload.php:6
 msgid "Download WLMContacts.csv to your computer by clicking"
-msgstr ""
+msgstr "Descarga WLMContacts.csv a tu equipo haciendo click en"
 
 #: templates/popup/live-upload.php:7
 msgid ""
 "Find WLMContacts.csv in your computer, usually located in downloads folder "
 "and drag and drop it the \"drag & drop\" zone "
 msgstr ""
+"Encuentra WLMContacts.csv dentro de tu equipo, usualmente está localizado en "
+"la carpeta Downloads. Arrástalo hasta la zona \"Drag & Drop\""
 
 #: templates/popup/live-upload.php:10
 msgid "Drop your files here"
-msgstr ""
+msgstr "Suelta tus archivos aquí"
 
 #: templates/popup/loading.php:5
 msgid "Redirecting..."
@@ -875,11 +890,11 @@ msgstr ""
 #: templates/popup/loading.php:34
 #, php-format
 msgid "Contacting <b>%s</b>, please wait..."
-msgstr ""
+msgstr "Conectando con <b>%s</b>, espera por favor…"
 
 #: templates/popup/sending.php:4
 msgid "Sending Invitations, please wait..."
-msgstr ""
+msgstr "Enviando invitaciones, por favor espera..."
 
 #: templates/widget/sidebar-widget.php:32 templates/widget/widget.php:53
 #, php-format
@@ -890,4 +905,16 @@ msgstr ""
 #: templates/widget/widget.php:20
 #, php-format
 msgid "Invite your friends to join %s"
-msgstr ""
+msgstr "Invita a tus amigos a %s"
+
+#~ msgid "Select who you want to send the invite email"
+#~ msgstr "Selecciona a quien envíar el email"
+
+#~ msgid "Check/Uncheck All"
+#~ msgstr "Seleccionar Todos"
+
+#~ msgid "If you finished selecting your friends, please click the send button"
+#~ msgstr "Si has terminado, haz click en enviar"
+
+#~ msgid "Write your invitation message"
+#~ msgstr "Escribe tu mensaje de invitación"

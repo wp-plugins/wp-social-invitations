@@ -64,9 +64,9 @@ class WP_Plugin_Base {
 	
 	function __construct() {
 	
-		$this->WPB_ABS_PATH 	= WP_PLUGIN_DIR . '/'. $this->WPB_SLUG;
+		$this->WPB_ABS_PATH 	=   WP_PLUGIN_DIR . '/'. $this->WPB_SLUG;
 		$this->WPB_REL_PATH		=	dirname( plugin_basename( __FILE__ ) );
-		$this->WPB_PLUGIN_URL	=	WP_PLUGIN_URL . '/'. $this->WPB_SLUG;
+		$this->WPB_PLUGIN_URL	=	plugins_url('', __FILE__ );// for domain mapping
 	
 		//activation hook
 		register_activation_hook( __FILE__, array(&$this,'activate' ));
@@ -182,6 +182,7 @@ class WP_Plugin_Base {
 			'section' => 'general',
 			'choices' => array(),
 			'onclick' => '',
+			'disabled' => '',
 			'class'   => ''
 		);
 			
@@ -196,7 +197,8 @@ class WP_Plugin_Base {
 			'label_for' => $id,
 			'onclick'	=> $onclick,
 			'class'     => $class,
-			'title'		=> $title
+			'title'		=> $title,
+			'disabled'	=> $disabled,
 		);
 		
 		if ( $type == 'checkbox' )
@@ -281,7 +283,9 @@ class WP_Plugin_Base {
 				break;
 			
 			case 'select':
-				echo '<select class="select' . $field_class . '" name="'.$this->options_name.'[' . $id . ']">';
+				echo '<select class="select' . $field_class . '" name="'.$this->options_name.'[' . $id . ']"';
+				if( $disabled == 'yes') echo ' disabled="disabled" ';
+				echo '>';
 				
 				foreach ( $choices as $value => $label )
 					echo '<option value="' . esc_attr( $value ) . '"' . selected( $options[$id], $value, false ) . '>' . $label . '</option>';
@@ -308,7 +312,20 @@ class WP_Plugin_Base {
 				break;
 			
 			case 'textarea':
-				echo '<textarea class="' . $field_class . '" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" placeholder="' . $std . '" rows="5" cols="30">' . wp_htmledit_pre( $options[$id] ) . '</textarea>';
+			
+				echo '<textarea class="' . $field_class . '" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" placeholder="' . $std . '" rows="5" cols="30"';
+				if( $disabled == 'yes') echo ' disabled="disabled" ';
+				echo '>' . wp_htmledit_pre( $options[$id] ) . '</textarea>';
+				
+				if ( $desc != '' )
+					echo '<br /><span class="description">' . $desc . '</span>';
+				
+				break;
+			case 'html':
+				
+				$text =  $options[$id]  == '' ? $std :  $options[$id] ;
+				wp_editor(apply_filters( 'the_content', html_entity_decode($text) ),$id , array('textarea_name' => $this->options_name.'[' . $id . ']','media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));
+
 				
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
@@ -323,7 +340,9 @@ class WP_Plugin_Base {
 				break;
 			
 			case 'password':
-				echo '<input class="regular-text' . $field_class . '" type="password" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="' . esc_attr( $options[$id] ) . '" />';
+				echo '<input class="regular-text' . $field_class . '" type="password" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="' . esc_attr( $options[$id] ) . '"';
+				if( $disabled == 'yes') echo ' disabled="disabled" ';
+				echo ' />';
 				
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
@@ -331,7 +350,7 @@ class WP_Plugin_Base {
 				break;
 			
 			case 'button':
-		 		echo '<button class="button-primary' . $field_class . '" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="' . esc_attr( $options[$id] ) . '" onclick="' . $onclick . '">' . $title . '</button>';
+		 		echo '<button class="button-primary' . $field_class . '" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="' . esc_attr( $options[$id] ) . '" onclick="' . $onclick . '">' . $std . '</button>';
 		 		
 		 		if ( $desc != '' )
 		 			echo '<br /><span class="description">' . $desc . '</span>';
@@ -359,6 +378,8 @@ class WP_Plugin_Base {
 		 		break;	
 		 		
 		 	case 'sortable':
+		 		if( $disabled == '')
+		 		{ 
 		 			wp_enqueue_script('jquery-ui-sortable');
 		 			echo '<script>
 					  jQuery(function($) {
@@ -375,17 +396,22 @@ class WP_Plugin_Base {
 					    $( ".sortable-list" ).disableSelection();
 					  });
 					  </script>';
+				}	  
 		 			echo '<div id="sortable-form"><ul class="sortable-list">';
 		 			foreach (WP_Social_Invitations::get_providers() as $p => $p_name)
 		 			{
 		 				echo '<li class="'.$p.'"><span style="display:none">'.$p.'</span>'.$p_name.'</li>';
 		 			}
 		 			echo '</ul><div style="clear:both;"></div></div>';
+		 			if ( $desc != '' )
+		 			echo '<br /><span class="description">' . $desc . '</span>';
 		 	
 		 		break;	
 		 	case 'text':
 			default:
-		 		echo '<input class="regular-text' . $field_class . '" type="text" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" placeholder="' . $std . '" value="' . esc_attr( $options[$id] ) . '" />';
+		 		echo '<input class="regular-text' . $field_class . '" type="text" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" placeholder="' . $std . '" value="' . esc_attr( $options[$id] ) . '"';
+		 		if( $disabled == 'yes') echo ' disabled="disabled" ';
+		 		echo ' />';
 		 		
 		 		if ( $desc != '' )
 		 			echo '<br /><span class="description">' . $desc . '</span>';
