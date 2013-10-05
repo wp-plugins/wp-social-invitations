@@ -78,3 +78,37 @@ padding: 0;
 	width: 350px;
 	margin: 20px auto;
 }
+
+.service-filters.wsi-sidebar {
+background: none;
+border: none;
+padding: 0;
+}
+.wsi-sidebar.service-filters li {
+border: none;
+height: auto;
+margin: 0 5px 0 0;
+width: auto;
+}
+.wsi-sidebar.service-filters li:hover {
+box-shadow: none;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+border: none;
+opacity: 0.8;
+}
+.wsi-sidebar.service-filters li a {
+padding: 0;
+width: 36px;
+height: 42px;
+}
+.wsi_success.small {
+width: auto;
+}
+.wsi-sidebar.service-filters li.completed {
+background: none;
+border: none;
+box-shadow: none;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+}
