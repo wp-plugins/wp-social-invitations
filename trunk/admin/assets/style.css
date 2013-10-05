@@ -1,0 +1,57 @@
+.wsi-providers h2{
+	padding-left: 40px !important;
+	border-bottom: 1px solid #ccc !important;
+}
+.google-heading h2, .sortable-list li.google{
+	background: url(img/wpzoom/google.png) no-repeat left center;
+}
+.facebook-heading h2, .sortable-list li.facebook{
+	background: url(img/wpzoom/facebook.png) no-repeat left center;
+}
+.linkedin-heading h2, .sortable-list li.linkedin{
+	background: url(img/wpzoom/linkedin.png) no-repeat left center;
+}
+.yahoo-heading h2, .sortable-list li.yahoo{
+	background: url(img/wpzoom/yahoo.png) no-repeat left center;
+}
+.live-heading h2, .sortable-list li.live{
+	background: url(img/wpzoom/live.png) no-repeat left center;
+}
+.twitter-heading h2, .sortable-list li.twitter{
+	background: url(img/wpzoom/twitter.png) no-repeat left center;
+}
+
+.foursquare-heading h2, .sortable-list li.foursquare{
+	background: url(img/wpzoom/foursquare.png) no-repeat left center;
+}
+.-heading h2, .sortable-list li.myspace{
+	background: url(img/wpzoom/myspace.png) no-repeat left center;
+}
+
+#sortable-form {
+	border: 1px solid #CCC;
+	padding: 10px;
+	
+}
+.sortable-list{ margin: 0;}
+.sortable-list li{
+	float: left;
+	text-indent: -99999px;
+	margin: 0 2px;
+	cursor: pointer;
+	cursor: -webkit-grab;
+	width: 36px;
+	height: 30px;
+}
+.sortable-list li.ui-state-highlight{
+	background: #ccc;
+	border: 2px dashed #222;
+}
+.widefat.ia-stats td {
+text-align: center;
+}
+#sending .updated, 
+#sending .error, 
+{
+	display: block !important;
+}
