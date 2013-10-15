@@ -82,6 +82,13 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+= 1.4.0.5 =
+
+* Previous versions numbers were omitted to fix suversion problem
+* Fixed bug with facebook that was preventing the queue to continue when error
+* Fixed bug with twitter that was preventing the queue to continue when error
+* Fixed bug with Linkeding that was preventing the queue to continue when error
+* Fixed bug with scopes on facebook
 
 = 1.4.0.1 =
 

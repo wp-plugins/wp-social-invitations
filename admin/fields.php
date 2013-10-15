@@ -25,12 +25,11 @@
 	If (is_active('buddypress/bp-loader.php')) {
 	
 		$this->settings['hook_buddypress'] = array(
-			'title'   => __( 'Buddypress' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+			'title'   => __( 'Buddypress' , $this->WPB_PREFIX),
 			'desc'    => __( 'Show in buddypress after user activates his new account' , $this->WPB_PREFIX),
 			'std'     => 'true',
 			'type'    => 'select',
 			'section' => 'wsi_general',
-			 'disabled'=> 'yes',
 			'choices' => array(
 				'true' => __( 'Yes' , $this->WPB_PREFIX),
 				'false' => __( 'No' , $this->WPB_PREFIX)
@@ -41,12 +40,11 @@
 	If (is_active('invite-anyone/invite-anyone.php')) {
 	
 		$this->settings['hook_invite_anyone'] = array(
-			'title'   => __( 'Invite Anyone Plugin' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+			'title'   => __( 'Invite Anyone Plugin' , $this->WPB_PREFIX),
 			'desc'    => __( 'Hook into Invite Anyone Plugin' , $this->WPB_PREFIX),
 			'std'     => 'true',
 			'type'    => 'select',
 			'section' => 'wsi_general',
-			'disabled'=> 'yes',
 			'choices' => array(
 				'true' => __( 'Yes' , $this->WPB_PREFIX),
 				'false' => __( 'No' , $this->WPB_PREFIX)
