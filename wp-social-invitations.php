@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.0.4
+Version: 1.4.0.5
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -74,10 +74,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.0.4';
+		$this->WPB_VERSION		=	'1.4.0.5';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
+		$this->WPB_PLUGIN_URL	=	plugins_url('', __FILE__ );// for domain mapping
 		
 		$this->providers 		= 	array('facebook' 	=> 'Facebook',
 										  'google' 		=> 'Gmail',
@@ -1147,7 +1148,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php echo $settings['message'];?></textarea>
+						<textarea name="message" id="message"><?php echo utf8_decode($settings['message']);?></textarea>
 					</div>
 				
 				
@@ -1295,11 +1296,6 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	 function create_hybridauth($provider){
 	 			$settings = $this->_options;
 		
-			# Hybrid_Auth already used?
-			if ( class_exists('Hybrid_Auth', false) ) {
-				return wsl_render_notices_pages( __("Error: Another plugin seems to be using HybridAuth Library and made WordPress Social Invitation unusable. We use a custom version of HybridAuth but it should work with other plugins", $this->WPB_PREFIX) ); 
-			}
-	
 			// load hybridauth
 			require_once $this->WPB_ABS_PATH . "/hybridauth/Hybrid/Auth.php";
 	

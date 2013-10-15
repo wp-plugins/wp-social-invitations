@@ -98,7 +98,15 @@ class Wsi_Fb{
 		{
 			$this->setNewData($queue_data, 0);
 		
-			$result = $this->process();
+			try{
+				$result = $this->process();
+			}
+			catch( Exception $e ){
+					//delete it from queue to avoid same error everytime
+					#$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+					Wsi_Logger::log( "Wsi_FB: Facebook queue proccesing error - " . $e->getMessage());
+			}	
+
 			
 		}	
 		
