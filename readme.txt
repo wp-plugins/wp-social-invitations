@@ -82,6 +82,10 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.4.0.6 =
+* Fixed encoding problem
+
 = 1.4.0.5 =
 
 * Previous versions numbers were omitted to fix suversion problem
