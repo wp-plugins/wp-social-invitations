@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.0.4
+Version: 1.4.0.6
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -74,10 +74,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.0.4';
+		$this->WPB_VERSION		=	'1.4.0.6';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
+		$this->WPB_PLUGIN_URL	=	plugins_url('', __FILE__ );// for domain mapping
 		
 		$this->providers 		= 	array('facebook' 	=> 'Facebook',
 										  'google' 		=> 'Gmail',
@@ -857,7 +858,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			
 			?>
 			<html>
-			<link rel="stylesheet" href="<?php echo apply_filters('collector_css_file',plugins_url( 'assets/css/collector.css', __FILE__ ));?>" type="text/css" media="all">
+			<link rel="stylesheet" href="<?php echo apply_filters('collector_css_file',plugins_url( 'assets/css/collector.css?v='.$this->WPB_VERSION, __FILE__ ));?>" type="text/css" media="all">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<head>
 			<title><?php _e('Select your Friends',$this->WPB_PREFIX);?> - Wordpress Social Invitations</title>
@@ -1047,6 +1048,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			<?php wsi_get_template('popup/sending.php', array( 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url, 'provider' => $provider  ));?>	
 
 			<div id="footer">
+				<div id="credits">
+					Powered by <a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank">Wordpress Social Invitations</a>
+				</div>
 			<?php 
 				//if we are using wp_editor load necesary files
 				if (  class_exists( '_WP_Editors' ) ):
@@ -1086,11 +1090,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				
 				<?php if( $provider == 'linkedin' ) : ?>
 				<div class="box-wrapper">
-					<input type="text" name="subject" value="<?php echo utf8_decode($settings['text_subject']);?>" />
+					<input type="text" name="subject" value="<?php echo self::getName($settings['text_subject']);?>" />
 				</div>
 				<?php else: ?>
 				<div class="box-wrapper">	
-					<input type="text" name="subject" value="<?php echo utf8_decode($settings['subject']);?>" />
+					<input type="text" name="subject" value="<?php echo self::getName($settings['subject']);?>" />
 				</div>
 				<?php endif;
 
@@ -1115,7 +1119,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="tw_message"><?php echo utf8_decode($settings['tw_message']);?></textarea>
+						<textarea name="message" id="tw_message"><?php echo self::getName($settings['tw_message']);?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 140 characters. Characters left: %s','wsi'),'<span id="char_left">140</span>');?>
 						<script type="text/javascript">
@@ -1147,7 +1151,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php echo $settings['message'];?></textarea>
+						<textarea name="message" id="message"><?php echo self::getName($settings['message']);?></textarea>
 					</div>
 				
 				
@@ -1161,7 +1165,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<?php wp_editor(apply_filters( 'the_content', html_entity_decode(utf8_decode($settings['html_message'])) ),'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
+						<?php wp_editor(apply_filters( 'the_content', self::getName($settings['html_message'])) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
 					</div>
 						
 				
@@ -1188,6 +1192,22 @@ class WP_Social_Invitations extends WP_Plugin_Base
 										
 	}
 
+	/**
+	* Check for mbstring function and use it if available
+	*/
+	public static function getName($name){
+
+		if( function_exists('mb_convert_encoding'))
+		{
+			return mb_convert_encoding($name, "HTML-ENTITIES", "UTF-8");																				
+		}
+		else
+		{
+			return utf8_decode($name);
+		}	
+		
+										
+	}
 	/**
 	* Check for provider and return identifier or email depending the situatio
 	*/
@@ -1295,11 +1315,6 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	 function create_hybridauth($provider){
 	 			$settings = $this->_options;
 		
-			# Hybrid_Auth already used?
-			if ( class_exists('Hybrid_Auth', false) ) {
-				return wsl_render_notices_pages( __("Error: Another plugin seems to be using HybridAuth Library and made WordPress Social Invitation unusable. We use a custom version of HybridAuth but it should work with other plugins", $this->WPB_PREFIX) ); 
-			}
-	
 			// load hybridauth
 			require_once $this->WPB_ABS_PATH . "/hybridauth/Hybrid/Auth.php";
 	

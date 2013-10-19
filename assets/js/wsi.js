@@ -11,7 +11,7 @@
 		    var left = ((screen.width / 2) - (600 / 2)) + dualScreenLeft;
 		    var top = ((screen.height / 2) - (640 / 2)) + dualScreenTop;
 			window.open(
-				WsiMyAjax.admin_url+"?action=wsi_authenticate&redirect_to"+encodeURIComponent(popupurl)+"&provider="+provider+ "&_ts=" + (new Date()).getTime(),
+				WsiMyAjax.admin_url+"?action=wsi_authenticate&redirect_to="+encodeURIComponent(popupurl)+"&provider="+provider+ "&_ts=" + (new Date()).getTime(),
 				"hybridauth_social_sing_on", 
 				"directories=no,copyhistory=no,toolbar=0,location=0,menubar=0,status=0,scrollbars=1,width=600,height=640,top=" + top + ", left=" + left
 			); 

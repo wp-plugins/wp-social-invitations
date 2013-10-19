@@ -109,7 +109,15 @@ class Wsi_Lk{
 			{
 				$this->setNewData($queue_data, $this->_total_sent);
 			
-				$this->process();
+				try{
+					$result = $this->process();
+				}
+				catch( Exception $e ){
+						//delete it from queue to avoid same error everytime
+						#$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+						Wsi_Logger::log( "Wsi_LK: Linkedin queue proccesing error - " . $e->getMessage());
+				}
+
 			}	
  		}	
  		
@@ -118,7 +126,7 @@ class Wsi_Lk{
  	
  	private function setNewData( $queue_data ,$total_sent = 0)
  	{
- 		
+ 		global $wsi;
  		$this->_id 				= $queue_data->id;
  		$this->_friends 		= unserialize($queue_data->friends);
  		$this->_message 		= $queue_data->message;

@@ -83,6 +83,17 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
+= 1.4.0.6 =
+* Fixed encoding problem
+
+= 1.4.0.5 =
+
+* Previous versions numbers were omitted to fix suversion problem
+* Fixed bug with facebook that was preventing the queue to continue when error
+* Fixed bug with twitter that was preventing the queue to continue when error
+* Fixed bug with Linkeding that was preventing the queue to continue when error
+* Fixed bug with scopes on facebook
+
 = 1.4.0.1 =
 
 * Complete redesign of popup email collector 
