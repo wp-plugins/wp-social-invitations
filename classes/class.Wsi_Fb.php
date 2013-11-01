@@ -31,8 +31,9 @@ class Wsi_Fb{
  		$this->_friends 		= unserialize($queue_data->friends);
  		$this->_options			= $wsi->getOptions();
  		//this won't work with local url
- 		$this->_message 		= $queue_data->message .'
-'. $this->_options['text_non_editable_message'].' ';
+ 		$this->_message 		= stripslashes($queue_data->message .'
+'. $this->_options['text_non_editable_message'].' ');
+
  		$this->_display_name	= $queue_data->display_name;
  		$this->_user_data 		= get_userdata($queue_data->user_id);
  		$this->_user_id 		= $queue_data->user_id;
@@ -98,7 +99,15 @@ class Wsi_Fb{
 		{
 			$this->setNewData($queue_data, 0);
 		
-			$result = $this->process();
+			try{
+				$result = $this->process();
+			}
+			catch( Exception $e ){
+					//delete it from queue to avoid same error everytime
+					#$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+					Wsi_Logger::log( "Wsi_FB: Facebook queue proccesing error - " . $e->getMessage());
+			}	
+
 			
 		}	
 		
@@ -159,8 +168,8 @@ class Wsi_Fb{
  		
  		$this->_id 				= $queue_data->id;
  		$this->_friends 		= unserialize($queue_data->friends);
- 		$this->_message 		= $queue_data->message .'
- 		'. $this->_options['text_non_editable_message'];
+ 		$this->_message 		= stripslashes($queue_data->message .'
+ 		'. $this->_options['text_non_editable_message']);
  		$this->_i_count 		= $queue_data->i_count;
  		$this->_total_sent 		= $total_sent;
  		
