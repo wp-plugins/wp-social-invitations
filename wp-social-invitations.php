@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.0.6
+Version: 1.4.0.7
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -74,7 +74,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.0.6';
+		$this->WPB_VERSION		=	'1.4.0.7';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -1090,11 +1090,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				
 				<?php if( $provider == 'linkedin' ) : ?>
 				<div class="box-wrapper">
-					<input type="text" name="subject" value="<?php echo self::getName($settings['text_subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printName($settings['text_subject']);?>" />
 				</div>
 				<?php else: ?>
 				<div class="box-wrapper">	
-					<input type="text" name="subject" value="<?php echo self::getName($settings['subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printName($settings['subject']);?>" />
 				</div>
 				<?php endif;
 
@@ -1119,7 +1119,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="tw_message"><?php echo self::getName($settings['tw_message']);?></textarea>
+						<textarea name="message" id="tw_message"><?php self::printName($settings['tw_message']);?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 140 characters. Characters left: %s','wsi'),'<span id="char_left">140</span>');?>
 						<script type="text/javascript">
@@ -1151,7 +1151,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php echo self::getName($settings['message']);?></textarea>
+						<textarea name="message" id="message"><?php self::printName($settings['message']);?></textarea>
 					</div>
 				
 				
@@ -1217,23 +1217,6 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		
 										
 	}
-		
-	/**
-	* 
-	*/
-	function printMessage($name){
-
-		if( function_exists('mb_convert_encoding'))
-		{
-			echo mb_convert_encoding($name, "HTML-ENTITIES", "UTF-8");																				
-		}
-		else
-		{
-			echo utf8_decode($name);
-		}	
-		
-										
-	}	
 	
 	
 	/**

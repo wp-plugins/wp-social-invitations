@@ -35,9 +35,9 @@ class Wsi_Mailer{
  		{
 	 		$this->_id 				= $queue_data->id;
 	 		$this->_friends 		= unserialize($queue_data->friends);
-	 		$this->_message 		= $queue_data->message .'
-	 		'. $this->_options['html_non_editable_message'];
-	 		$this->_subject 		= $queue_data->subject;
+	 		$this->_message 		= stripslashes($queue_data->message .'
+	 		'. $this->_options['html_non_editable_message']);
+	 		$this->_subject 		= stripslashes($queue_data->subject);
 	 		$this->_i_count 		= $queue_data->i_count;
 	 		$this->_display_name	= $queue_data->display_name;
 	 		$this->_user_data 		= get_userdata($queue_data->user_id);
@@ -136,9 +136,9 @@ class Wsi_Mailer{
  		
  		$this->_id 				= $queue_data->id;
  		$this->_friends 		= unserialize($queue_data->friends);
- 		$this->_message 		= $queue_data->message .'
- 		'. $this->_options['html_non_editable_message'];
- 		$this->_subject 		= $queue_data->subject;
+ 		$this->_message 		= stripslashes($queue_data->message .'
+ 		'. $this->_options['html_non_editable_message']);
+ 		$this->_subject 		= stripslashes($queue_data->subject);
  		$this->_i_count 		= $queue_data->i_count;
  		$this->_total_sent 		= $total_sent;
  		$this->_display_name	= $queue_data->display_name;
@@ -211,7 +211,7 @@ class Wsi_Mailer{
 
 		wsi_get_template( 'email/email-body.php', array(
 			'email_subject' => $subject,
-			'email_footer'  => $footer,
+			'email_footer'  => stripslashes($footer),
 			'emailContent' 	=> $message
 		) );
 		
