@@ -279,7 +279,8 @@ class WP_Plugin_Base {
 				{
 					echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="1" ' . checked( $options[$id], 1, false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
 				}
-				
+				if ( $desc != '' )
+					echo '<span class="description">' . $desc . '</span>';
 				break;
 			
 			case 'select':

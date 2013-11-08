@@ -1,12 +1,12 @@
 /* Based on http://wordpress.org/extend/plugins/social-connect/ */
 
-(function($){ 
+jQuery(document).ready(function($){ 
 	$(function(){
-		$('#linkedin-provider').remove();
-		$('#facebook-provider').remove();
-		$('#twitter-provider').remove();
-		$(".service-filters").addClass('wsi-anyone');
-		$(".service-filters a").click(function(){
+		$('#invite-anyone-steps #linkedin-provider').remove();
+		$('#invite-anyone-steps #facebook-provider').remove();
+		$('#invite-anyone-steps #twitter-provider').remove();
+		$("#invite-anyone-steps .service-filters").addClass('wsi-anyone');
+		$("#invite-anyone-steps .service-filters a").click(function(){
 			popupurl = $("#wsi_base_url").val();
 			provider = $(this).attr("data-provider");
 			var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
@@ -20,4 +20,4 @@
 			); 
 		});
 	});
-})(jQuery);
+});

@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.0.7
+Version: 1.4.1
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -38,7 +38,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 {
 
 	
-	protected $_options;
+	var $_options;
 	var $_credits;
 	var $_defaults;
 	var $assets_url;
@@ -74,7 +74,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.0.7';
+		$this->WPB_VERSION		=	'1.4.1';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -145,6 +145,10 @@ class WP_Social_Invitations extends WP_Plugin_Base
 
 		//Activate sidebar Widget
 		add_action( 'widgets_init', array(&$this, 'register_widget'));
+		
+		//Bypass registration lock if enabled
+		add_action( 'wp',  array(&$this, 'bypass_registration_lock'), 1 );
+
 		
 		parent::__construct();
 		
@@ -479,12 +483,14 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		<div class="info-box">
 		<p><?php _e('By default your users will be able to edit the default invitation message. Here you will be able to change the default message and forbid users to change it.',$this->WPB_PREFIX);?></p>
 		<p><?php _e('Default messages are divided in several sections. Message for HTML providers, message for non HTML providers, message for twitter, non enditable section and footer.',$this->WPB_PREFIX);?></p>
-		<p><?php _e('You can use the following placeholders on your message:',$this->WPB_PREFIX);?></p>
-		<?php if(!get_option('users_can_register')) :?>
-			<div class="error">
+		<?php if(!get_option('users_can_register') && empty($bp)) :?>
+			<div style="color:red">
 				<?php _e('Registration is not allowed. Go to settings -> General to enable it or %%ACCEPTURL%% won\'t work.',$this->WPB_PREFIX); ?>
 			</div>
 		<?php endif;?>	
+
+		<p><?php _e('You can use the following placeholders on your message:',$this->WPB_PREFIX);?></p>
+		
 		<ul>
 			<li><strong>%%INVITERNAME%%</strong>: <?php _e('Display name of the inviter',$this->WPB_PREFIX);?></li>
 			<li><strong>%%SITENAME%%</strong>: <?php _e('Name of your website',$this->WPB_PREFIX);?> - <?php echo bloginfo('name');?></li>
@@ -507,6 +513,20 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					else
 					{
 						$('#char_left').css('color','green');
+					}
+					
+				});
+				$('#char_left_lk').css('color','green');
+				$('#message').keyup(function(){
+					
+					$('#char_left_lk').text(200 - $(this).val().length);
+					if( $(this).val().length > 180 )
+					{
+						$('#char_left_lk').css('color','red');
+					}
+					else
+					{
+						$('#char_left_lk').css('color','green');
 					}
 					
 				});
@@ -641,7 +661,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		$prefix = $this->WPB_PREFIX;
 		global $bp;
 		
-		if ( isset($settings['hook_buddypress']) && $settings['hook_buddypress'] == 'true' && $bp->current_component == 'activate' )
+		if ( isset($settings['hook_buddypress']) && $settings['hook_buddypress'] == 'true' && isset($bp) && $bp->current_component == 'activate' )
 		{
 			add_action( 'bp_after_activate_content', array(&$this, 'widget'));
 		}
@@ -714,7 +734,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				$this->process_login_auth();
 		}
 		
-		if( $_REQUEST[ 'accept-invitation' ] == "wsi_authenticate" )
+		if( $_REQUEST[ 'wsi-accept-invitation' ] == "wsi_authenticate" )
 		{
 				$this->process_login_auth();
 		}
@@ -752,6 +772,41 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		}
 		
 	}
+	
+	/**
+	 * Bypass the registation lock if enabled
+	 * Thanks to Boone Gorges (Invite Anyone Plugin) for this bit
+	 *
+	 */
+	function bypass_registration_lock(){
+		
+		global $bp;
+		
+		if( ! isset( $_REQUEST[ 'wsi-accept-invitation' ] ) && $bp->current_action != 'wsi-accept-invitation'   )
+		{
+				return;
+		}
+		
+		if ( empty( $this->_options['bypass_registration_lock'] ) || !array_key_exists('yes',$this->_options['bypass_registration_lock'] ) )
+			return;
+		
+		// This is a royal hack until there is a filter on bp_get_signup_allowed()
+		if ( is_multisite() ) 
+		{
+			if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
+				$bp->site_options['registration'] = 'all';
+			} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
+				$bp->site_options['registration'] = 'user';
+			}
+		} 
+		else {
+			add_filter( 'option_users_can_register', create_function( false, 'return true;' ) );
+		}
+		
+		
+	}
+	
+
 		
 	/**
 	 * Function to process invitations
@@ -1145,7 +1200,18 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			<?php 
 			 //end twitter
 			 
-			 elseif( $provider == 'facebook' || $provider == 'linkedin' ) :
+			 elseif( $provider == 'facebook'  ) :
+			 ?>
+				
+					<label for="message"><?php _e('Message', 'wsi');?></label>
+
+					<div class="box-wrapper">
+						<textarea name="message" id="message"><?php self::printName($settings['fb_message']);?></textarea>
+					</div>
+				
+			<?php 
+			//end facebook so we linkedin
+			 elseif( $provider == 'linkedin'  ) :
 			
 				?>
 					<label for="message"><?php _e('Message', 'wsi');?></label>
@@ -1153,12 +1219,32 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<div class="box-wrapper">
 						<textarea name="message" id="message"><?php self::printName($settings['message']);?></textarea>
 					</div>
-				
+					<?php echo sprintf(__('Keep it under 200 characters. Characters left: %s','wsi'),'<span id="char_left_lk">200</span>');?>
+						<script type="text/javascript">
+						jQuery(document).ready(function($) { 
+							$('#char_left_lk').css('color','green');
+							$('#message').keyup(function(){
+								
+								$('#char_left_lk').text(200 - $(this).val().length);
+								if( $(this).val().length > 180 )
+								{
+									$('#char_left_lk').css('color','red');
+								}
+								else
+								{
+									$('#char_left_lk').css('color','green');
+								}
+								
+							});
+						});  
+						</script>
+			
 				
 			<?php 
-			//end facebook and linkedin so we start email providers
+			//end linkedin so we start email providers
 			
 			else: // facebook linkedin
+
 				
 				?>
 				

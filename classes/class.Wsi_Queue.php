@@ -244,12 +244,12 @@ if( !class_exists('Wsi_Queue') ) {
 			if( function_exists('bp_get_root_domain') )
 			{
 				//BP is alive
-				$accept_url 	= bp_get_root_domain() . '/' . bp_get_signup_slug() . '/accept-invitation/' . base64_encode( $queue_id );
+				$accept_url 	= bp_get_root_domain() . '/' . bp_get_signup_slug() . '/wsi-accept-invitation/' . base64_encode( $queue_id );
 				$inviter_url 	= bp_core_get_user_domain($user_id);	
 			}
 			else
 			{
-				$accept_url 	= site_url('/wp-login.php?action=register&accept-invitation='.base64_encode( $queue_id ));
+				$accept_url 	= site_url('/wp-login.php?action=register&wsi-accept-invitation='.base64_encode( $queue_id ));
 			}
 			$por = array(
 				apply_filters('wsi_placeholder_invitername'	, $display_name),
