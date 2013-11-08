@@ -279,7 +279,8 @@ class WP_Plugin_Base {
 				{
 					echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="1" ' . checked( $options[$id], 1, false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
 				}
-				
+				if ( $desc != '' )
+					echo '<span class="description">' . $desc . '</span>';
 				break;
 			
 			case 'select':
@@ -366,12 +367,12 @@ class WP_Plugin_Base {
 		 			echo '<span class="description">' . $desc . '</span>';
 		 		break;	
 			case 'code':
-		 			echo '<script type="text/javascript">
-				 				var editor_' . $id . ' = CodeMirror.fromTextArea(document.getElementById("code-' . $id . '"), {lineNumbers: true, matchBrackets: true});
-		 			</script>';
 		 		echo '<div style="width:550px"><textarea class="code-area ' . $field_class . '" id="code-' . $id . '" name="'.$this->options_name.'[' . $id . ']" placeholder="' . $std . '">';
 		 		echo esc_attr( $options[$id] ) != '' ? esc_attr( $options[$id] ) : $std;
 		 		echo '</textarea></div>';
+		 			echo '<script type="text/javascript">
+				 				var editor_' . $id . ' = CodeMirror.fromTextArea(document.getElementById("code-' . $id . '"), {lineNumbers: true, matchBrackets: true});
+		 			</script>';
 		 		
 		 		if ( $desc != '' )
 		 			echo '<br /><span class="description">' . $desc . '</span>';

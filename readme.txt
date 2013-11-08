@@ -3,7 +3,7 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.4.0.4
+Stable Tag: 1.4.1
 Tested up to: 3.6.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
@@ -14,9 +14,9 @@ Allow your visitors to invite friends of their social networks into your Wordpre
 
 Allow your visitors to invite friends of their social networks such as Facebbok, Twitter, Foursquare Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress and Invite Anyone Plugin.
 
-Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/)
+Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free)
 
-Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/)
+Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/?utm_source=wsi-free)
 
 = Currently Supported Providers =
 
@@ -44,7 +44,13 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 * Change order of providers
 * Free Support
 
-Check the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/)
+Check the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free)
+
+
+= Translations Credits = 
+
+* Spanish - Eruedados Colombia 
+* Serbo/Croatian - Borisa Djuraskovic
 
 == Installation ==
 
@@ -82,6 +88,26 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.4.1 =
+
+* Fixed bug with Invite Anyone Integration that was allowing non html providers to appear
+* Added separate field for linkedin default message
+* Minor bugfixes
+
+= 1.4.0.7 =
+* Fixed problems with escaped strings
+
+= 1.4.0.6 =
+* Fixed encoding problem
+
+= 1.4.0.5 =
+
+* Previous versions numbers were omitted to fix suversion problem
+* Fixed bug with facebook that was preventing the queue to continue when error
+* Fixed bug with twitter that was preventing the queue to continue when error
+* Fixed bug with Linkeding that was preventing the queue to continue when error
+* Fixed bug with scopes on facebook
 
 = 1.4.0.1 =
 
