@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wsi\n"
-"POT-Creation-Date: 2013-09-25 14:28-0300\n"
-"PO-Revision-Date: 2013-09-25 14:29-0300\n"
+"POT-Creation-Date: 2013-11-07 19:28-0300\n"
+"PO-Revision-Date: 2013-11-07 19:28-0300\n"
 "Last-Translator: Damian Logghe <info@timersys.com>\n"
 "Language-Team: \n"
 "Language: en_EN\n"
@@ -15,36 +15,36 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: wp-social-invitations.php:85
+#: wp-social-invitations.php:92
 msgid "Main Settings"
 msgstr ""
 
-#: wp-social-invitations.php:86
+#: wp-social-invitations.php:93
 msgid "Default Messages"
 msgstr ""
 
-#: wp-social-invitations.php:87
+#: wp-social-invitations.php:94
 msgid "Emails"
 msgstr ""
 
-#: wp-social-invitations.php:88
+#: wp-social-invitations.php:95
 msgid "Styling"
 msgstr ""
 
-#: wp-social-invitations.php:89
+#: wp-social-invitations.php:96
 msgid "Stats"
 msgstr ""
 
-#: wp-social-invitations.php:90
+#: wp-social-invitations.php:97
 msgid "Debug"
 msgstr ""
 
-#: wp-social-invitations.php:313
+#: wp-social-invitations.php:356
 #, php-format
 msgid "Welcome to <a href=\"%s\">Wordpress Social Invitations</a>!"
 msgstr ""
 
-#: wp-social-invitations.php:314
+#: wp-social-invitations.php:357
 #, php-format
 msgid ""
 "To start using the plugin you need to fill out the OAuth settings of the "
@@ -53,201 +53,201 @@ msgid ""
 "\">support forum</a>."
 msgstr ""
 
-#: wp-social-invitations.php:315
+#: wp-social-invitations.php:358
 msgid ""
 "You can place the invitation widget on any page by using the following "
 "shortcode:"
 msgstr ""
 
-#: wp-social-invitations.php:320 wp-social-invitations.php:580
+#: wp-social-invitations.php:363
 #, php-format
 msgid ""
 "If you have any question please carefully <a href=\"%s\">read documentation</"
-"a> first opening a ticket"
+"a> before opening a ticket"
 msgstr ""
 
-#: wp-social-invitations.php:335
+#: wp-social-invitations.php:378
 #, php-format
 msgid "So far %s invitations were sent using WSI!"
 msgstr ""
 
-#: wp-social-invitations.php:339
+#: wp-social-invitations.php:382
 msgid "In the last..."
 msgstr ""
 
-#: wp-social-invitations.php:352
+#: wp-social-invitations.php:395
 msgid "24 Hours"
 msgstr ""
 
-#: wp-social-invitations.php:366
+#: wp-social-invitations.php:409
 msgid "3 Days"
 msgstr ""
 
-#: wp-social-invitations.php:379
+#: wp-social-invitations.php:422
 msgid "1 Week"
 msgstr ""
 
-#: wp-social-invitations.php:392
+#: wp-social-invitations.php:435
 msgid "1 Month"
 msgstr ""
 
-#: wp-social-invitations.php:404
+#: wp-social-invitations.php:447
 msgid "3 Months"
 msgstr ""
 
-#: wp-social-invitations.php:416
+#: wp-social-invitations.php:459
 msgid "All Time"
 msgstr ""
 
-#: wp-social-invitations.php:441
+#: wp-social-invitations.php:484
 msgid ""
 "By default your users will be able to edit the default invitation message. "
 "Here you will be able to change the default message and forbid users to "
 "change it."
 msgstr ""
 
-#: wp-social-invitations.php:442
+#: wp-social-invitations.php:485
 msgid ""
 "Default messages are divided in several sections. Message for HTML "
 "providers, message for non HTML providers, message for twitter, non "
 "enditable section and footer."
 msgstr ""
 
-#: wp-social-invitations.php:443
-msgid "You can use the following placeholders on your message:"
-msgstr ""
-
-#: wp-social-invitations.php:446
+#: wp-social-invitations.php:488
 #, php-format
 msgid ""
 "Registration is not allowed. Go to settings -> General to enable it or "
 "%%ACCEPTURL%% won't work."
 msgstr ""
 
-#: wp-social-invitations.php:450 templates/popup/collector.php:88
+#: wp-social-invitations.php:492
+msgid "You can use the following placeholders on your message:"
+msgstr ""
+
+#: wp-social-invitations.php:495 templates/popup/collector.php:88
 msgid "Display name of the inviter"
 msgstr ""
 
-#: wp-social-invitations.php:451 templates/popup/collector.php:89
+#: wp-social-invitations.php:496 templates/popup/collector.php:89
 msgid "Name of your website"
 msgstr ""
 
-#: wp-social-invitations.php:452 templates/popup/collector.php:90
+#: wp-social-invitations.php:497 templates/popup/collector.php:90
 msgid "Link that invited users can click to accept the invitation and register"
 msgstr ""
 
-#: wp-social-invitations.php:453 templates/popup/collector.php:91
+#: wp-social-invitations.php:498 templates/popup/collector.php:91
 msgid "If Buddypress is enabled, URL to the profile of the inviter"
 msgstr ""
 
-#: wp-social-invitations.php:454
+#: wp-social-invitations.php:499
 msgid "A custom URL that you can edit with a simple filter"
 msgstr ""
 
-#: wp-social-invitations.php:456
+#: wp-social-invitations.php:501
 #, php-format
 msgid ""
 "If you have any question please carefully <a href=\"%s\">read the "
 "documentation</a> before opening a ticket"
 msgstr ""
 
-#: wp-social-invitations.php:487
+#: wp-social-invitations.php:532
 msgid ""
 "The simplest solution for small lists. Your web host sets a daily email "
 "limit."
 msgstr ""
 
-#: wp-social-invitations.php:491
+#: wp-social-invitations.php:536
 msgid ""
 "Easy to setup. Limited to 500 emails a day. We recommend that you open a "
 "dedicated Gmail account for this purpose."
 msgstr ""
 
-#: wp-social-invitations.php:495
+#: wp-social-invitations.php:540
 msgid "Send with a professional SMTP provider, a great choice for big sites"
 msgstr ""
 
-#: wp-social-invitations.php:528
+#: wp-social-invitations.php:573
 msgid "Test email sent to "
 msgstr ""
 
-#: wp-social-invitations.php:578
+#: wp-social-invitations.php:623
 msgid ""
 "Here you can drag and drop the providers to change the order in the widget "
 "and also you will be able to add custom CSS."
 msgstr ""
 
 #: wp-social-invitations.php:625
+#, php-format
+msgid ""
+"If you have any question please carefully <a href=\"%s\">read documentation</"
+"a> first opening a ticket"
+msgstr ""
+
+#: wp-social-invitations.php:670
 msgid "You can also add email addresses from:"
 msgstr ""
 
-#: wp-social-invitations.php:720
+#: wp-social-invitations.php:815 wp-social-invitations.php:854
 #, php-format
 msgid "by %s"
 msgstr ""
 
-#: wp-social-invitations.php:770
+#: wp-social-invitations.php:905
 msgid "Select your Friends"
 msgstr ""
 
-#: wp-social-invitations.php:996 admin/fields.php:348 admin/fields.php:412
+#: wp-social-invitations.php:1130 admin/fields.php:367 admin/fields.php:433
 msgid "Subject"
 msgstr ""
 
-#: wp-social-invitations.php:1030 wp-social-invitations.php:1066
-#: wp-social-invitations.php:1084
+#: wp-social-invitations.php:1160 wp-social-invitations.php:1192
+#: wp-social-invitations.php:1206
 msgid "Message"
 msgstr ""
 
-#: wp-social-invitations.php:1035
+#: wp-social-invitations.php:1165
 #, php-format
 msgid "Keep it under 140 characters. Characters left: %s"
 msgstr ""
 
-#: wp-social-invitations.php:1223
-msgid ""
-"Error: Another plugin seems to be using HybridAuth Library and made "
-"WordPress Social Invitation unusable. We use a custom version of HybridAuth "
-"but it should work with other plugins"
-msgstr ""
-
-#: wp-social-invitations.php:1233
+#: wp-social-invitations.php:1349
 msgid "Unknown or disabled provider"
 msgstr ""
 
-#: wp-social-invitations.php:1346
+#: wp-social-invitations.php:1462
 msgid "Once every minutes"
 msgstr ""
 
-#: wp-social-invitations.php:1350
+#: wp-social-invitations.php:1466
 msgid "Once every two minutes"
 msgstr ""
 
-#: wp-social-invitations.php:1354
+#: wp-social-invitations.php:1470
 msgid "Once every five minutes"
 msgstr ""
 
-#: wp-social-invitations.php:1358
+#: wp-social-invitations.php:1474
 msgid "Once every ten minutes"
 msgstr ""
 
-#: wp-social-invitations.php:1362
+#: wp-social-invitations.php:1478
 msgid "Once every fifteen minutes"
 msgstr ""
 
-#: wp-social-invitations.php:1366
+#: wp-social-invitations.php:1482
 msgid "Once every thirty minutes"
 msgstr ""
 
-#: wp-social-invitations.php:1370
+#: wp-social-invitations.php:1486
 msgid "Once every two hours"
 msgstr ""
 
-#: wp-social-invitations.php:1374
+#: wp-social-invitations.php:1490
 msgid "Once a week"
 msgstr ""
 
-#: wp-social-invitations.php:1378
+#: wp-social-invitations.php:1494
 msgid "Once every 28 days"
 msgstr ""
 
@@ -265,11 +265,11 @@ msgstr ""
 msgid "This is a default description."
 msgstr ""
 
-#: WP_Plugin_Base.class.php:218
+#: WP_Plugin_Base.class.php:220
 msgid "Settings"
 msgstr ""
 
-#: WP_Plugin_Base.class.php:432
+#: WP_Plugin_Base.class.php:448
 msgid "Save Changes"
 msgstr ""
 
@@ -291,417 +291,431 @@ msgid ""
 "the invitations to one of the providers"
 msgstr ""
 
-#: admin/fields.php:16
-msgid "\"Redirect to\" URL"
+#: admin/fields.php:19
+msgid "Bypass Registration lock"
 msgstr ""
 
-#: admin/fields.php:17
-msgid "Users will be redirected to this url after they send invitations"
+#: admin/fields.php:20
+msgid ""
+"Your site is blocked for new registations. Check here to bypass this on new "
+"Invitations"
 msgstr ""
 
-#: admin/fields.php:27
-msgid "Buddypress"
-msgstr ""
-
-#: admin/fields.php:28
-msgid "Show in buddypress after user activates his new account"
-msgstr ""
-
-#: admin/fields.php:33 admin/fields.php:48 admin/fields.php:77
-#: admin/fields.php:113 admin/fields.php:148 admin/fields.php:185
-#: admin/fields.php:220 admin/fields.php:256 admin/fields.php:328
-#: admin/fields.php:362 admin/fields.php:381 admin/fields.php:426
-#: admin/fields.php:446 admin/fields.php:485 admin/fields.php:720
+#: admin/fields.php:24 admin/fields.php:52 admin/fields.php:67
+#: admin/fields.php:96 admin/fields.php:132 admin/fields.php:167
+#: admin/fields.php:204 admin/fields.php:239 admin/fields.php:275
+#: admin/fields.php:347 admin/fields.php:382 admin/fields.php:402
+#: admin/fields.php:448 admin/fields.php:469 admin/fields.php:508
+#: admin/fields.php:751
 msgid "Yes"
 msgstr ""
 
-#: admin/fields.php:34 admin/fields.php:49 admin/fields.php:78
-#: admin/fields.php:114 admin/fields.php:149 admin/fields.php:186
-#: admin/fields.php:221 admin/fields.php:257 admin/fields.php:329
-#: admin/fields.php:363 admin/fields.php:382 admin/fields.php:427
-#: admin/fields.php:447 admin/fields.php:486 admin/fields.php:602
-#: admin/fields.php:721
+#: admin/fields.php:34
+msgid "\"Redirect to\" URL"
+msgstr ""
+
+#: admin/fields.php:35
+msgid "Users will be redirected to this url after they send invitations"
+msgstr ""
+
+#: admin/fields.php:46
+msgid "Buddypress"
+msgstr ""
+
+#: admin/fields.php:47
+msgid "Show in buddypress after user activates his new account"
+msgstr ""
+
+#: admin/fields.php:53 admin/fields.php:68 admin/fields.php:97
+#: admin/fields.php:133 admin/fields.php:168 admin/fields.php:205
+#: admin/fields.php:240 admin/fields.php:276 admin/fields.php:348
+#: admin/fields.php:383 admin/fields.php:403 admin/fields.php:449
+#: admin/fields.php:470 admin/fields.php:509 admin/fields.php:632
+#: admin/fields.php:752
 msgid "No"
 msgstr ""
 
-#: admin/fields.php:42
+#: admin/fields.php:61
 msgid "Invite Anyone Plugin"
 msgstr ""
 
-#: admin/fields.php:43
+#: admin/fields.php:62
 msgid "Hook into Invite Anyone Plugin"
 msgstr ""
 
-#: admin/fields.php:56
+#: admin/fields.php:75
 msgid "Providers"
 msgstr ""
 
-#: admin/fields.php:58
+#: admin/fields.php:77
 msgid "Please take your time and read documentation carefully. "
 msgstr ""
 
-#: admin/fields.php:71 admin/fields.php:107 admin/fields.php:142
-#: admin/fields.php:179 admin/fields.php:214 admin/fields.php:250
-#: admin/fields.php:322
+#: admin/fields.php:90 admin/fields.php:126 admin/fields.php:161
+#: admin/fields.php:198 admin/fields.php:233 admin/fields.php:269
+#: admin/fields.php:341
 msgid "Enabled"
 msgstr ""
 
-#: admin/fields.php:72
+#: admin/fields.php:91
 msgid "Enable / Disable Facebook Invitations."
 msgstr ""
 
-#: admin/fields.php:83 admin/fields.php:154
+#: admin/fields.php:102 admin/fields.php:173
 msgid "Client ID"
 msgstr ""
 
-#: admin/fields.php:84 admin/fields.php:92 admin/fields.php:120
-#: admin/fields.php:128 admin/fields.php:155 admin/fields.php:163
-#: admin/fields.php:192 admin/fields.php:200 admin/fields.php:227
-#: admin/fields.php:235 admin/fields.php:263 admin/fields.php:271
+#: admin/fields.php:103 admin/fields.php:111 admin/fields.php:139
+#: admin/fields.php:147 admin/fields.php:174 admin/fields.php:182
+#: admin/fields.php:211 admin/fields.php:219 admin/fields.php:246
+#: admin/fields.php:254 admin/fields.php:282 admin/fields.php:290
 #, php-format
 msgid "<a href=\"%s\" target=\"_blank\">Where do i get this info?</a>"
 msgstr ""
 
-#: admin/fields.php:91 admin/fields.php:162
+#: admin/fields.php:110 admin/fields.php:181 admin/fields.php:289
 msgid "Client Secret"
 msgstr ""
 
-#: admin/fields.php:108
+#: admin/fields.php:127
 msgid "Enable / Disable Twitter Invitations."
 msgstr ""
 
-#: admin/fields.php:119 admin/fields.php:226 admin/fields.php:262
+#: admin/fields.php:138 admin/fields.php:245
 msgid "Consumer Key"
 msgstr ""
 
-#: admin/fields.php:127 admin/fields.php:234 admin/fields.php:270
+#: admin/fields.php:146 admin/fields.php:253
 msgid "Consumer Secret"
 msgstr ""
 
-#: admin/fields.php:143
+#: admin/fields.php:162
 msgid "Enable / Disable Google Invitations."
 msgstr ""
 
-#: admin/fields.php:180
+#: admin/fields.php:199
 msgid "Enable / Disable Linkedin Invitations."
 msgstr ""
 
-#: admin/fields.php:191
+#: admin/fields.php:210
 msgid "API Key"
 msgstr ""
 
-#: admin/fields.php:199
+#: admin/fields.php:218
 msgid "Secret Key"
 msgstr ""
 
-#: admin/fields.php:215
+#: admin/fields.php:234
 msgid "Enable / Disable Yahoo Invitations."
 msgstr ""
 
-#: admin/fields.php:251
+#: admin/fields.php:270
 msgid "Enable / Disable Foursquare Invitations."
 msgstr ""
 
-#: admin/fields.php:323
+#: admin/fields.php:281
+msgid "Client Key"
+msgstr ""
+
+#: admin/fields.php:342
 msgid "Enable / Disable Windows Live Invitations."
 msgstr ""
 
-#: admin/fields.php:341
+#: admin/fields.php:360
 msgid "Default HTML Message for emails."
 msgstr ""
 
-#: admin/fields.php:343
+#: admin/fields.php:362
 msgid "Emails are used with Gmail, Yahoo, Live, Foursquare"
 msgstr ""
 
-#: admin/fields.php:349
+#: admin/fields.php:368
 msgid "Default Subject for invitations"
 msgstr ""
 
-#: admin/fields.php:350 admin/fields.php:414
+#: admin/fields.php:369 admin/fields.php:435
 #, php-format
 msgid "I invite you to join %s"
 msgstr ""
 
-#: admin/fields.php:356 admin/fields.php:375 admin/fields.php:420
-#: admin/fields.php:440 admin/fields.php:479
+#: admin/fields.php:375 admin/fields.php:395 admin/fields.php:441
+#: admin/fields.php:462 admin/fields.php:501
 msgid "Editable"
 msgstr ""
 
-#: admin/fields.php:357
+#: admin/fields.php:376
 msgid ""
 "Enable / Disable users to change the default subject. Facebook, Twitter and "
 "Linkedin don't use subject field"
 msgstr ""
 
-#: admin/fields.php:367
+#: admin/fields.php:387
 msgid "HTML Message"
 msgstr ""
 
-#: admin/fields.php:368
+#: admin/fields.php:388
 msgid ""
 "Default Message for HTML Invitations. <strong>Only supported by (Gmail, "
 "Yahoo, Foursquare and Live).</strong>"
 msgstr ""
 
-#: admin/fields.php:369
+#: admin/fields.php:389
 #, php-format
 msgid ""
 "<h3>%%INVITERNAME%% just invited you!</h3><br>%%INVITERNAME%% would like you "
 "to join %%SITENAME%%."
 msgstr ""
 
-#: admin/fields.php:376
+#: admin/fields.php:396
 msgid "Enable / Disable users to change the default html message."
 msgstr ""
 
-#: admin/fields.php:387 admin/fields.php:452
+#: admin/fields.php:408 admin/fields.php:475
 msgid "Non editable Message"
 msgstr ""
 
-#: admin/fields.php:388 admin/fields.php:453
+#: admin/fields.php:409 admin/fields.php:476
 msgid ""
 "This section will be added after normal message. It's not editable by users"
 msgstr ""
 
-#: admin/fields.php:389
+#: admin/fields.php:410
 #, php-format
 msgid ""
 "Please accept the invitation in %%ACCEPTURL%% <br> Follow my twitter <a href="
 "\"http://twitter.com/chifliiiii\">@chifliiiii</a>"
 msgstr ""
 
-#: admin/fields.php:395
+#: admin/fields.php:416
 msgid "Footer Message"
 msgstr ""
 
-#: admin/fields.php:396
+#: admin/fields.php:417
 msgid ""
 "The footer it's only used by email providers. A good practice is to add your "
 "company address to avoid spam filters"
 msgstr ""
 
-#: admin/fields.php:397
+#: admin/fields.php:418
 msgid ""
 "Powered by <a href=\"http://www.timersys.com/plugins/wordpress-social-"
 "invitations/\">Wordpress Social Invitions</a>"
 msgstr ""
 
-#: admin/fields.php:404
+#: admin/fields.php:425
 msgid "Default Text Message."
 msgstr ""
 
-#: admin/fields.php:406
+#: admin/fields.php:427
 msgid "Text message don't allow HTML and are used for Facebook and Linkedin"
 msgstr ""
 
-#: admin/fields.php:413
+#: admin/fields.php:434
 msgid "Default Subject for Linkedin"
 msgstr ""
 
-#: admin/fields.php:421
+#: admin/fields.php:442
 msgid ""
 "Enable / Disable users to change the default subject. Linkedin policy says "
 "that users must be able to edit this"
 msgstr ""
 
-#: admin/fields.php:432
+#: admin/fields.php:454
 msgid "Text Message"
 msgstr ""
 
-#: admin/fields.php:433
+#: admin/fields.php:455
 msgid ""
 "Default plain text Message for invitations. <strong>Non HTML providers are "
 "Facebook and Linkedin.</strong> "
 msgstr ""
 
-#: admin/fields.php:434
+#: admin/fields.php:456
 #, php-format
 msgid "%%INVITERNAME%% would like you to join %%SITENAME%%."
 msgstr ""
 
-#: admin/fields.php:441
+#: admin/fields.php:463
 msgid ""
 "Enable / Disable users to change the default message. Linkedin policy says "
 "that users must be able to edit this"
 msgstr ""
 
-#: admin/fields.php:454
+#: admin/fields.php:477
 #, php-format
 msgid "Please accept the invitation in %%ACCEPTURL%%"
 msgstr ""
 
-#: admin/fields.php:461
+#: admin/fields.php:484
 msgid "Twitter default text."
 msgstr ""
 
-#: admin/fields.php:463
+#: admin/fields.php:486
 msgid ""
 "This is only used for twitter. HTML is not allowed and it needs to be "
 "shorter than 140 characters"
 msgstr ""
 
-#: admin/fields.php:470
+#: admin/fields.php:493
 msgid "Twitter Message"
 msgstr ""
 
-#: admin/fields.php:471
+#: admin/fields.php:494
 #, php-format
 msgid ""
 "Default Message for Twitter. Keep it under 140 characters(%%ACCEPTURL%% will "
 "be converted to a 22 characters string) Characters left: %s"
 msgstr ""
 
-#: admin/fields.php:472
+#: admin/fields.php:495
 #, php-format
 msgid ""
-"%%INVITERNAME%% would like you to join %%SITENAME%%.\n"
-"Please accept the invitation in %%ACCEPTURL%%"
+"%%INVITERNAME%% would like you to join %%SITENAME%% , click on %%ACCEPTURL%%"
 msgstr ""
 
-#: admin/fields.php:480
+#: admin/fields.php:502
 msgid "Enable / Disable users to change the default Twitter message."
 msgstr ""
 
-#: admin/fields.php:497
+#: admin/fields.php:520
 msgid "Send With..."
 msgstr ""
 
-#: admin/fields.php:504
+#: admin/fields.php:527
 msgid "Your own website"
 msgstr ""
 
-#: admin/fields.php:505
+#: admin/fields.php:528
 msgid "Gmail"
 msgstr ""
 
-#: admin/fields.php:506
+#: admin/fields.php:529
 msgid "Third Party SMTP"
 msgstr ""
 
-#: admin/fields.php:512
+#: admin/fields.php:535
 msgid "Gmail Settings"
 msgstr ""
 
-#: admin/fields.php:521 admin/fields.php:563
+#: admin/fields.php:544 admin/fields.php:589
 msgid "Username"
 msgstr ""
 
-#: admin/fields.php:532 admin/fields.php:574
+#: admin/fields.php:556 admin/fields.php:601
 msgid "Password"
 msgstr ""
 
-#: admin/fields.php:543
+#: admin/fields.php:568
 msgid "SMTP Settings"
 msgstr ""
 
-#: admin/fields.php:552
+#: admin/fields.php:577
 msgid "SMTP host"
 msgstr ""
 
-#: admin/fields.php:554
+#: admin/fields.php:579
 msgid "E.g: smtp.gmail.com"
 msgstr ""
 
-#: admin/fields.php:585
+#: admin/fields.php:613
 msgid "SMTP port"
 msgstr ""
 
-#: admin/fields.php:595
+#: admin/fields.php:624
 msgid "Secure Connection"
 msgstr ""
 
-#: admin/fields.php:603
+#: admin/fields.php:633
 msgid "SSL"
 msgstr ""
 
-#: admin/fields.php:604
+#: admin/fields.php:634
 msgid "TLS"
 msgstr ""
 
-#: admin/fields.php:610
+#: admin/fields.php:640
 msgid "Try yourself"
 msgstr ""
 
-#: admin/fields.php:611
+#: admin/fields.php:641
 msgid "Send Test Email"
 msgstr ""
 
-#: admin/fields.php:612
+#: admin/fields.php:642
 msgid "Please save before sending the test email."
 msgstr ""
 
-#: admin/fields.php:622
+#: admin/fields.php:652
 msgid "Emails Limits"
 msgstr ""
 
-#: admin/fields.php:624
+#: admin/fields.php:654
 msgid "Your hosting has limits. Find out more here"
 msgstr ""
 
-#: admin/fields.php:630
+#: admin/fields.php:660
 msgid "Send..."
 msgstr ""
 
-#: admin/fields.php:639
+#: admin/fields.php:669
 msgid "Every..."
 msgstr ""
 
-#: admin/fields.php:646
+#: admin/fields.php:676
 msgid "Minute"
 msgstr ""
 
-#: admin/fields.php:647
+#: admin/fields.php:677
 msgid "2 Minutes"
 msgstr ""
 
-#: admin/fields.php:648
+#: admin/fields.php:678
 msgid "5 Minutes"
 msgstr ""
 
-#: admin/fields.php:649
+#: admin/fields.php:679
 msgid "10 Minutes"
 msgstr ""
 
-#: admin/fields.php:650
+#: admin/fields.php:680
 msgid "15 Minutes"
 msgstr ""
 
-#: admin/fields.php:651
+#: admin/fields.php:681
 msgid "30 Minutes"
 msgstr ""
 
-#: admin/fields.php:652
+#: admin/fields.php:682
 msgid "Hour"
 msgstr ""
 
-#: admin/fields.php:653
+#: admin/fields.php:683
 msgid "2 Hours"
 msgstr ""
 
-#: admin/fields.php:664
+#: admin/fields.php:694
 msgid "Widget Order"
 msgstr ""
 
-#: admin/fields.php:665
+#: admin/fields.php:695
 msgid "Drag and drop to order widget providers"
 msgstr ""
 
-#: admin/fields.php:674
+#: admin/fields.php:705
 msgid "Custom CSS"
 msgstr ""
 
-#: admin/fields.php:675
+#: admin/fields.php:706
 msgid ""
 "<p>Enter your custom CSS rules. By default WSI widget use the following "
 "structure:</p>"
 msgstr ""
 
-#: admin/fields.php:714
+#: admin/fields.php:745
 msgid "Dev Mode"
 msgstr ""
 
-#: admin/fields.php:715
+#: admin/fields.php:746
 msgid ""
 "Enable / Disable Development mode. Use it on dev site to print out errors"
 msgstr ""
@@ -720,22 +734,26 @@ msgid "If you enjoyed, please support this plugin:"
 msgstr ""
 
 #: admin/sidebar.php:15
-msgid "Rate the plugin 5★ on Codecanyon.net"
+msgid "Rate the plugin 5★ on Wordpress"
 msgstr ""
 
 #: admin/sidebar.php:18
+msgid "Get Premium version"
+msgstr ""
+
+#: admin/sidebar.php:21
 msgid "Translate the plugin to your language"
 msgstr ""
 
-#: admin/sidebar.php:33
+#: admin/sidebar.php:37
 msgid "Save Settings"
 msgstr ""
 
-#: classes/class.Wsi_Mailer.php:278
+#: classes/class.Wsi_Mailer.php:243
 msgid "WSI email settings test"
 msgstr ""
 
-#: classes/class.Wsi_Mailer.php:279
+#: classes/class.Wsi_Mailer.php:244
 msgid "You email settings are working like a charm!"
 msgstr ""
 

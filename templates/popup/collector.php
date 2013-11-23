@@ -95,7 +95,7 @@
    endif;	
   ?>
                         
-		<button type="submit" id="submit-button"><? _e('Send', $WPB_PREFIX);?></button>
+		<button type="submit" id="submit-button"><?php _e('Send', $WPB_PREFIX);?></button>
 		</form>
                         
 
