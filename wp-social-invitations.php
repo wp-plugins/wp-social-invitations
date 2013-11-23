@@ -948,9 +948,9 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 								emails += $(this).val()+'\n';
 							});
 							$('#invite-anyone-email-addresses',window.opener.document).html(emails);
-							$('#<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
-							$('#wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
-							$('.wsi_success',window.opener.document).fadeIn('slow',function(){
+							$('#<?php echo $_GET['widget_id'];?> #<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
+							$('#<?php echo $_GET['widget_id'];?> #wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
+							$('#<?php echo $_GET['widget_id'];?> .wsi_success',window.opener.document).fadeIn('slow',function(){
 								
 								window.self.close();  
 							});
@@ -964,9 +964,9 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 							$('#wsi_loading,#wsi_loading * ').fadeIn();
 							
 							$.post(window.opener.WsiMyAjax.admin_url, $('#collect_emails').serialize(), function(response){
-								$('#<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
-								$('#wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
-								$('.wsi_success',window.opener.document).fadeIn('slow',function(){
+								$('#<?php echo $_GET['widget_id'];?> #<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
+								$('#<?php echo $_GET['widget_id'];?> #wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
+								$('#<?php echo $_GET['widget_id'];?> .wsi_success',window.opener.document).fadeIn('slow',function(){
 								
 								window.self.close();  
 							<?php if( isset( $settings['redirect_url']) && $settings['redirect_url'] != '' ) :?>	
