@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.1
+Version: 1.4.2
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -34,7 +34,7 @@ require(dirname (__FILE__).'/classes/class.Wsi_Widget.php');
 require(dirname (__FILE__).'/functions/template-functions.php');
 
   
-class WP_Social_Invitations extends WP_Plugin_Base
+class WP_Social_Invitations extends WP_Plugin_Base_free
 {
 
 	
@@ -48,6 +48,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	 /** Refers to a single instance of this class. */
     private static $instance = null;
     private static $PREFIX;
+	private static $_profile;
  
     /*--------------------------------------------*
      * Constructor
@@ -74,7 +75,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.1';
+		$this->WPB_VERSION		=	'1.4.2';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -234,7 +235,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			) ENGINE = MYISAM ;
 		");
 		
-		wp_schedule_event( time(), 'one_min', 'wsi_queue_cron' );
+		wp_schedule_event( time(), 'wsi_one_min', 'wsi_queue_cron' );
 		
 		if( ! get_option('wsi-version') || version_compare( get_option('wsi-version'), '1.4', '<' ))
 		{
@@ -361,6 +362,21 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		<code>WP_Social_Invitations::widget('Some title');</code>
 		
 		<p><?php echo sprintf(__('If you have any question please carefully <a href="%s">read documentation</a> before opening a ticket',$this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/');?></p>
+		<h2 style="font-weight:bold;">Premium Features <a href="http://wp.timersys.com/wordpress-social-invitations/"><span style="font-size:50%;color:red">(Get Premium here)</span></a></h2>
+		
+		<ul>
+		<li>* Content locker - Share you content only to users that invited their friends by using a simple shortcode</li>
+		<li>* MyCRED & Cubepoints integration</li>
+		<li>* Bypass registration lock- To use the plugin on private sites that works with invitation only</li>
+		<li>* Facebook delivers chat messages instead of posting into user wall</li>
+		<li>* Linkedin delivers private messages instead of posting into user status</li>
+		<li>* Twitter delivers Private messages instead of posting a tweet</li>
+		<li>* GMAIL & SMTP SUPPORT</li>
+		<li>* Predefined invitations can't be edited by users</li>
+		<li>* Redirect users after they send invitations</li>
+		<li>* Change order of providers</li>
+		<li>* Free Support</li>
+		</ul>
 				
 		</div><?php
 	}
@@ -1083,6 +1099,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				$display_name  			 = $profile->displayName;
 				
 			}	
+			//to use later	
+			self::$_profile =  $profile;
+			
 			//load the collector and pass all variables needed
 			wsi_get_template('popup/collector.php', array( 
 				'options' 					=> $this->_options,
@@ -1145,11 +1164,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				
 				<?php if( $provider == 'linkedin' ) : ?>
 				<div class="box-wrapper">
-					<input type="text" name="subject" value="<?php self::printName($settings['text_subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printFieldValue(strip_tags($settings['text_subject']));?>" />
 				</div>
 				<?php else: ?>
 				<div class="box-wrapper">	
-					<input type="text" name="subject" value="<?php self::printName($settings['subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printFieldValue($settings['subject']);?>" />
 				</div>
 				<?php endif;
 
@@ -1174,7 +1193,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="tw_message"><?php self::printName($settings['tw_message']);?></textarea>
+						<textarea name="message" id="tw_message"><?php self::printFieldValue(strip_tags($settings['tw_message']));?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 140 characters. Characters left: %s','wsi'),'<span id="char_left">140</span>');?>
 						<script type="text/javascript">
@@ -1206,7 +1225,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php self::printName($settings['fb_message']);?></textarea>
+						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags($settings['fb_message']));?></textarea>
 					</div>
 				
 			<?php 
@@ -1217,7 +1236,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php self::printName($settings['message']);?></textarea>
+						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags($settings['message']));?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 200 characters. Characters left: %s','wsi'),'<span id="char_left_lk">200</span>');?>
 						<script type="text/javascript">
@@ -1251,7 +1270,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<?php wp_editor(apply_filters( 'the_content', self::getName($settings['html_message'])) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
+						<?php wp_editor(apply_filters( 'the_content', self::getFieldValue($settings['html_message'])) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
 					</div>
 						
 				
@@ -1277,6 +1296,71 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		
 										
 	}
+
+	/**
+	* Check for mbstring function and use it if available for fields
+	* We use a simple replace shortcode function
+	*/
+	public static function printFieldValue($name){
+
+		if( function_exists('mb_convert_encoding'))
+		{
+			echo mb_convert_encoding(self::replaceShortcodes($name), "HTML-ENTITIES", "UTF-8");																				
+		}
+		else
+		{
+			echo utf8_decode(self::replaceShortcodes($name));
+		}	
+		
+										
+	}
+
+	/**
+	* Check for mbstring function and use it if available for fields
+	* We use a simple replace shortcode function
+	*/
+	public static function getFieldValue($name){
+
+		if( function_exists('mb_convert_encoding'))
+		{
+			return mb_convert_encoding(self::replaceShortcodes($name), "HTML-ENTITIES", "UTF-8");																				
+		}
+		else
+		{
+			return utf8_decode(self::replaceShortcodes($name));
+		}	
+		
+										
+	}
+
+	/**
+	 * Function that replace basic shortcodes
+	 */
+	 
+	 static function replaceShortcodes($content){
+	 
+		 /*
+			%%INVITERNAME%%: Display name of the inviter
+			%%SITENAME%%: Name of your website 
+			%%ACCEPTURL%%: Link that invited users can click to accept the invitation and register
+			%%INVITERURL%%: If available, URL to the profile of the inviter
+			%%CUSTOMURL%%: A custom URL that you can edit with a simple filter
+			*/
+			$que = array(
+				'%%INVITERNAME%%',
+				'%%SITENAME%%'
+			);
+			
+			$por = array(
+				apply_filters('wsi_placeholder_invitername'	, isset(self::$_profile->displayName) ? self::$_profile->displayName : __('A friend of you', self::$PREFIX)),
+				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
+				
+			);
+	
+			return str_replace($que, $por, $content);
+	}	
+
+	 
 
 	/**
 	* Check for mbstring function and use it if available
@@ -1502,42 +1586,10 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	public static function filter_cron_schedules( $param ) {
 	
         $frequencies=array(
-            'one_min' => array(
+            'wsi_one_min' => array(
                 'interval' => 60,
-                'display' => __( 'Once every minutes',self::$PREFIX)
-                ),
-            'two_min' => array(
-                'interval' => 120,
-                'display' => __( 'Once every two minutes',self::$PREFIX)
-                ),
-            'five_min' => array(
-                'interval' => 300,
-                'display' => __( 'Once every five minutes',self::$PREFIX)
-                ),
-            'ten_min' => array(
-                'interval' => 600,
-                'display' => __( 'Once every ten minutes',self::$PREFIX)
-                ),
-            'fifteen_min' => array(
-                'interval' => 900,
-                'display' => __( 'Once every fifteen minutes',self::$PREFIX)
-                ),
-            'thirty_min' => array(
-                'interval' => 1800,
-                'display' => __( 'Once every thirty minutes',self::$PREFIX)
-                ),
-            'two_hours' => array(
-                'interval' => 7200,
-                'display' => __( 'Once every two hours',self::$PREFIX)
-                ),
-            'eachweek' => array(
-                'interval' => 604800,
-                'display' => __( 'Once a week',self::$PREFIX)
-                ),
-            'each28days' => array(
-                'interval' => 2419200,
-                'display' => __( 'Once every 28 days',self::$PREFIX)
-                ),
+                'display' => __( 'Once every minute',self::$PREFIX)
+                )
             );
 
         return array_merge($param, $frequencies);

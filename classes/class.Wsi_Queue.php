@@ -252,7 +252,7 @@ if( !class_exists('Wsi_Queue') ) {
 				$accept_url 	= site_url('/wp-login.php?action=register&wsi-accept-invitation='.base64_encode( $queue_id ));
 			}
 			$por = array(
-				apply_filters('wsi_placeholder_invitername'	, $display_name),
+				apply_filters('wsi_placeholder_invitername'	, !empty($display_name) ? $display_name : __('A friend of you', 'wsi')),
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
 				apply_filters('wsi_placeholder_accepturl'	, $accept_url),
 				apply_filters('wsi_placeholder_inviter_url'	, $inviter_url),

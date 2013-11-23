@@ -27,7 +27,7 @@
  * @author      Damian Logghe <info@timersys.com>
  * @license     MIT License https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
  * @link        GitHub Repository: https://github.com/timersys/wp-plugin-base
- * @version     1.2.3
+ * @version     1.2.3.1
  */
 
 /*
@@ -41,7 +41,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 if( !class_exists('WP_Plugin_Base') ) {
   
-class WP_Plugin_Base {
+class WP_Plugin_Base_free {
 
 	protected $WPB_PREFIX		=	'wpb';
 	protected $WPB_SLUG			=	'wp-plugin-base'; // Need to match plugin folder name
@@ -72,13 +72,14 @@ class WP_Plugin_Base {
 		register_activation_hook( __FILE__, array(&$this,'activate' ));
 		
 		//Load all fields and defaults
+		if( is_admin())
 		$this->get_settings();        
 		
 				
 		//register database options and prepare fields with settings API
         add_action( 'admin_init', array( &$this, 'register_settings' ) );
 		
-		if ( ! get_option( $this->options_name ) )
+		if ( ! get_option( $this->options_name ) && is_admin())
 			$this->initialize_settings();
 		
 		
@@ -88,11 +89,7 @@ class WP_Plugin_Base {
 		//adding settings links on plugins page
 		add_filter( 'plugin_action_links', array(&$this,'add_settings_link'), 10, 2 );
 		
-		//translations
 		
-		if ( function_exists ('load_plugin_textdomain') ){
-			load_plugin_textdomain ( $this->WPB_PREFIX, false, $this->WPB_REL_PATH . '/languages/' );
-		}
 		
 		
 		//Ajax hooks here	

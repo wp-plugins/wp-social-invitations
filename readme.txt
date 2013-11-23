@@ -3,8 +3,8 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.4.1
-Tested up to: 3.6.1
+Stable Tag: 1.4.2
+Tested up to: 3.7.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
 
@@ -14,9 +14,9 @@ Allow your visitors to invite friends of their social networks into your Wordpre
 
 Allow your visitors to invite friends of their social networks such as Facebbok, Twitter, Foursquare Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress and Invite Anyone Plugin.
 
-Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free)
+Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme)
 
-Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/?utm_source=wsi-free)
+Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/?utm_source=wsi-free&utm_medium=readme)
 
 = Currently Supported Providers =
 
@@ -35,6 +35,9 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 
 = Premium version =
 
+* Content locker - Share you content only to users that invited their friends by using a simple shortcode
+* MyCRED & Cubepoints integration
+* Bypass registration lock- To use the plugin on private sites that works with invitation only
 * Facebook delivers chat messages instead of posting into user wall
 * Linkedin delivers private messages instead of posting into user status
 * Twitter delivers Private messages instead of posting a tweet
@@ -44,7 +47,7 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 * Change order of providers
 * Free Support
 
-Check the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free)
+Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme)
 
 
 = Translations Credits = 
@@ -88,6 +91,12 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.4.2 =
+
+* Fixed incompatibly issue with s2Member Plugin
+* Fixed bug with cron jobs that were not properly running in some cases
+* Impreved Js for multiple widgets in the same page
 
 = 1.4.1 =
 
