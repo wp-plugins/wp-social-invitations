@@ -15,6 +15,7 @@ if( defined('DOING_CRON'))
 	require_once (dirname (__FILE__) . '/class.Wsi_Tw.php');
 	require_once (dirname (__FILE__) . '/class.Wsi_Lk.php');
 	require_once (dirname (__FILE__) . '/class.Wsi_Mailer.php');
+	set_time_limit(60*15);
 }
 
 if( defined('DOING_AJAX') && isset($_REQUEST['action']) && $_REQUEST['action'] == 'wsi_test_email' )
@@ -118,7 +119,9 @@ if( !class_exists('Wsi_Queue') ) {
 					delete_option('wsi-lock-fb');
 				}
 				catch( Exception $e ){
-						Wsi_Logger::log( "Wsi_FB: Facebook queue proccesing error - " . $e->getMessage());
+						//delete it from queue to avoid same error everytime
+						$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+						Wsi_Logger::log( "# " .$e->getCode(). " Wsi_FB: Facebook(top) queue proccesing error - " . $e->getMessage());
 		 		 		delete_option('wsi-lock-fb');
 				}	
 			}//lock_fb
@@ -180,7 +183,10 @@ if( !class_exists('Wsi_Queue') ) {
 					delete_option('wsi-lock-tw');
 				}
 				catch( Exception $e ){
-						Wsi_Logger::log("Wsi_Tw: Twitter queue proccesing error - " . $e->getMessage());
+						//delete it from queue to avoid same error everytime
+						$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+						Wsi_Logger::log("# " .$e->getCode(). " Wsi_Tw: Twitter queue proccesing error - " . $e->getMessage());
+
 		 		 		delete_option('wsi-lock-tw');
 				}	
 			}//lock_tw
@@ -205,7 +211,10 @@ if( !class_exists('Wsi_Queue') ) {
 					delete_option('wsi-lock-lk');
 				}
 				catch( Exception $e ){
-						Wsi_Logger::log("Wsi_Lk: Linkedin queue proccesing error - " . $e->getMessage());
+						//delete it from queue to avoid same error everytime
+						$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+						Wsi_Logger::log("# " .$e->getCode(). " Wsi_Lk: Linkedin queue proccesing error - " . $e->getMessage());
+
 		 		 		delete_option('wsi-lock-lk');
 				}	
 			}//lock_lk
@@ -235,15 +244,15 @@ if( !class_exists('Wsi_Queue') ) {
 			if( function_exists('bp_get_root_domain') )
 			{
 				//BP is alive
-				$accept_url 	= bp_get_root_domain() . '/' . bp_get_signup_slug() . '/accept-invitation/' . base64_encode( $queue_id );
+				$accept_url 	= bp_get_root_domain() . '/' . bp_get_signup_slug() . '/wsi-accept-invitation/' . base64_encode( $queue_id );
 				$inviter_url 	= bp_core_get_user_domain($user_id);	
 			}
 			else
 			{
-				$accept_url 	= site_url('/wp-login.php?action=register&accept-invitation='.base64_encode( $queue_id ));
+				$accept_url 	= site_url('/wp-login.php?action=register&wsi-accept-invitation='.base64_encode( $queue_id ));
 			}
 			$por = array(
-				apply_filters('wsi_placeholder_invitername'	, $display_name),
+				apply_filters('wsi_placeholder_invitername'	, !empty($display_name) ? $display_name : __('A friend of you', 'wsi')),
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
 				apply_filters('wsi_placeholder_accepturl'	, $accept_url),
 				apply_filters('wsi_placeholder_inviter_url'	, $inviter_url),
