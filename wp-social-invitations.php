@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.2
+Version: 1.4.2.1
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -312,7 +312,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	* Function to load the javscript for invite anyone plugin
 	*/
 	function load_wsi_anyone_js(){
-	
+			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
 			wp_enqueue_script('wsi-anyone-js', plugins_url( 'assets/js/wsi-invite-anyone.js', __FILE__ ), array('jquery','wsi-js'),$this->WPB_VERSION,true);
 			wp_localize_script( 'wsi-anyone-js', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
 	}
