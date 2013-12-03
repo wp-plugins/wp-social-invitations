@@ -1,7 +1,7 @@
 <?php
 /**
  * Handles all operations in queue for sending invitations
- * @version	1.0
+ * @version	1.1
  * @since 1.4
  */
 
@@ -15,6 +15,8 @@ if( defined('DOING_CRON'))
 	require_once (dirname (__FILE__) . '/class.Wsi_Tw.php');
 	require_once (dirname (__FILE__) . '/class.Wsi_Lk.php');
 	require_once (dirname (__FILE__) . '/class.Wsi_Mailer.php');
+	require_once (dirname (__FILE__) . '/Googl.class.php');
+
 	set_time_limit(60*15);
 }
 
@@ -262,6 +264,20 @@ if( !class_exists('Wsi_Queue') ) {
 	
 			return str_replace($que, $por, $content);
 		}	
+		
+		/**
+		 * Shorten url using goo.gl
+		 * @since v1.4.3
+		 * @return string
+		 */
+		 public static function shorten_url($url){
+			$googl 		= new Googl();
+			$shortened 	= $googl->shorten($url);
+			unset($googl);
+			
+			return $shortened;
+		}	
+		
 
 	}//end of class	
 }

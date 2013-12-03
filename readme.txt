@@ -3,7 +3,7 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.4.2.1
+Stable Tag: 1.4.3
 Tested up to: 3.7.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
@@ -73,7 +73,7 @@ Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/
 1. A new menu `WP Social Invitations` will appear in your Admins
 
 Then read the [documentation](http://wp.timersys.com/wordpress-social-invitations/docs/)
-and configure the desired providers
+and configure the desired providers. Note that docs are for premium version and may be different from what you see.
 
 You're done!
 
@@ -92,7 +92,17 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
+= 1.4.3 - December 3, 2013 =
+
+* Added an extra check for cron in case is not setted up properly
+* Moved goo.gl function to Queue Class so it can be used globally now
+* Added new error message in error template
+* Fixed bug to remove extra html added by other plugins in the popup
+* Fixed bug with editor height
+* Better buddypress integration . "Send Social Invites" screen and menu options added
+
 = 1.4.2.1 =
+
 * Fixed bug Invite anyone Js not loading where no other widget where used on site
 
 = 1.4.2 =

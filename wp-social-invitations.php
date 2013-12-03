@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.2.1
+Version: 1.4.3
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -75,19 +75,19 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.2.1';
+		$this->WPB_VERSION		=	'1.4.3';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
 		$this->WPB_PLUGIN_URL	=	plugins_url('', __FILE__ );// for domain mapping
 		
-		$this->providers 		= 	array('facebook' 	=> 'Facebook',
-										  'google' 		=> 'Gmail',
-										  'yahoo'		=> 'Yahoo Mail',
-										  'linkedin'	=> 'LinkedIn',
-										  'live'		=> 'Live, Hotmail',
-										  'twitter'		=> 'Twitter',
-										  'foursquare'	=> 'Foursquare'
+		$this->providers 		= 	array('facebook' 	=> __('Facebook','wsi'),
+										  'google' 		=> __('Gmail','wsi'),
+										  'yahoo'		=> __('Yahoo Mail','wsi'),
+										  'linkedin'	=> __('LinkedIn','wsi'),
+										  'live'		=> __('Live, Hotmail','wsi'),
+										  'twitter'		=> __('Twitter','wsi'),
+										  'foursquare'	=> __('Foursquare','wsi')
 									); 
 		
 		$this->sections['wsi_general']      		= __( 'Main Settings', $this->WPB_PREFIX );
@@ -163,6 +163,15 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		{
 			update_option('wsi_dismiss','yes');
 		}
+		//check if cron was added
+		if ( ! wp_next_scheduled( 'wsi_queue_cron' ) ) {
+			wp_schedule_event( time(), 'wsi_one_min', 'wsi_queue_cron' );
+		}
+		
+		//Add menus and screens for buddypress
+		add_action( 'bp_include', array(&$this, 'bp_includes') );
+		
+
 	}	
 	
 	/**
@@ -697,7 +706,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	*/
 	public function display_widget_ia()
 	{
-		$title = __('You can also add email addresses from:', $this->WPB_PREFIX);
+		$title = apply_filters('wsi_invite_anyone_title',__('You can also add email addresses from:', $this->WPB_PREFIX));
 		$providers = $this->get_providers();
 
 		$CURRENT_URL = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
@@ -1125,6 +1134,19 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 				<div id="credits">
 					Powered by <a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank">Wordpress Social Invitations</a>
 				</div>
+				<script type="text/javascript">
+				jQuery(function($) { 
+					//remove all divs added by wp_footer
+					$('#footer div').not('#credits').remove();	
+				}); 
+				jQuery(document).ready(function($) { 
+					setTimeout(function(){
+					//Fix wp_editor height
+					$('#message_ifr').css('min-height','100px');
+					},500 )
+				});
+				</script>
+				
 			<?php 
 				//if we are using wp_editor load necesary files
 				if (  class_exists( '_WP_Editors' ) ):
@@ -1604,6 +1626,22 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
      		$q = new Wsi_Queue;
 	 		$q->process_queue();
      }
+      
+     /**
+      * Bp Includes
+      * @Since v1.4.3
+      * @returns void
+      */ 
+      function bp_includes(){
+     		
+     		require_once( dirname (__FILE__).'/functions/bp.php');
+
+     		add_action( 'bp_setup_globals', 'wsi_setup_globals', 2 );
+	      	add_action( 'bp_setup_nav', 'wsi_setup_nav' );
+	      	add_action( 'admin_bar_menu', 'wsi_menu', 99 );
+      	
+      }
+     
 }
 
 $wsi = WP_Social_Invitations::get_instance();

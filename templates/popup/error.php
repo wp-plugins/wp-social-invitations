@@ -2,7 +2,7 @@
 /**
  * Popup error template 
  *
- * @version	1.0
+ * @version	1.1
  * @since 1.4
  * @package	Wordpress Social Invitations
  * @author Timersys
@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		$message = __("Unspecified error!", $WPB_PREFIX); 
 		$hint    = ""; 
 	
+		if( isset($e)
+		{
 		switch( $e->getCode() ){
 			case 0 	: $message = __("Unspecified error.", $WPB_PREFIX); break;
 			case 1 	: $message = __("Hybriauth configuration error.", $WPB_PREFIX); break;
@@ -40,6 +42,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			case 9 	: 
 			case 10 : $message = $e->getMessage(); break;
 			
+		}
+		}
+		else
+		{
+			$message = __("Please double check your app API Key and Secret");
 		}
 	
 		@ session_destroy();
