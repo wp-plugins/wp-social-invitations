@@ -3,7 +3,7 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.4.3
+Stable Tag: 1.4.4
 Tested up to: 3.7.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
@@ -14,9 +14,9 @@ Allow your visitors to invite friends of their social networks into your Wordpre
 
 Allow your visitors to invite friends of their social networks such as Facebbok, Twitter, Foursquare Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress and Invite Anyone Plugin.
 
-Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme)
+Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
 
-Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/?utm_source=wsi-free&utm_medium=readme)
+Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
 
 = Currently Supported Providers =
 
@@ -47,7 +47,7 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 * Change order of providers
 * Free Support
 
-Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme)
+Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
 
 
 = Translations Credits = 
@@ -91,6 +91,15 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.4.4 - December 12, 2013 =
+
+* Added new placeholder %%CURRENTURL%%
+* Added an extra check for cron in case is not setted up properly
+* Fixed sidebar broken link
+* Fixed bug in error template
+* Removed all scripts and actions added by other plugins in the popup
+
 
 = 1.4.3 - December 3, 2013 =
 

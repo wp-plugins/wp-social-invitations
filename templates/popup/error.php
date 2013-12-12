@@ -20,29 +20,29 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		$message = __("Unspecified error!", $WPB_PREFIX); 
 		$hint    = ""; 
 	
-		if( isset($e)
+		if( isset($e) )
 		{
-		switch( $e->getCode() ){
-			case 0 	: $message = __("Unspecified error.", $WPB_PREFIX); break;
-			case 1 	: $message = __("Hybriauth configuration error.", $WPB_PREFIX); break;
-			case 2 	: $message = __("Provider not properly configured.", $WPB_PREFIX); break;
-			case 3 	: $message = __("Unknown or disabled provider.", $WPB_PREFIX); break;
-			case 4 	: $message = __("Missing provider application credentials.", $WPB_PREFIX); 
-					 $hint    = sprintf( __("<b>What does this error mean ?</b><br />Most likely, you didn't setup the correct application credentials for this provider. These credentials are required in order for <b>%s</b> users to access your website and for WordPress Social Login to work.", $WPB_PREFIX), $provider ) . __('<br />Instructions for use can be found in the <a href="http://hybridauth.sourceforge.net/wsl/configure.html" target="_blank">User Manual</a>.', $WPB_PREFIX); 
-					 break;
-			case 5 	: $message = __("Authentification failed. The user has canceled the authentication or the provider refused the connection.", $WPB_PREFIX); break; 
-			case 6 	: $message = __("User profile request failed. Most likely the user is not connected to the provider and he should to authenticate again.", $WPB_PREFIX); 
-					 if( is_object( $adapter ) ) $adapter->logout();
-					 break;
-			case 7 	: $message = __("User not connected to the provider.", $WPB_PREFIX); 
-					 if( is_object( $adapter ) ) $adapter->logout();
-					 break;
-			case 8 	: $message = __("Provider does not support this feature.", $WPB_PREFIX); break;
-	
-			case 9 	: 
-			case 10 : $message = $e->getMessage(); break;
-			
-		}
+			switch( $e->getCode() ){
+				case 0 	: $message = __("Unspecified error.", $WPB_PREFIX); break;
+				case 1 	: $message = __("Hybriauth configuration error.", $WPB_PREFIX); break;
+				case 2 	: $message = __("Provider not properly configured.", $WPB_PREFIX); break;
+				case 3 	: $message = __("Unknown or disabled provider.", $WPB_PREFIX); break;
+				case 4 	: $message = __("Missing provider application credentials.", $WPB_PREFIX); 
+						 $hint    = sprintf( __("<b>What does this error mean ?</b><br />Most likely, you didn't setup the correct application credentials for this provider. These credentials are required in order for <b>%s</b> users to access your website and for WordPress Social Login to work.", $WPB_PREFIX), $provider ) . __('<br />Instructions for use can be found in the <a href="http://hybridauth.sourceforge.net/wsl/configure.html" target="_blank">User Manual</a>.', $WPB_PREFIX); 
+						 break;
+				case 5 	: $message = __("Authentification failed. The user has canceled the authentication or the provider refused the connection.", $WPB_PREFIX); break; 
+				case 6 	: $message = __("User profile request failed. Most likely the user is not connected to the provider and he should to authenticate again.", $WPB_PREFIX); 
+						 if( is_object( $adapter ) ) $adapter->logout();
+						 break;
+				case 7 	: $message = __("User not connected to the provider.", $WPB_PREFIX); 
+						 if( is_object( $adapter ) ) $adapter->logout();
+						 break;
+				case 8 	: $message = __("Provider does not support this feature.", $WPB_PREFIX); break;
+		
+				case 9 	: 
+				case 10 : $message = $e->getMessage(); break;
+				
+			}
 		}
 		else
 		{

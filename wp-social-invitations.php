@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.3
+Version: 1.4.4
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -75,7 +75,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.3';
+		$this->WPB_VERSION		=	'1.4.4';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -522,6 +522,8 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			<li><strong>%%ACCEPTURL%%</strong>: <?php _e('Link that invited users can click to accept the invitation and register',$this->WPB_PREFIX);?></li>
 			<li><strong>%%INVITERURL%%</strong>: <?php _e('If Buddypress is enabled, URL to the profile of the inviter',$this->WPB_PREFIX);?></li>
 			<li><strong>%%CUSTOMURL%%</strong>: <?php _e('A custom URL that you can edit with a simple filter',$this->WPB_PREFIX);?></li>
+			<li><strong>%%CURRENTURL%%</strong>: <?php _e('Prints the url where the widget was clicked',$this->WPB_PREFIX);?></li>
+
 		</ul>	
 		<p><?php echo sprintf(__('If you have any question please carefully <a href="%s">read the documentation</a> before opening a ticket',$this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/defaults-messages/');?></p>
 		
@@ -1110,7 +1112,8 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			}	
 			//to use later	
 			self::$_profile =  $profile;
-			
+			self::$_current_url =  $_GET['current_url'];
+						
 			//load the collector and pass all variables needed
 			wsi_get_template('popup/collector.php', array( 
 				'options' 					=> $this->_options,
@@ -1128,7 +1131,29 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			);
 			?>
 
-			<?php wsi_get_template('popup/sending.php', array( 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url, 'provider' => $provider  ));?>	
+			<?php wsi_get_template('popup/sending.php', array( 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url, 'provider' => $provider  ));
+
+				global $wp_scripts, $wp_styles, $wp_filter;
+
+				//remove all scripts and style
+			    if( !empty( $wp_scripts->queue ))
+			    {
+				    foreach ($wp_scripts->queue as $handle) {
+				        wp_dequeue_script ($handle);
+				    }
+				}    
+			    if( !empty( $wp_styles->queue ))
+			    {
+				    foreach ($wp_styles->queue as $handle) {
+				        wp_dequeue_style ($handle);
+				    }
+			    }
+			   //remove all actions
+			   remove_all_actions('wp_footer',52);
+			   //but print scripts
+			   add_action('wp_footer','wp_print_footer_scripts',10);
+			?>	
+	
 
 			<div id="footer">
 				<div id="credits">
@@ -1367,15 +1392,18 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			%%ACCEPTURL%%: Link that invited users can click to accept the invitation and register
 			%%INVITERURL%%: If available, URL to the profile of the inviter
 			%%CUSTOMURL%%: A custom URL that you can edit with a simple filter
+            %%CURRENTURL%%: Prints urls where the widget was clicked			
 			*/
 			$que = array(
 				'%%INVITERNAME%%',
-				'%%SITENAME%%'
+				'%%SITENAME%%',
+				'%%CURRENTURL%%'
 			);
 			
 			$por = array(
 				apply_filters('wsi_placeholder_invitername'	, isset(self::$_profile->displayName) ? self::$_profile->displayName : __('A friend of you', self::$PREFIX)),
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
+				apply_filters('wsi_current_url'				, isset(self::$_current_url) ? self::$_current_url : '')
 				
 			);
 	
