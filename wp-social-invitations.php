@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.0.4
+Version: 1.4.4.1
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -34,11 +34,11 @@ require(dirname (__FILE__).'/classes/class.Wsi_Widget.php');
 require(dirname (__FILE__).'/functions/template-functions.php');
 
   
-class WP_Social_Invitations extends WP_Plugin_Base
+class WP_Social_Invitations extends WP_Plugin_Base_free
 {
 
 	
-	protected $_options;
+	var $_options;
 	var $_credits;
 	var $_defaults;
 	var $assets_url;
@@ -48,6 +48,8 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	 /** Refers to a single instance of this class. */
     private static $instance = null;
     private static $PREFIX;
+	private static $_profile;
+	private static $_current_url;
  
     /*--------------------------------------------*
      * Constructor
@@ -74,18 +76,19 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.0.4';
+		$this->WPB_VERSION		=	'1.4.4.1';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
+		$this->WPB_PLUGIN_URL	=	plugins_url('', __FILE__ );// for domain mapping
 		
-		$this->providers 		= 	array('facebook' 	=> 'Facebook',
-										  'google' 		=> 'Gmail',
-										  'yahoo'		=> 'Yahoo Mail',
-										  'linkedin'	=> 'LinkedIn',
-										  'live'		=> 'Live, Hotmail',
-										  'twitter'		=> 'Twitter',
-										  'foursquare'	=> 'Foursquare'
+		$this->providers 		= 	array('facebook' 	=> __('Facebook','wsi'),
+										  'google' 		=> __('Gmail','wsi'),
+										  'yahoo'		=> __('Yahoo Mail','wsi'),
+										  'linkedin'	=> __('LinkedIn','wsi'),
+										  'live'		=> __('Live, Hotmail','wsi'),
+										  'twitter'		=> __('Twitter','wsi'),
+										  'foursquare'	=> __('Foursquare','wsi')
 									); 
 		
 		$this->sections['wsi_general']      		= __( 'Main Settings', $this->WPB_PREFIX );
@@ -145,6 +148,10 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		//Activate sidebar Widget
 		add_action( 'widgets_init', array(&$this, 'register_widget'));
 		
+		//Bypass registration lock if enabled
+		add_action( 'wp',  array(&$this, 'bypass_registration_lock'), 1 );
+
+		
 		parent::__construct();
 		
 		$this->WSI_HYBRIDAUTH_ENDPOINT_URL = $this->WPB_PLUGIN_URL. '/hybridauth/';
@@ -157,6 +164,15 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		{
 			update_option('wsi_dismiss','yes');
 		}
+		//check if cron was added
+		if ( ! wp_next_scheduled( 'wsi_queue_cron' ) ) {
+			wp_schedule_event( time(), 'wsi_one_min', 'wsi_queue_cron' );
+		}
+		
+		//Add menus and screens for buddypress
+		add_action( 'bp_include', array(&$this, 'bp_includes') );
+		
+
 	}	
 	
 	/**
@@ -229,7 +245,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			) ENGINE = MYISAM ;
 		");
 		
-		wp_schedule_event( time(), 'one_min', 'wsi_queue_cron' );
+		wp_schedule_event( time(), 'wsi_one_min', 'wsi_queue_cron' );
 		
 		if( ! get_option('wsi-version') || version_compare( get_option('wsi-version'), '1.4', '<' ))
 		{
@@ -306,7 +322,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	* Function to load the javscript for invite anyone plugin
 	*/
 	function load_wsi_anyone_js(){
-	
+			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
 			wp_enqueue_script('wsi-anyone-js', plugins_url( 'assets/js/wsi-invite-anyone.js', __FILE__ ), array('jquery','wsi-js'),$this->WPB_VERSION,true);
 			wp_localize_script( 'wsi-anyone-js', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
 	}
@@ -356,6 +372,21 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		<code>WP_Social_Invitations::widget('Some title');</code>
 		
 		<p><?php echo sprintf(__('If you have any question please carefully <a href="%s">read documentation</a> before opening a ticket',$this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/');?></p>
+		<h2 style="font-weight:bold;">Premium Features <a href="http://wp.timersys.com/wordpress-social-invitations/"><span style="font-size:50%;color:red">(Get Premium here)</span></a></h2>
+		
+		<ul>
+		<li>* Content locker - Share you content only to users that invited their friends by using a simple shortcode</li>
+		<li>* MyCRED & Cubepoints integration</li>
+		<li>* Bypass registration lock- To use the plugin on private sites that works with invitation only</li>
+		<li>* Facebook delivers chat messages instead of posting into user wall</li>
+		<li>* Linkedin delivers private messages instead of posting into user status</li>
+		<li>* Twitter delivers Private messages instead of posting a tweet</li>
+		<li>* GMAIL & SMTP SUPPORT</li>
+		<li>* Predefined invitations can't be edited by users</li>
+		<li>* Redirect users after they send invitations</li>
+		<li>* Change order of providers</li>
+		<li>* Free Support</li>
+		</ul>
 				
 		</div><?php
 	}
@@ -478,18 +509,22 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		<div class="info-box">
 		<p><?php _e('By default your users will be able to edit the default invitation message. Here you will be able to change the default message and forbid users to change it.',$this->WPB_PREFIX);?></p>
 		<p><?php _e('Default messages are divided in several sections. Message for HTML providers, message for non HTML providers, message for twitter, non enditable section and footer.',$this->WPB_PREFIX);?></p>
-		<p><?php _e('You can use the following placeholders on your message:',$this->WPB_PREFIX);?></p>
-		<?php if(!get_option('users_can_register')) :?>
-			<div class="error">
+		<?php if(!get_option('users_can_register') && empty($bp)) :?>
+			<div style="color:red">
 				<?php _e('Registration is not allowed. Go to settings -> General to enable it or %%ACCEPTURL%% won\'t work.',$this->WPB_PREFIX); ?>
 			</div>
 		<?php endif;?>	
+
+		<p><?php _e('You can use the following placeholders on your message:',$this->WPB_PREFIX);?></p>
+		
 		<ul>
 			<li><strong>%%INVITERNAME%%</strong>: <?php _e('Display name of the inviter',$this->WPB_PREFIX);?></li>
 			<li><strong>%%SITENAME%%</strong>: <?php _e('Name of your website',$this->WPB_PREFIX);?> - <?php echo bloginfo('name');?></li>
 			<li><strong>%%ACCEPTURL%%</strong>: <?php _e('Link that invited users can click to accept the invitation and register',$this->WPB_PREFIX);?></li>
 			<li><strong>%%INVITERURL%%</strong>: <?php _e('If Buddypress is enabled, URL to the profile of the inviter',$this->WPB_PREFIX);?></li>
 			<li><strong>%%CUSTOMURL%%</strong>: <?php _e('A custom URL that you can edit with a simple filter',$this->WPB_PREFIX);?></li>
+			<li><strong>%%CURRENTURL%%</strong>: <?php _e('Prints the url where the widget was clicked',$this->WPB_PREFIX);?></li>
+
 		</ul>	
 		<p><?php echo sprintf(__('If you have any question please carefully <a href="%s">read the documentation</a> before opening a ticket',$this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/defaults-messages/');?></p>
 		
@@ -506,6 +541,20 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					else
 					{
 						$('#char_left').css('color','green');
+					}
+					
+				});
+				$('#char_left_lk').css('color','green');
+				$('#message').keyup(function(){
+					
+					$('#char_left_lk').text(200 - $(this).val().length);
+					if( $(this).val().length > 180 )
+					{
+						$('#char_left_lk').css('color','red');
+					}
+					else
+					{
+						$('#char_left_lk').css('color','green');
 					}
 					
 				});
@@ -640,7 +689,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		$prefix = $this->WPB_PREFIX;
 		global $bp;
 		
-		if ( isset($settings['hook_buddypress']) && $settings['hook_buddypress'] == 'true' && $bp->current_component == 'activate' )
+		if ( isset($settings['hook_buddypress']) && $settings['hook_buddypress'] == 'true' && isset($bp) && $bp->current_component == 'activate' )
 		{
 			add_action( 'bp_after_activate_content', array(&$this, 'widget'));
 		}
@@ -660,7 +709,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	*/
 	public function display_widget_ia()
 	{
-		$title = __('You can also add email addresses from:', $this->WPB_PREFIX);
+		$title = apply_filters('wsi_invite_anyone_title',__('You can also add email addresses from:', $this->WPB_PREFIX));
 		$providers = $this->get_providers();
 
 		$CURRENT_URL = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
@@ -713,7 +762,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				$this->process_login_auth();
 		}
 		
-		if( $_REQUEST[ 'accept-invitation' ] == "wsi_authenticate" )
+		if( $_REQUEST[ 'wsi-accept-invitation' ] == "wsi_authenticate" )
 		{
 				$this->process_login_auth();
 		}
@@ -751,6 +800,41 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		}
 		
 	}
+	
+	/**
+	 * Bypass the registation lock if enabled
+	 * Thanks to Boone Gorges (Invite Anyone Plugin) for this bit
+	 *
+	 */
+	function bypass_registration_lock(){
+		
+		global $bp;
+		
+		if( ! isset( $_REQUEST[ 'wsi-accept-invitation' ] ) && $bp->current_action != 'wsi-accept-invitation'   )
+		{
+				return;
+		}
+		
+		if ( empty( $this->_options['bypass_registration_lock'] ) || !array_key_exists('yes',$this->_options['bypass_registration_lock'] ) )
+			return;
+		
+		// This is a royal hack until there is a filter on bp_get_signup_allowed()
+		if ( is_multisite() ) 
+		{
+			if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
+				$bp->site_options['registration'] = 'all';
+			} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
+				$bp->site_options['registration'] = 'user';
+			}
+		} 
+		else {
+			add_filter( 'option_users_can_register', create_function( false, 'return true;' ) );
+		}
+		
+		
+	}
+	
+
 		
 	/**
 	 * Function to process invitations
@@ -857,7 +941,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			
 			?>
 			<html>
-			<link rel="stylesheet" href="<?php echo apply_filters('collector_css_file',plugins_url( 'assets/css/collector.css', __FILE__ ));?>" type="text/css" media="all">
+			<link rel="stylesheet" href="<?php echo apply_filters('collector_css_file',plugins_url( 'assets/css/collector.css?v='.$this->WPB_VERSION, __FILE__ ));?>" type="text/css" media="all">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<head>
 			<title><?php _e('Select your Friends',$this->WPB_PREFIX);?> - Wordpress Social Invitations</title>
@@ -876,9 +960,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 								emails += $(this).val()+'\n';
 							});
 							$('#invite-anyone-email-addresses',window.opener.document).html(emails);
-							$('#<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
-							$('#wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
-							$('.wsi_success',window.opener.document).fadeIn('slow',function(){
+							$('#<?php echo $_GET['widget_id'];?> #<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
+							$('#<?php echo $_GET['widget_id'];?> #wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
+							$('#<?php echo $_GET['widget_id'];?> .wsi_success',window.opener.document).fadeIn('slow',function(){
 								
 								window.self.close();  
 							});
@@ -892,9 +976,9 @@ class WP_Social_Invitations extends WP_Plugin_Base
 							$('#wsi_loading,#wsi_loading * ').fadeIn();
 							
 							$.post(window.opener.WsiMyAjax.admin_url, $('#collect_emails').serialize(), function(response){
-								$('#<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
-								$('#wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
-								$('.wsi_success',window.opener.document).fadeIn('slow',function(){
+								$('#<?php echo $_GET['widget_id'];?> #<?php echo $provider;?>-provider',window.opener.document).addClass('completed');
+								$('#<?php echo $_GET['widget_id'];?> #wsi_provider',window.opener.document).html('<?php echo ucfirst($provider);?>');
+								$('#<?php echo $_GET['widget_id'];?> .wsi_success',window.opener.document).fadeIn('slow',function(){
 								
 								window.self.close();  
 							<?php if( isset( $settings['redirect_url']) && $settings['redirect_url'] != '' ) :?>	
@@ -1027,6 +1111,10 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				$display_name  			 = $profile->displayName;
 				
 			}	
+			//to use later	
+			self::$_profile =  $profile;
+			self::$_current_url =  $_GET['current_url'];
+						
 			//load the collector and pass all variables needed
 			wsi_get_template('popup/collector.php', array( 
 				'options' 					=> $this->_options,
@@ -1044,9 +1132,47 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			);
 			?>
 
-			<?php wsi_get_template('popup/sending.php', array( 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url, 'provider' => $provider  ));?>	
+			<?php wsi_get_template('popup/sending.php', array( 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url, 'provider' => $provider  ));
+
+				global $wp_scripts, $wp_styles, $wp_filter;
+
+				//remove all scripts and style
+			    if( !empty( $wp_scripts->queue ))
+			    {
+				    foreach ($wp_scripts->queue as $handle) {
+				        wp_dequeue_script ($handle);
+				    }
+				}    
+			    if( !empty( $wp_styles->queue ))
+			    {
+				    foreach ($wp_styles->queue as $handle) {
+				        wp_dequeue_style ($handle);
+				    }
+			    }
+			   //remove all actions
+			   remove_all_actions('wp_footer',52);
+			   //but print scripts
+			   add_action('wp_footer','wp_print_footer_scripts',10);
+			?>	
+	
 
 			<div id="footer">
+				<div id="credits">
+					Powered by <a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank">Wordpress Social Invitations</a>
+				</div>
+				<script type="text/javascript">
+				jQuery(function($) { 
+					//remove all divs added by wp_footer
+					$('#footer div').not('#credits').remove();	
+				}); 
+				jQuery(document).ready(function($) { 
+					setTimeout(function(){
+					//Fix wp_editor height
+					$('#message_ifr').css('min-height','100px');
+					},500 )
+				});
+				</script>
+				
 			<?php 
 				//if we are using wp_editor load necesary files
 				if (  class_exists( '_WP_Editors' ) ):
@@ -1086,11 +1212,11 @@ class WP_Social_Invitations extends WP_Plugin_Base
 				
 				<?php if( $provider == 'linkedin' ) : ?>
 				<div class="box-wrapper">
-					<input type="text" name="subject" value="<?php echo utf8_decode($settings['text_subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printFieldValue(strip_tags($settings['text_subject']));?>" />
 				</div>
 				<?php else: ?>
 				<div class="box-wrapper">	
-					<input type="text" name="subject" value="<?php echo utf8_decode($settings['subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printFieldValue($settings['subject']);?>" />
 				</div>
 				<?php endif;
 
@@ -1115,7 +1241,7 @@ class WP_Social_Invitations extends WP_Plugin_Base
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="tw_message"><?php echo utf8_decode($settings['tw_message']);?></textarea>
+						<textarea name="message" id="tw_message"><?php self::printFieldValue(strip_tags($settings['tw_message']));?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 140 characters. Characters left: %s','wsi'),'<span id="char_left">140</span>');?>
 						<script type="text/javascript">
@@ -1141,27 +1267,58 @@ class WP_Social_Invitations extends WP_Plugin_Base
 			<?php 
 			 //end twitter
 			 
-			 elseif( $provider == 'facebook' || $provider == 'linkedin' ) :
-			
-				?>
+			 elseif( $provider == 'facebook'  ) :
+			 ?>
+				
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php echo $settings['message'];?></textarea>
+						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags($settings['fb_message']));?></textarea>
 					</div>
 				
+			<?php 
+			//end facebook so we linkedin
+			 elseif( $provider == 'linkedin'  ) :
+			
+				?>
+					<label for="message"><?php _e('Message', 'wsi');?></label>
+
+					<div class="box-wrapper">
+						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags($settings['message']));?></textarea>
+					</div>
+					<?php echo sprintf(__('Keep it under 200 characters. Characters left: %s','wsi'),'<span id="char_left_lk">200</span>');?>
+						<script type="text/javascript">
+						jQuery(document).ready(function($) { 
+							$('#char_left_lk').css('color','green');
+							$('#message').keyup(function(){
+								
+								$('#char_left_lk').text(200 - $(this).val().length);
+								if( $(this).val().length > 180 )
+								{
+									$('#char_left_lk').css('color','red');
+								}
+								else
+								{
+									$('#char_left_lk').css('color','green');
+								}
+								
+							});
+						});  
+						</script>
+			
 				
 			<?php 
-			//end facebook and linkedin so we start email providers
+			//end linkedin so we start email providers
 			
 			else: // facebook linkedin
+
 				
 				?>
 				
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<?php wp_editor(apply_filters( 'the_content', html_entity_decode(utf8_decode($settings['html_message'])) ),'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
+						<?php wp_editor(apply_filters( 'the_content', self::getFieldValue($settings['html_message'])) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
 					</div>
 						
 				
@@ -1189,6 +1346,90 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	}
 
 	/**
+	* Check for mbstring function and use it if available for fields
+	* We use a simple replace shortcode function
+	*/
+	public static function printFieldValue($name){
+
+		if( function_exists('mb_convert_encoding'))
+		{
+			echo mb_convert_encoding(self::replaceShortcodes($name), "HTML-ENTITIES", "UTF-8");																				
+		}
+		else
+		{
+			echo utf8_decode(self::replaceShortcodes($name));
+		}	
+		
+										
+	}
+
+	/**
+	* Check for mbstring function and use it if available for fields
+	* We use a simple replace shortcode function
+	*/
+	public static function getFieldValue($name){
+
+		if( function_exists('mb_convert_encoding'))
+		{
+			return mb_convert_encoding(self::replaceShortcodes($name), "HTML-ENTITIES", "UTF-8");																				
+		}
+		else
+		{
+			return utf8_decode(self::replaceShortcodes($name));
+		}	
+		
+										
+	}
+
+	/**
+	 * Function that replace basic shortcodes
+	 */
+	 
+	 static function replaceShortcodes($content){
+	 
+		 /*
+			%%INVITERNAME%%: Display name of the inviter
+			%%SITENAME%%: Name of your website 
+			%%ACCEPTURL%%: Link that invited users can click to accept the invitation and register
+			%%INVITERURL%%: If available, URL to the profile of the inviter
+			%%CUSTOMURL%%: A custom URL that you can edit with a simple filter
+            %%CURRENTURL%%: Prints urls where the widget was clicked			
+			*/
+			$que = array(
+				'%%INVITERNAME%%',
+				'%%SITENAME%%',
+				'%%CURRENTURL%%'
+			);
+			
+			$por = array(
+				apply_filters('wsi_placeholder_invitername'	, isset(self::$_profile->displayName) ? self::$_profile->displayName : __('A friend of you', self::$PREFIX)),
+				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
+				apply_filters('wsi_current_url'				, isset(self::$_current_url) ? self::$_current_url : '')
+				
+			);
+	
+			return str_replace($que, $por, $content);
+	}	
+
+	 
+
+	/**
+	* Check for mbstring function and use it if available
+	*/
+	public static function getName($name){
+
+		if( function_exists('mb_convert_encoding'))
+		{
+			return mb_convert_encoding($name, "HTML-ENTITIES", "UTF-8");																				
+		}
+		else
+		{
+			return utf8_decode($name);
+		}	
+		
+										
+	}
+	/**
 	* Check for provider and return identifier or email depending the situatio
 	*/
 	public static function getValue($provider, $friend){
@@ -1197,23 +1438,6 @@ class WP_Social_Invitations extends WP_Plugin_Base
 		
 										
 	}
-		
-	/**
-	* 
-	*/
-	function printMessage($name){
-
-		if( function_exists('mb_convert_encoding'))
-		{
-			echo mb_convert_encoding($name, "HTML-ENTITIES", "UTF-8");																				
-		}
-		else
-		{
-			echo utf8_decode($name);
-		}	
-		
-										
-	}	
 	
 	
 	/**
@@ -1295,11 +1519,6 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	 function create_hybridauth($provider){
 	 			$settings = $this->_options;
 		
-			# Hybrid_Auth already used?
-			if ( class_exists('Hybrid_Auth', false) ) {
-				return wsl_render_notices_pages( __("Error: Another plugin seems to be using HybridAuth Library and made WordPress Social Invitation unusable. We use a custom version of HybridAuth but it should work with other plugins", $this->WPB_PREFIX) ); 
-			}
-	
 			// load hybridauth
 			require_once $this->WPB_ABS_PATH . "/hybridauth/Hybrid/Auth.php";
 	
@@ -1418,42 +1637,10 @@ class WP_Social_Invitations extends WP_Plugin_Base
 	public static function filter_cron_schedules( $param ) {
 	
         $frequencies=array(
-            'one_min' => array(
+            'wsi_one_min' => array(
                 'interval' => 60,
-                'display' => __( 'Once every minutes',self::$PREFIX)
-                ),
-            'two_min' => array(
-                'interval' => 120,
-                'display' => __( 'Once every two minutes',self::$PREFIX)
-                ),
-            'five_min' => array(
-                'interval' => 300,
-                'display' => __( 'Once every five minutes',self::$PREFIX)
-                ),
-            'ten_min' => array(
-                'interval' => 600,
-                'display' => __( 'Once every ten minutes',self::$PREFIX)
-                ),
-            'fifteen_min' => array(
-                'interval' => 900,
-                'display' => __( 'Once every fifteen minutes',self::$PREFIX)
-                ),
-            'thirty_min' => array(
-                'interval' => 1800,
-                'display' => __( 'Once every thirty minutes',self::$PREFIX)
-                ),
-            'two_hours' => array(
-                'interval' => 7200,
-                'display' => __( 'Once every two hours',self::$PREFIX)
-                ),
-            'eachweek' => array(
-                'interval' => 604800,
-                'display' => __( 'Once a week',self::$PREFIX)
-                ),
-            'each28days' => array(
-                'interval' => 2419200,
-                'display' => __( 'Once every 28 days',self::$PREFIX)
-                ),
+                'display' => __( 'Once every minute',self::$PREFIX)
+                )
             );
 
         return array_merge($param, $frequencies);
@@ -1468,6 +1655,22 @@ class WP_Social_Invitations extends WP_Plugin_Base
      		$q = new Wsi_Queue;
 	 		$q->process_queue();
      }
+      
+     /**
+      * Bp Includes
+      * @Since v1.4.3
+      * @returns void
+      */ 
+      function bp_includes(){
+     		
+     		require_once( dirname (__FILE__).'/functions/bp.php');
+
+     		add_action( 'bp_setup_globals', 'wsi_setup_globals', 2 );
+	      	add_action( 'bp_setup_nav', 'wsi_setup_nav' );
+	      	add_action( 'admin_bar_menu', 'wsi_menu', 99 );
+      	
+      }
+     
 }
 
 $wsi = WP_Social_Invitations::get_instance();
