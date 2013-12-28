@@ -3,7 +3,7 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.4.4.1
+Stable Tag: 1.4.4.2
 Tested up to: 3.8
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
@@ -91,6 +91,10 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.4.4.2 - December 28, 2013 =
+
+* Fixed bug in cubepoints module
 
 = 1.4.4.1 - December 16, 2013 =
 
