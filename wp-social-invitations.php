@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.4.3
+Version: 1.4.4.4
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -1212,11 +1212,11 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 				
 				<?php if( $provider == 'linkedin' ) : ?>
 				<div class="box-wrapper">
-					<input type="text" name="subject" value="<?php self::printFieldValue(strip_tags($settings['text_subject']));?>" />
+					<input type="text" name="subject" value="<?php self::printFieldValue(strip_tags(apply_filters('wsi_lk_subject',$settings['text_subject'])));?>" />
 				</div>
 				<?php else: ?>
 				<div class="box-wrapper">	
-					<input type="text" name="subject" value="<?php self::printFieldValue($settings['subject']);?>" />
+					<input type="text" name="subject" value="<?php self::printFieldValue(apply_filters('wsi_html_subject',$settings['subject']));?>" />
 				</div>
 				<?php endif;
 
@@ -1241,7 +1241,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="tw_message"><?php self::printFieldValue(strip_tags($settings['tw_message']));?></textarea>
+						<textarea name="message" id="tw_message"><?php self::printFieldValue(strip_tags(apply_filters('wsi_tw_message',$settings['tw_message'])));?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 140 characters. Characters left: %s','wsi'),'<span id="char_left">140</span>');?>
 						<script type="text/javascript">
@@ -1273,7 +1273,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags($settings['fb_message']));?></textarea>
+						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags(apply_filters('wsi_fb_message', $settings['fb_message'])));?></textarea>
 					</div>
 				
 			<?php 
@@ -1284,7 +1284,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags($settings['message']));?></textarea>
+						<textarea name="message" id="message"><?php self::printFieldValue(strip_tags(apply_filters('wsi_lk_message',$settings['message'])));?></textarea>
 					</div>
 					<?php echo sprintf(__('Keep it under 200 characters. Characters left: %s','wsi'),'<span id="char_left_lk">200</span>');?>
 						<script type="text/javascript">
@@ -1318,7 +1318,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<?php wp_editor(apply_filters( 'the_content', self::getFieldValue($settings['html_message'])) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
+						<?php wp_editor(apply_filters( 'the_content', self::getFieldValue(apply_filters('wsi_html_message',$settings['html_message']))) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
 					</div>
 						
 				

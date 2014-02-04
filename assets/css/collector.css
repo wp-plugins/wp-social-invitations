@@ -170,7 +170,8 @@ height: 42px;
 width: 35px;
 }
 .box-wrapper .friends_container tr td.user-img img {
-	max-width: 35px;
+	width: 35px;
+	display: block;
 	height: auto;
 }
 .box-wrapper .friends_container tr:first-child td {

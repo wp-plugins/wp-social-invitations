@@ -106,7 +106,8 @@ jQuery(document).ready(function($) {
   });
 }(jQuery));
 
-  
+if (jQuery.support.leadingWhitespace != false){
+
 jQuery(window).load(function(){
 	var total_heigh = jQuery(window).height() + 50;
 	window.resizeTo(600, total_heigh);
@@ -119,3 +120,4 @@ jQuery(window).load(function(){
     
     window.moveTo( top,left);
 });
+}
