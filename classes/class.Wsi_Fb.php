@@ -2,14 +2,13 @@
 /**
  * Handles Facebook invitations
  * @since 1.4
- * @version 1
+ * @version 1.1
  */
  
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
 $wsi = WP_Social_Invitations::get_instance();
 
-require_once (dirname (__FILE__) . '/Googl.class.php');
 
 class Wsi_Fb{
  
@@ -31,8 +30,9 @@ class Wsi_Fb{
  		$this->_friends 		= unserialize($queue_data->friends);
  		$this->_options			= $wsi->getOptions();
  		//this won't work with local url
- 		$this->_message 		= $queue_data->message .'
-'. $this->_options['text_non_editable_message'].' ';
+ 		$this->_message 		= stripslashes($queue_data->message .'
+'. $this->_options['text_non_editable_message'].' ');
+
  		$this->_display_name	= $queue_data->display_name;
  		$this->_user_data 		= get_userdata($queue_data->user_id);
  		$this->_user_id 		= $queue_data->user_id;
@@ -47,7 +47,8 @@ class Wsi_Fb{
 	 		
 	 	 }
 	 	 catch( Exception $e ){
-		 	 echo " - Wsi_FB: cannot load adapter " . $e->getMessage();
+ 	 		 	 Wsi_Logger::log( " - Wsi_FB: cannot load adapter " . $e->getMessage());
+
 		 }	
 	 	
  	}
@@ -98,7 +99,15 @@ class Wsi_Fb{
 		{
 			$this->setNewData($queue_data, 0);
 		
-			$result = $this->process();
+			try{
+				$result = $this->process();
+			}
+			catch( Exception $e ){
+					//delete it from queue to avoid same error everytime
+					#$wpdb->query("DELETE FROM {$wpdb->base_prefix}wsi_queue WHERE id = $queue_data->id");
+					Wsi_Logger::log( "Wsi_FB: Facebook queue proccesing error - " . $e->getMessage());
+			}	
+
 			
 		}	
 		
@@ -140,27 +149,21 @@ class Wsi_Fb{
 		{
 			$display_name = '%%INVITERNAME%%'; // need to fix this for live users non registered
 		}
-		add_filter('wsi_placeholder_accepturl', array( $this, 'shortern_url'));
+
+		add_filter('wsi_placeholder_accepturl', array( 'Wsi_Queue', 'shorten_url'));
 		
 		$this->_message 			= Wsi_Queue::replacePlaceholders($display_name, $this->_id, $this->_user_id, $this->_message);
 	}
 
-	function shortern_url($url){
-		$googl 		= new Googl();
-		$shortened 	= $googl->shorten($url);
-		unset($googl);
-		
-		return $shortened;
-	}
-	
+
  	private function setNewData( $queue_data ,$total_sent = 0)
  	{
  		global $wsi;
  		
  		$this->_id 				= $queue_data->id;
  		$this->_friends 		= unserialize($queue_data->friends);
- 		$this->_message 		= $queue_data->message .'
- 		'. $this->_options['text_non_editable_message'];
+ 		$this->_message 		= stripslashes($queue_data->message .'
+ 		'. $this->_options['text_non_editable_message']);
  		$this->_i_count 		= $queue_data->i_count;
  		$this->_total_sent 		= $total_sent;
  		
