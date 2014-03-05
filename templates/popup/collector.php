@@ -2,7 +2,7 @@
 /**
  * Popup email collector template 
  *
- * @version	1.0
+ * @version	1.1
  * @since 1.4
  * @package	Wordpress Social Invitations
  * @author Timersys
@@ -19,7 +19,7 @@
 		<input type="hidden" id="sdata" name="sdata" value='<?php echo base64_encode($hybridauth_session_data);?>'/>
 		<input type="hidden" id="display_name" name="display_name" value='<?php echo $display_name;?>'/>
 		
-		<div class="box-wrapper">
+		<div class="box-wrapper collector">
              <div class="search-box">
                   <div class="unselect-all">
                      <a href="#" class="unselect" style="display: none"><?php _e('Unselect All',$WPB_PREFIX);?></a>
@@ -34,37 +34,39 @@
                   <table id="FriendsList" class="friends_container" cellspacing="0" cellpadding="0">
                   	<tbody>
                   	<?php
-                  	if( $provider != 'live' )
+                  	if( $provider != 'live' && $provider != 'mail')
 						@$friends = $adapter->getUserContacts();
 			
 					if(!empty($friends))
 					{			
 						
-						foreach( $friends as $friend)
+						for($i=0, $n=count($friends); $i<$n; ++$i)
 						{
 							?>
 							<tr>
 								<td class="checkbox-container">
-									<input type="checkbox" value="<?php WP_Social_Invitations::getValue($provider, $friend);?>" name="friend[]"/> 
+									<input type="checkbox" value="<?php WP_Social_Invitations::getValue($provider, $friends[$i]);?>" name="friend[]"/> 
 								</td>
 								<td class="user-img">
-									<?php if( isset($friend->photoURL) && $friend->photoURL): ?>
+									<?php if( isset($friends[$i]->photoURL) && $friends[$i]->photoURL): ?>
 									
-										<img src="<?php echo $friend->photoURL;?>" alt=""/>
+										<img src="<?php echo $friends[$i]->photoURL;?>" alt=""/>
 									
 									<?php endif;?>
 								</td>
 								<td class="last-child">
-									<?php WP_Social_Invitations::printName($friend->displayName);?>
+									<?php WP_Social_Invitations::printName($friends[$i]->displayName);?>
 								
-									<em><?php echo $friend->email;?></em>
+									<em><?php echo $friends[$i]->email;?></em>
 								</td>
 							</tr>
 							
 							<?php
+							unset($friends[$i]);
 						}
+						
 					}
-					elseif( $provider != 'live')
+					elseif( $provider != 'live' && $provider != 'mail')
 					{
 						throw new Exception(__('Your contacts list on this provider is empty. Add some contacts first! - Providers like Yahoo or Mail only return contacts created with them, and not contacts imported from other networks.',$WPB_PREFIX),10);
 					}
@@ -89,6 +91,8 @@
 		<li><strong>%%SITENAME%%</strong>: <?php _e('Name of your website',$WPB_PREFIX);?> - <?php echo bloginfo('name');?></li>
 		<li><strong>%%ACCEPTURL%%</strong>: <?php _e('Link that invited users can click to accept the invitation and register',$WPB_PREFIX);?></li>
 		<li><strong>%%INVITERURL%%</strong>: <?php _e('If Buddypress is enabled, URL to the profile of the inviter',$WPB_PREFIX);?></li>
+		<li><strong>%%POST_TITLE%%</strong>: <?php _e('Title of the post / page',$WPB_PREFIX);?></li>
+		<li><strong>%%POST_URL%%</strong>: <?php _e('Url of the post / page',$WPB_PREFIX);?></li>
 	</ul>	
    	
   <?php
@@ -101,7 +105,7 @@
 
 			<?php 
 
-			if( $provider != 'live' )
+			if( $provider != 'live' && $provider != 'mail')
 				@$adapter->logout();
 	
 			?>

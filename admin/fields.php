@@ -302,17 +302,10 @@ $this->settings['g_heading'] = array(
 		'type'    => 'heading'
 	);
 
-/*	$this->settings['myspace_heading'] = array(
-		'section' => 'wsi_general',
-		'std'   => 'MySpace', // Not used for headings.
-		'title'	=> '',
-		'desc'    => '',
-		'class'	  => 'myspace-heading  wsi-providers',
-		'type'    => 'heading'
-	);
-	$this->settings['enable_myspace'] = array(
+	
+	$this->settings['enable_live'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable MySpace.' , $this->WPB_PREFIX),
+		'desc'    => __( 'Enable / Disable Windows Live Invitations.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -321,25 +314,21 @@ $this->settings['g_heading'] = array(
 			'false' => __( 'No' , $this->WPB_PREFIX)
 		)
 	);
-		$this->settings['myspace_key'] = array(
-		'title'   => __( 'Consumer Key' , $this->WPB_PREFIX),
-		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/#myspace' ),
-		'std'     => '',
-		'type'    => 'text',
-		'section' => 'wsi_general'
+	
+	$this->settings['email_heading'] = array(
+		'section' => 'wsi_general',
+		'std'   => 'Emails', // Not used for headings.
+		'title'	=> '',
+		'desc'    => '',
+		'class'	  => 'mail-heading  wsi-providers',
+		'type'    => 'heading'
 	);
 
-	$this->settings['myspace_secret'] = array(
-		'title'   => __( 'Consumer Secret' , $this->WPB_PREFIX),
-		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/#myspace' ),
-		'std'     => '',
-		'type'    => 'text',
-		'section' => 'wsi_general'
-	);*/
+
 	
-	$this->settings['enable_live'] = array(
+	$this->settings['enable_mail'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable Windows Live Invitations.' , $this->WPB_PREFIX),
+		'desc'    => __( 'Enable / Disable Emails invitations.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
 		'section' => 'wsi_general',

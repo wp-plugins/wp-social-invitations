@@ -1,7 +1,7 @@
 <?php
 /**
  * Handles all operations in queue for sending invitations
- * @version	1.1
+ * @version	1.2
  * @since 1.4
  */
 
@@ -26,6 +26,14 @@ if( defined('DOING_AJAX') && isset($_REQUEST['action']) && $_REQUEST['action'] =
 	require_once (dirname (__FILE__) . '/class.Wsi_Mailer.php');
 	$test_email = new Wsi_Mailer(null);
 }
+if( !empty($_GET['wsi_queue_unlock']) && $_GET['wsi_queue_unlock'] == WSI_CRON_TOKEN )
+{
+	delete_option('wsi-lock-fb');
+	delete_option('wsi-lock-tw');
+	delete_option('wsi-lock-lk');
+	delete_option('wsi-lock-emails');
+}
+
 if( !class_exists('Wsi_Queue') ) {
 
 
@@ -108,7 +116,7 @@ if( !class_exists('Wsi_Queue') ) {
 				update_option('wsi-lock-fb','yes');
 				try{
 					//we don't knwo about fb limits , so lets run a whole row
-					$queue_data = $wpdb->get_row("SELECT id, sdata, friends, subject, message, user_id, send_at, display_name FROM {$wpdb->base_prefix}wsi_queue WHERE provider = 'facebook' ORDER BY id ASC");
+					$queue_data = $wpdb->get_row("SELECT id, sdata, friends, subject, message, user_id, send_at,i_count, display_name FROM {$wpdb->base_prefix}wsi_queue WHERE provider = 'facebook' ORDER BY id ASC");
 					
 					//if we have something in queue
 					if( isset($queue_data->id) )
@@ -135,13 +143,14 @@ if( !class_exists('Wsi_Queue') ) {
 				update_option('wsi-lock-emails','yes');
 				try{
 					//we get first row of emails
-					$queue_data = $wpdb->get_row("SELECT id, sdata, friends, subject, message, send_at, i_count, user_id, display_name, provider FROM {$wpdb->base_prefix}wsi_queue WHERE provider = 'google' OR provider = 'yahoo' OR provider = 'live' OR provider = 'foursquare' ORDER BY id ASC");
+					$queue_data = $wpdb->get_row("SELECT id, sdata, friends, subject, message, send_at, i_count, user_id, display_name, provider FROM {$wpdb->base_prefix}wsi_queue WHERE provider = 'google' OR provider = 'mail' OR provider = 'yahoo' OR provider = 'live' OR provider = 'foursquare' ORDER BY id ASC");
+
 					
 					//if we have something in queue
 					if( isset($queue_data->id) )
 					{
 						//we send the bactch if limit is ok and in time
-						if( !isset($queue_data->sent_at) || $queue_data->sent_at <= time() )	
+						if( !isset($queue_data->send_at) || $queue_data->send_at <= time() )	
 						{
 							$mailer = new Wsi_Mailer($queue_data);
 							

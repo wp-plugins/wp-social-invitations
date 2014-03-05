@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.4.4.4
+Version: 1.5
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -17,6 +17,9 @@ Domain Path: languages
 * License http://codecanyon.net/licenses/regular
 ****************************************************************************
 */
+//token we use in url to fire cron
+global $blog_id;
+define('WSI_CRON_TOKEN',md5(__FILE__.$blog_id));
 
 @ session_start();
 $_SESSION["wsi::plugin"] = "WordPress Social Invitations ";
@@ -50,6 +53,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
     private static $PREFIX;
 	private static $_profile;
 	private static $_current_url;
+	private static $_obj_id;
  
     /*--------------------------------------------*
      * Constructor
@@ -76,7 +80,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.4.4.3';
+		$this->WPB_VERSION		=	'1.5';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -88,7 +92,8 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 										  'linkedin'	=> __('LinkedIn','wsi'),
 										  'live'		=> __('Live, Hotmail','wsi'),
 										  'twitter'		=> __('Twitter','wsi'),
-										  'foursquare'	=> __('Foursquare','wsi')
+										  'foursquare'	=> __('Foursquare','wsi'),
+										  'mail'	    => __('Emails','wsi')										  
 									); 
 		
 		$this->sections['wsi_general']      		= __( 'Main Settings', $this->WPB_PREFIX );
@@ -127,8 +132,12 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		add_action('wp_ajax_add_to_wsi_queue', array(&$this,'add_to_wsi_queue_callback'));
 		add_action('wp_ajax_nopriv_add_to_wsi_queue', array(&$this,'add_to_wsi_queue_callback'));
 		
-		add_action( 'wsi_queue_cron', array( &$this, 'run_cron' ) );
-		
+		//cron
+		if( !defined('WSI_SERVER_CRON'))
+			add_action( 'wsi_queue_cron', array( &$this, 'run_cron' ) );
+	
+		add_action('init', array( &$this, 'server_cron' ));
+	
 		add_action('wp_ajax_wsi_order', array(&$this,'change_widget_order'));
 		
 		//Info boxes
@@ -524,7 +533,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			<li><strong>%%INVITERURL%%</strong>: <?php _e('If Buddypress is enabled, URL to the profile of the inviter',$this->WPB_PREFIX);?></li>
 			<li><strong>%%CUSTOMURL%%</strong>: <?php _e('A custom URL that you can edit with a simple filter',$this->WPB_PREFIX);?></li>
 			<li><strong>%%CURRENTURL%%</strong>: <?php _e('Prints the url where the widget was clicked',$this->WPB_PREFIX);?></li>
-
+			<li><strong>%%CURRENTTITLE%%</strong>: <?php _e('Title of the post / page where the widget was clicked',$this->WPB_PREFIX);?></li>
 		</ul>	
 		<p><?php echo sprintf(__('If you have any question please carefully <a href="%s">read the documentation</a> before opening a ticket',$this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/defaults-messages/');?></p>
 		
@@ -926,7 +935,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		$adapter = $hybridauth = '';
 		$settings = $this->_options;
 		$provider = @ trim( strip_tags( $_REQUEST["provider"] ) );
-		if( $provider != 'live')
+		if( $provider != 'live' && $provider != 'mail')
 		{
 			$adapter = $this->connect_to_provider();
 			$hybridauth = $this->hybridauth;
@@ -934,7 +943,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		}	
 
 		
-		if( ! empty( $provider ) && ($provider == 'live' || $hybridauth->isConnectedWith( $provider ) ))
+		if( ! empty( $provider ) && ($provider == 'live' || $provider == 'mail' || $hybridauth->isConnectedWith( $provider ) ))
 		{
 			$return_to = @ $_GET['redirect_to'];
 			$return_to = $return_to . ( strpos( $return_to, '?' ) ? '&' : '?' ) . "connected_with=" . $provider ;
@@ -1007,104 +1016,42 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 					window.self.close();
 				}
 				</script>
-				<?php //wp_head(); ?>
+				<?php if( $provider == 'facebook' || $provider == 'twitter' || $provider == 'linkedin') :?>
+					<style type="text/css">
+						#collect_emails > div.box-wrapper.collector {
+							display: none;
+						}
+						#collect_container > h2 {
+							display: none;
+						}
+					</style>
+				<?php endif;?>	
 			</head>
 			<body>
-			<?php if( $provider == 'live' ) : ?>
-					<link rel="stylesheet" href="<?php echo plugins_url( 'assets/css/jquery.fileupload-ui.css', __FILE__ );?>" type="text/css" media="all">
-					<script src="<?php echo plugins_url( 'assets/js/jquery.ui.widget.js', __FILE__ );?>"></script>
-					<script src="<?php echo plugins_url( 'assets/js/jquery.iframe-transport.js', __FILE__ );?>"></script>
-					<script src="<?php echo plugins_url( 'assets/js/jquery.fileupload.js', __FILE__ );?>"></script>
-					<script type="text/javascript">
-					jQuery(function($){
-						$('#collect_container').hide();
-					});
-					jQuery(document).ready(function($) { 
-						$('#collect_container').hide();
-						$('#fileupload').fileupload({
-					        url: '<?php echo $this->WPB_PLUGIN_URL ?>/uploads/',
-					        dataType: 'json',
-					        start: function(){
-					        	 $('#progress .bar').fadeIn();
-					        	 $('.errors').hide();
-					        },
-					        done: function (e, data) {
-					            $.each(data.result.files, function (index, file) {
-					                 if ( file.error)
-					                 {
-					                 	$('.errors').html(file.error).fadeIn();
-					                 }
-					                 else
-					                 {
-					                 	var html_inputs = '';
-					                 	var counter = 0;
-					                 	var classstr= '';
-					                 	persons = file.data;
-					                 	for( i in persons)
-					                 	{
-					                 		counter++;
-					                 		classstr= '';
-					                 		if( counter == 3)
-					                 		{
-					                 			classstr = 'last';
-					                 			counter = 0;
-					                 		}	
-					                 		html_inputs += '<tr><td class="checkbox-container"><input type="checkbox" value="'+persons[i]['E-mail Address']+'" name="friend[]" checked="true"/></td><td class="user-img"></td><td class="last-child"> '+persons[i]['First Name']+' '+persons[i]['Last Name']+'<em>'+persons[i]['E-mail Address']+'</em></td></tr>';
-					                 		
-					                 	}
-					                 
-					                 	$('.friends_container tbody').html(html_inputs);
-					                 	$('#upload_container').hide();
-					                 	$('#collect_container').fadeIn();
-					                 }
-					                 $('#progress .bar').fadeOut();
-					            });
-					        },
-					        dropZone: $('#dropzone'),
-					        progressall: function (e, data) {
-					            var progress = parseInt(data.loaded / data.total * 100, 10);
-					            $('#progress .bar').css(
-					                'width',
-					                progress + '%'
-					            );
-					        }    
-					    });
-					$(document).bind('dragover', function (e) {
-					    var dropZone = $('#dropzone'),
-					        timeout = window.dropZoneTimeout;
-					    if (!timeout) {
-					        dropZone.addClass('in');
-					    } else {
-					        clearTimeout(timeout);
-					    }
-					    var found = false,
-					      	node = e.target;
-					    do {
-					        if (node === dropZone[0]) {
-					       		found = true;
-					       		break;
-					       	}
-					       	node = node.parentNode;
-					    } while (node != null);
-					    if (found) {
-					        dropZone.addClass('hover');
-					    } else {
-					        dropZone.removeClass('hover');
-					    }
-					    window.dropZoneTimeout = setTimeout(function () {
-					        window.dropZoneTimeout = null;
-					        dropZone.removeClass('in hover');
-					    }, 100);
-					});
-					}); 
-					</script>
-					<?php
-						wsi_get_template('popup/live-upload.php', array( 'options' => $this->_options, 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url, 'provider' => $provider  ) );
+			<?php 
+			/**
+			 * Live importer
+			 */
+			if( $provider == 'live' ) : 
+					
+					require( 'admin/my-providers/live.php');
+					
 			endif; //if provider is live we showed the uploader	
+			
+			/**
+			 * Manual email invitations
+			 */
+			if( $provider == 'mail' )
+			{
+			
+				require( 'admin/my-providers/mail.php');
+			
+			}
+
 			
 			$hybridauth_session_data = $profile = $display_name = '';
 		
-			if ( $provider != 'live')
+			if ( $provider != 'live' && $provider != 'mail')
 			{	
 				$hybridauth_session_data = $hybridauth->getSessionData();	
 				$profile 				 = $adapter->getUserProfile();
@@ -1114,6 +1061,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			//to use later	
 			self::$_profile =  $profile;
 			self::$_current_url =  $_GET['current_url'];
+			self::$_obj_id =  $_GET['wsi_obj_id'];
 						
 			//load the collector and pass all variables needed
 			wsi_get_template('popup/collector.php', array( 
@@ -1121,7 +1069,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 				'WPB_PREFIX' 				=> $this->WPB_PREFIX, 
 				'assets_url'				=> $this->assets_url, 
 				'provider' 					=> $provider ,
-				'hybridauth' 				=> $hybridauth, 
+				'hybridauth' 				=> $hybridauth,  
 				'adapter' 					=> $adapter, 
 				'return_to'					=> $return_to,
 				'settings'					=> $settings,
@@ -1248,18 +1196,20 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 						jQuery(document).ready(function($) { 
 							$('#char_left').css('color','green');
 							$('#tw_message').keyup(function(){
-								
-								$('#char_left').text(140 - $(this).val().length);
-								if( $(this).val().length > 120 )
-								{
-									$('#char_left').css('color','red');
-								}
-								else
-								{
-									$('#char_left').css('color','green');
-								}
-								
+								char_calc($(this));
 							});
+							char_calc($('#tw_message'));
+								function char_calc(esto){
+									$('#char_left').text(140 - esto.val().length);
+									if( esto.val().length > 120 )
+									{
+										$('#char_left').css('color','red');
+									}
+									else
+									{
+										$('#char_left').css('color','green');
+									}
+								}
 						});  
 						</script>
 				
@@ -1291,18 +1241,20 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 						jQuery(document).ready(function($) { 
 							$('#char_left_lk').css('color','green');
 							$('#message').keyup(function(){
-								
-								$('#char_left_lk').text(200 - $(this).val().length);
-								if( $(this).val().length > 180 )
-								{
-									$('#char_left_lk').css('color','red');
-								}
-								else
-								{
-									$('#char_left_lk').css('color','green');
-								}
-								
+								char_calc($(this));
 							});
+							char_calc($('#message'));
+								function char_calc(esto){
+									$('#char_left_lk').text(200 - esto.val().length);
+									if( esto.val().length > 180 )
+									{
+										$('#char_left_lk').css('color','red');
+									}
+									else
+									{
+										$('#char_left_lk').css('color','green');
+									}
+								}
 						});  
 						</script>
 			
@@ -1398,13 +1350,17 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			$que = array(
 				'%%INVITERNAME%%',
 				'%%SITENAME%%',
-				'%%CURRENTURL%%'
+				'%%CURRENTURL%%',
+				'%%CURRENTTITLE%%'
 			);
+			
+			$post_data = get_post(self::$_obj_id);
 			
 			$por = array(
 				apply_filters('wsi_placeholder_invitername'	, isset(self::$_profile->displayName) ? self::$_profile->displayName : __('A friend of you', self::$PREFIX)),
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
-				apply_filters('wsi_current_url'				, isset(self::$_current_url) ? self::$_current_url : '')
+				apply_filters('wsi_current_url'			    , isset(self::$_current_url) ? self::$_current_url : ''),
+				apply_filters('wsi_current_title'			, isset($post_data->post_title) ? $post_data->post_title : '')
 				
 			);
 	
@@ -1451,6 +1407,15 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			 die ( 'Not good not good');
 		
 		$q = new Wsi_Queue;
+		
+		if( $_POST['provider'] == 'mail' )
+		{
+			//lets parse our textare and add it to the friend post var
+			$f_array	 		= explode(PHP_EOL, $_POST['friend']);
+			$f_array 			= array_filter($f_array, 'trim');
+			$_POST['friend'] 	= $f_array;
+		
+		}
 		
 		$q->add_to_queue($_POST['provider'], $_POST['sdata'], $_POST['friend'], $_POST['subject'], $_POST['message'], $_POST['display_name']);
 	
@@ -1655,6 +1620,25 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
      		$q = new Wsi_Queue;
 	 		$q->process_queue();
      }
+     
+     /**
+      * Function that capture the server cron request and process the queue
+      * @since 2.2
+      * @returns void
+      */
+	  function server_cron(){
+	  		
+	  		if( isset($_REQUEST['wsi_server_cron']) && $_REQUEST['wsi_server_cron'] == WSI_CRON_TOKEN )
+	  		{
+	  			define('DOING_CRON',true);
+	  			$q = new Wsi_Queue;
+	  			$q->process_queue();
+	  			define('DOING_CRON',false);
+	  			die();
+	  		}
+	  		
+	  
+	  }
       
      /**
       * Bp Includes

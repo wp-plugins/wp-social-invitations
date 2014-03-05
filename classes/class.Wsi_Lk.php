@@ -2,14 +2,13 @@
 /**
  * Handles Linkedin invitations
  * @since 1.4
- * @version 1
+ * @version 1.1
  */
  
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
 $wsi = WP_Social_Invitations::get_instance();
 
-require_once (dirname (__FILE__) . '/Googl.class.php');
 
 class Wsi_Lk{
  
@@ -48,7 +47,7 @@ class Wsi_Lk{
 	 		
 	 		$this->adapter = $hybrid->getAdapter('linkedin');
 	 		
-
+	 		Wsi_Logger::log( " - Wsi_Lk: adapter loaded" );
 	 		
 	    }
 	 	catch( Exception $e ){
@@ -78,12 +77,14 @@ class Wsi_Lk{
  		
  		$this->replacePlaceholders();
  		
+ 		Wsi_Logger::log( " - Wsi_Lk: Preccess started" );
+ 		
  		$status[0] = $this->_subject;
  		$status[1] = $this->_message;
  		
  		$this->adapter->setUserStatus( $status );
  		
- 		
+ 		Wsi_Logger::log( " - Wsi_Lk: $this->_message" );
 	 			 
 	 	$this->_total_sent++;
 	 			
@@ -161,20 +162,12 @@ class Wsi_Lk{
 		{
 			$display_name = '%%INVITERNAME%%'; // need to fix this for live users non registered
 		}
-		add_filter('wsi_placeholder_accepturl', array( $this, 'shortern_url'));
+		add_filter('wsi_placeholder_accepturl', array( 'Wsi_Queue', 'shorten_url'));
 		
 		$this->_message 			= Wsi_Queue::replacePlaceholders($display_name, $this->_id, $this->_user_id, $this->_message);
 		$this->_subject 			= Wsi_Queue::replacePlaceholders($display_name, $this->_id, $this->_user_id, $this->_subject);
 		
 		
-	}
-	
-	function shortern_url($url){
-		$googl 		= new Googl();
-		$shortened 	= $googl->shorten($url);
-		unset($googl);
-		
-		return $shortened;
 	}
 	
 }	
