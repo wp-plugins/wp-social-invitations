@@ -1,11 +1,11 @@
 <?php
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
-
+global $wp_query;
 /**
  * Big widget template used in pages
  *
- * @version	1.0
+ * @version	1.1
  * @since 1.4
  * @package	Wordpress Social Invitations
  * @author Timersys
@@ -20,6 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 <h2 class="wsi-title"><?php echo isset($title) && $title != '' ? $title : apply_filters('wsi_widget_title', sprintf(__('Invite your friends to join %s',$WPB_PREFIX), get_bloginfo('name')));?></h2>
 
 <input type="hidden" id="wsi_base_url" value="<?php echo $CURRENT_URL;?>">
+<input type="hidden" id="wsi_obj_id" value="<?php echo $wp_query->queried_object->ID;?>">
 
 
 <div class="service-filter-content">
