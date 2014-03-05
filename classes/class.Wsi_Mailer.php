@@ -2,7 +2,7 @@
 /**
  * Handles Mail invitations
  * @since 1.4
- * @version 1
+ * @version 1.1
  */
  
 if ( ! defined( 'ABSPATH' ) ) exit; 
@@ -35,9 +35,9 @@ class Wsi_Mailer{
  		{
 	 		$this->_id 				= $queue_data->id;
 	 		$this->_friends 		= unserialize($queue_data->friends);
-	 		$this->_message 		= $queue_data->message .'
-	 		'. $this->_options['html_non_editable_message'];
-	 		$this->_subject 		= $queue_data->subject;
+	 		$this->_message 		= stripslashes($queue_data->message .'
+	 		'. $this->_options['html_non_editable_message']);
+	 		$this->_subject 		= stripslashes($queue_data->subject);
 	 		$this->_i_count 		= $queue_data->i_count;
 	 		$this->_display_name	= $queue_data->display_name;
 	 		$this->_user_data 		= get_userdata($queue_data->user_id);
@@ -95,7 +95,8 @@ class Wsi_Mailer{
  				else //we don't have more mails on this batch but we reached our $this->_limit  limit every $this->_every
  				{
  					//be sure to update the next record in db that send emails
- 					$next_id = $wpdb->get_var("SELECT id FROM {$wpdb->base_prefix}wsi_queue WHERE id > '$this->_id' AND (provider = 'google' OR provider = 'yahoo' OR provider = 'live' OR provider = 'foursquare') ORDER BY id ASC LIMIT 1");
+ 					$next_id = $wpdb->get_var("SELECT id FROM {$wpdb->base_prefix}wsi_queue WHERE id > '$this->_id' AND (provider = 'google' OR provider = 'yahoo' OR provider = 'mail' OR provider = 'live' OR provider = 'foursquare') ORDER BY id ASC LIMIT 1");
+
  					
  					$wpdb->query( "UPDATE {$wpdb->base_prefix}wsi_queue SET send_at = '$send_at' WHERE id = '$next_id' ");
  				}
@@ -116,7 +117,7 @@ class Wsi_Mailer{
  		if( $this->_total_sent < $this->_limit )
  		{
  			
- 			$queue_data = $wpdb->get_row("SELECT id, sdata, friends, subject, message, send_at, i_count, user_id, display_name, provider FROM {$wpdb->base_prefix}wsi_queue WHERE provider = 'google' OR provider = 'yahoo' OR provider = 'live' OR provider = 'foursquare' ORDER BY id ASC LIMIT 1");
+ 			$queue_data = $wpdb->get_row("SELECT id, sdata, friends, subject, message, send_at, i_count, user_id, display_name, provider FROM {$wpdb->base_prefix}wsi_queue WHERE provider = 'google' OR provider = 'mail' OR provider = 'yahoo' OR provider = 'live' OR provider = 'foursquare' ORDER BY id ASC LIMIT 1");
  			
  			//if we have more rows, proccess them
  			if( isset($queue_data->id) )
@@ -136,9 +137,9 @@ class Wsi_Mailer{
  		
  		$this->_id 				= $queue_data->id;
  		$this->_friends 		= unserialize($queue_data->friends);
- 		$this->_message 		= $queue_data->message .'
- 		'. $this->_options['html_non_editable_message'];
- 		$this->_subject 		= $queue_data->subject;
+ 		$this->_message 		= stripslashes($queue_data->message .'
+ 		'. $this->_options['html_non_editable_message']);
+ 		$this->_subject 		= stripslashes($queue_data->subject);
  		$this->_i_count 		= $queue_data->i_count;
  		$this->_total_sent 		= $total_sent;
  		$this->_display_name	= $queue_data->display_name;
@@ -211,7 +212,7 @@ class Wsi_Mailer{
 
 		wsi_get_template( 'email/email-body.php', array(
 			'email_subject' => $subject,
-			'email_footer'  => $footer,
+			'email_footer'  => stripslashes($footer),
 			'emailContent' 	=> $message
 		) );
 		

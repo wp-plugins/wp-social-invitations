@@ -27,7 +27,7 @@
  * @author      Damian Logghe <info@timersys.com>
  * @license     MIT License https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
  * @link        GitHub Repository: https://github.com/timersys/wp-plugin-base
- * @version     1.2.3
+ * @version     1.2.3.1
  */
 
 /*
@@ -39,9 +39,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-if( !class_exists('WP_Plugin_Base') ) {
+if( !class_exists('WP_Plugin_Base_free') ) {
   
-class WP_Plugin_Base {
+class WP_Plugin_Base_free {
 
 	protected $WPB_PREFIX		=	'wpb';
 	protected $WPB_SLUG			=	'wp-plugin-base'; // Need to match plugin folder name
@@ -72,13 +72,14 @@ class WP_Plugin_Base {
 		register_activation_hook( __FILE__, array(&$this,'activate' ));
 		
 		//Load all fields and defaults
+		if( is_admin())
 		$this->get_settings();        
 		
 				
 		//register database options and prepare fields with settings API
         add_action( 'admin_init', array( &$this, 'register_settings' ) );
 		
-		if ( ! get_option( $this->options_name ) )
+		if ( ! get_option( $this->options_name ) && is_admin())
 			$this->initialize_settings();
 		
 		
@@ -88,11 +89,7 @@ class WP_Plugin_Base {
 		//adding settings links on plugins page
 		add_filter( 'plugin_action_links', array(&$this,'add_settings_link'), 10, 2 );
 		
-		//translations
 		
-		if ( function_exists ('load_plugin_textdomain') ){
-			load_plugin_textdomain ( $this->WPB_PREFIX, false, $this->WPB_REL_PATH . '/languages/' );
-		}
 		
 		
 		//Ajax hooks here	
@@ -279,7 +276,8 @@ class WP_Plugin_Base {
 				{
 					echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="'.$this->options_name.'[' . $id . ']" value="1" ' . checked( $options[$id], 1, false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
 				}
-				
+				if ( $desc != '' )
+					echo '<span class="description">' . $desc . '</span>';
 				break;
 			
 			case 'select':
@@ -366,12 +364,12 @@ class WP_Plugin_Base {
 		 			echo '<span class="description">' . $desc . '</span>';
 		 		break;	
 			case 'code':
-		 			echo '<script type="text/javascript">
-				 				var editor_' . $id . ' = CodeMirror.fromTextArea(document.getElementById("code-' . $id . '"), {lineNumbers: true, matchBrackets: true});
-		 			</script>';
 		 		echo '<div style="width:550px"><textarea class="code-area ' . $field_class . '" id="code-' . $id . '" name="'.$this->options_name.'[' . $id . ']" placeholder="' . $std . '">';
 		 		echo esc_attr( $options[$id] ) != '' ? esc_attr( $options[$id] ) : $std;
 		 		echo '</textarea></div>';
+		 			echo '<script type="text/javascript">
+				 				var editor_' . $id . ' = CodeMirror.fromTextArea(document.getElementById("code-' . $id . '"), {lineNumbers: true, matchBrackets: true});
+		 			</script>';
 		 		
 		 		if ( $desc != '' )
 		 			echo '<br /><span class="description">' . $desc . '</span>';

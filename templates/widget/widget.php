@@ -33,16 +33,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		?>
 			<li id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>">
 	        <span class="ready-label hidden">Ready</span>
-	            <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="sprite sprite-<?php echo $p;?>" data-provider="<?php echo $p;?>"></a>
-	        <div class="service-filter-name-container">
-	          <div class="service-filter-name-outer">
-	            <div class="service-filter-name-inner">
-	                  <a rel="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" data-provider="<?php echo $p;?>">
-	                    <?php echo $p_name;?>
-	                  </a>
-	            </div>
-	          </div>
-	        </div>
+	            <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="" data-provider="<?php echo $p;?>">
+		            <i class="icon wsiicon-<?php echo $p;?>"></i>
+	            </a>
+	        
 	      </li>
 		
 		<?php
