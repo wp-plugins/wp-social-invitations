@@ -3,8 +3,8 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.4.0.4
-Tested up to: 3.6.1
+Stable Tag: 1.5.1
+Tested up to: 3.8.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
 
@@ -14,9 +14,9 @@ Allow your visitors to invite friends of their social networks into your Wordpre
 
 Allow your visitors to invite friends of their social networks such as Facebbok, Twitter, Foursquare Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress and Invite Anyone Plugin.
 
-Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/)
+Check the [wsi demo](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
 
-Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/)
+Full documentation available in [our site](http://wp.timersys.com/wordpress-social-invitations/docs/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
 
 = Currently Supported Providers =
 
@@ -35,6 +35,9 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 
 = Premium version =
 
+* Content locker - Share you content only to users that invited their friends by using a simple shortcode
+* MyCRED & Cubepoints integration
+* Bypass registration lock- To use the plugin on private sites that works with invitation only
 * Facebook delivers chat messages instead of posting into user wall
 * Linkedin delivers private messages instead of posting into user status
 * Twitter delivers Private messages instead of posting a tweet
@@ -44,7 +47,13 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 * Change order of providers
 * Free Support
 
-Check the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/)
+Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
+
+
+= Translations Credits = 
+
+* Spanish - Eruedados Colombia 
+* Serbo/Croatian - Borisa Djuraskovic
 
 == Installation ==
 
@@ -64,7 +73,7 @@ Check the premium version on [http://wp.timersys.com/wordpress-social-invitation
 1. A new menu `WP Social Invitations` will appear in your Admins
 
 Then read the [documentation](http://wp.timersys.com/wordpress-social-invitations/docs/)
-and configure the desired providers
+and configure the desired providers. Note that docs are for premium version and may be different from what you see.
 
 You're done!
 
@@ -82,6 +91,93 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.5.1 - Mar 29, 2014 =
+
+* Updated hybridauth providers Yahoo, Foursquare, and Facebook
+* Added filters to change bp slug
+* Fixed bug with ie 10
+* Fixed fontawesome collision in some sites
+
+= 1.5 - Mar 5, 2014 =
+
+* Added manual cron functions to override Wordpress cron system
+* Changed style and icons with fonts for better customization
+* Added the ability to add emails manually(mail provider)
+* Improved debug tab
+* Templates updated
+* Updated language files
+* Added new shortcode %%CURRENTTITLE%%
+* Removed friend selector on providers that don’t need it
+* Fixed chars left in Twitter and Linkedin messages
+
+= 1.4.4.4 - Feb 4, 2014 =
+
+* Added new filters to let users change messages programatically
+* Fixed bug with popup in Internet Explorer
+* Css fixes for Internet Explorer
+* Updated spanish translation
+
+= 1.4.4.3 - January 30, 2014 =
+
+* Fixed small xss vulnerability in the test.php file
+
+= 1.4.4.2 - December 28, 2013 =
+
+* Fixed bug in cubepoints module
+
+= 1.4.4.1 - December 16, 2013 =
+
+* Current url undlecared property fixed
+* Tested with wp 3.8
+
+= 1.4.4 - December 12, 2013 =
+
+* Added new placeholder %%CURRENTURL%%
+* Added an extra check for cron in case is not setted up properly
+* Fixed sidebar broken link
+* Fixed bug in error template
+* Removed all scripts and actions added by other plugins in the popup
+
+
+= 1.4.3 - December 3, 2013 =
+
+* Added an extra check for cron in case is not setted up properly
+* Moved goo.gl function to Queue Class so it can be used globally now
+* Added new error message in error template
+* Fixed bug to remove extra html added by other plugins in the popup
+* Fixed bug with editor height
+* Better buddypress integration . "Send Social Invites" screen and menu options added
+
+= 1.4.2.1 =
+
+* Fixed bug Invite anyone Js not loading where no other widget where used on site
+
+= 1.4.2 =
+
+* Fixed incompatibly issue with s2Member Plugin
+* Fixed bug with cron jobs that were not properly running in some cases
+* Impreved Js for multiple widgets in the same page
+
+= 1.4.1 =
+
+* Fixed bug with Invite Anyone Integration that was allowing non html providers to appear
+* Added separate field for linkedin default message
+* Minor bugfixes
+
+= 1.4.0.7 =
+* Fixed problems with escaped strings
+
+= 1.4.0.6 =
+* Fixed encoding problem
+
+= 1.4.0.5 =
+
+* Previous versions numbers were omitted to fix suversion problem
+* Fixed bug with facebook that was preventing the queue to continue when error
+* Fixed bug with twitter that was preventing the queue to continue when error
+* Fixed bug with Linkeding that was preventing the queue to continue when error
+* Fixed bug with scopes on facebook
 
 = 1.4.0.1 =
 
