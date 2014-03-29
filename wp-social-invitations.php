@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.5
+Version: 1.5.1
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -80,7 +80,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.5';
+		$this->WPB_VERSION		=	'1.5.1';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -541,32 +541,37 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			jQuery(document).ready(function($) { 
 				$('#char_left').css('color','green');
 				$('#tw_message').keyup(function(){
-					
-					$('#char_left').text(140 - $(this).val().length);
-					if( $(this).val().length > 120 )
-					{
-						$('#char_left').css('color','red');
-					}
-					else
-					{
-						$('#char_left').css('color','green');
-					}
-					
+					char_calc_tw($(this));
 				});
+				char_calc_tw($('#tw_message'));
+					function char_calc_tw(esto){
+						$('#char_left').text(140 - esto.val().length);
+						if( esto.val().length > 120 )
+						{
+							$('#char_left').css('color','red');
+						}
+						else
+						{
+							$('#char_left').css('color','green');
+						}
+					}
+				
 				$('#char_left_lk').css('color','green');
 				$('#message').keyup(function(){
-					
-					$('#char_left_lk').text(200 - $(this).val().length);
-					if( $(this).val().length > 180 )
-					{
-						$('#char_left_lk').css('color','red');
-					}
-					else
-					{
-						$('#char_left_lk').css('color','green');
-					}
-					
+					char_calc($(this));
 				});
+				char_calc($('#message'));
+					function char_calc(esto){
+						$('#char_left_lk').text(200 - esto.val().length);
+						if( esto.val().length > 180 )
+						{
+							$('#char_left_lk').css('color','red');
+						}
+						else
+						{
+							$('#char_left_lk').css('color','green');
+						}
+					}
 			}); 
 			</script>	
 		</div><?php
@@ -949,14 +954,15 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			$return_to = $return_to . ( strpos( $return_to, '?' ) ? '&' : '?' ) . "connected_with=" . $provider ;
 			
 			?>
+			<!DOCTYPE html>
 			<html>
+			<head>
 			<link rel="stylesheet" href="<?php echo apply_filters('collector_css_file',plugins_url( 'assets/css/collector.css?v='.$this->WPB_VERSION, __FILE__ ));?>" type="text/css" media="all">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<head>
 			<title><?php _e('Select your Friends',$this->WPB_PREFIX);?> - Wordpress Social Invitations</title>
-				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-				<script src="<?php echo plugins_url( 'assets/js/collector.js', __FILE__ );?>"></script>
-				<script>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+			<script src="<?php echo plugins_url( 'assets/js/collector.js', __FILE__ );?>"></script>
+			<script>
 					$(document).ready(function(){
 
 					<?php if ( isset($_GET['wsi_hook']) && $_GET['wsi_hook'] == 'anyone') : ?>

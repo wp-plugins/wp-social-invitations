@@ -14,7 +14,7 @@ function wsi_setup_globals() {
 	$bp->wsi->id = 'wsi';
 
 	$bp->wsi->table_name = $wpdb->base_prefix . 'wsi';
-	$bp->wsi->slug = 'wp-social-invitations';
+	$bp->wsi->slug = apply_filters('wsi_bp_base_slug','wp-social-invitations');
 
 	/* Register this in the active components array */
 	$bp->active_components[$bp->wsi->slug] = $bp->wsi->id;
@@ -136,13 +136,13 @@ function wsi_screen_one_content(){
 		'parent' => 'my-account-friends',
 		'id'     => 'my-account-friends-social-invites',
 		'title'  => __( 'Send Social Invites', 'buddypress' ),
-		'href'   => bp_displayed_user_domain() . 'wp-social-invitations/'
+		'href'   => bp_displayed_user_domain() . $bp->wsi->slug .'/'
 	) );
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'my-account',
 		'id'     => 'my-account-social-invites',
 		'title'  => __( 'Send Social Invites', 'buddypress' ),
-		'href'   => bp_displayed_user_domain() . 'wp-social-invitations/'
+		'href'   => bp_displayed_user_domain() . $bp->wsi->slug .'/'
 	) );
   }
 

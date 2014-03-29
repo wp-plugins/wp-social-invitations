@@ -2,7 +2,7 @@
 /**
  * Handles Mail invitations
  * @since 1.4
- * @version 1.1
+ * @version 1.2
  */
  
 if ( ! defined( 'ABSPATH' ) ) exit; 
@@ -207,7 +207,11 @@ class Wsi_Mailer{
 		$subject  ? '' : $subject =  $this->_subject ;
 		$footer   ? '' : $footer  =  $this->_options['footer'] ;
 		$message  ? '' : $message =  $this->_message ;
-		
+
+		//if email template is disabled, return only text message
+		if( defined('WSI_DISABLE_HTML') )
+			return $this->_message;
+			
 		ob_start();
 
 		wsi_get_template( 'email/email-body.php', array(

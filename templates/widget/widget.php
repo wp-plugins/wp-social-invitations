@@ -35,7 +35,7 @@ global $wp_query;
 			<li id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>">
 	        <span class="ready-label hidden">Ready</span>
 	            <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="" data-provider="<?php echo $p;?>">
-		            <i class="icon wsiicon-<?php echo $p;?>"></i>
+		            <i class="wsiicon-<?php echo $p;?>"></i>
 	            </a>
 	        
 	      </li>

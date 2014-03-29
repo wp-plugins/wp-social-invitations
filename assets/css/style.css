@@ -17,7 +17,7 @@
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-
+	background: none !important;
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -69,6 +69,7 @@ display: inline-block;
 vertical-align: middle;
 zoom: 1;
 position: relative;
+list-style: none !important;
 height: 64px;
 border: 1px solid #D7D7D7;
 cursor: pointer;
