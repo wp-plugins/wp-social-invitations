@@ -50,6 +50,9 @@
 .widefat.ia-stats td {
 text-align: center;
 }
+.mce-edit-area iframe {
+	min-height: 200px;
+}
 #sending .updated, 
 #sending .error, 
 {

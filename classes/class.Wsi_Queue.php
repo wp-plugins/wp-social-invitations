@@ -1,7 +1,7 @@
 <?php
 /**
  * Handles all operations in queue for sending invitations
- * @version	1.2
+ * @version	1.3
  * @since 1.4
  */
 
@@ -82,20 +82,25 @@ if( !class_exists('Wsi_Queue') ) {
 			global $wpdb;
 			//añadir friend count para llevar stats
 			
-			$result = $wpdb->query(
-				$wpdb->prepare("INSERT INTO {$wpdb->base_prefix}wsi_queue ( provider, sdata, friends, subject, message, i_count, user_id, display_name, date_added) VALUES (%s, %s, %s, %s, %s, %d, %d, %s, NOW())", 
-								array(
-									$provider,
-									$sesion_data,
-									serialize($friends),
-									$subject,
-									$message,
-									count($friends),
-									$this->_user ? $this->_user->ID : '',
-									$display_name
-								)
-							)
+			$wpdb->insert(
+				$wpdb->base_prefix.'wsi_queue',
+				 array( 
+				 	'provider' => $provider,
+				 	'sdata' => $sesion_data,
+				 	'friends' => serialize($friends),
+				 	'subject' => $subject,
+				 	'message' => $message,
+				 	'i_count' => count($friends),
+				 	'user_id' => $this->_user ? $this->_user->ID : '',
+				 	'display_name' => $display_name,
+				 	'date_added' => 'NOW()',
+				 	),
+				 	array('%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s') 
+					
 			);
+
+			return $wpdb->insert_id;
+
 			
 		}
 		function process_queue()

@@ -200,6 +200,9 @@ color: inherit;
 .wsi_success.small {
 width: auto;
 }
+#wsi_provider{
+	text-transform:capitalize;
+}	
 .wsi-sidebar.service-filters li.completed {
 background: none;
 border: none;

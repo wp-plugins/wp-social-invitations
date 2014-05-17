@@ -3,8 +3,8 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.5.1
-Tested up to: 3.8.1
+Stable Tag: 1.5.2
+Tested up to: 3.9.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
 
@@ -38,7 +38,7 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 * Content locker - Share you content only to users that invited their friends by using a simple shortcode
 * MyCRED & Cubepoints integration
 * Bypass registration lock- To use the plugin on private sites that works with invitation only
-* Facebook delivers chat messages instead of posting into user wall
+* Facebook uses SEND DIALOG
 * Linkedin delivers private messages instead of posting into user status
 * Twitter delivers Private messages instead of posting a tweet
 * GMAIL & SMTP SUPPORT
@@ -91,6 +91,12 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.5.2 - Mar 29, 2014 =
+
+* Updated Readme
+* Updated some css errors
+* Minor bugfixes
 
 = 1.5.1 - Mar 29, 2014 =
 

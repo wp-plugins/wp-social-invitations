@@ -33,7 +33,7 @@ textarea{
 label {
 	font-weight: bold;
 }
-button, .button{
+button[type="submit"], .button{
 background-color: #21759B;
 background-image: -webkit-gradient(linear,left top,left bottom,from(#2A95C5),to(#21759B));
 background-image: -webkit-linear-gradient(top,#2A95C5,#21759B);

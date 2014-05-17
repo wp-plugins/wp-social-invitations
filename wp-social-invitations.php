@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.5.1
+Version: 1.5.2
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -80,7 +80,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.5.1';
+		$this->WPB_VERSION		=	'1.5.2';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -326,6 +326,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	
 			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
 			wp_localize_script( 'wsi-js', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
+
 	}
 	/**
 	* Function to load the javscript for invite anyone plugin
@@ -703,7 +704,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		$prefix = $this->WPB_PREFIX;
 		global $bp;
 		
-		if ( isset($settings['hook_buddypress']) && $settings['hook_buddypress'] == 'true' && isset($bp) && $bp->current_component == 'activate' )
+		if ( isset($settings['hook_buddypress']) && $settings['hook_buddypress'] == 'true' && defined('BP_VERSION') && $bp->current_component == 'activate' )
 		{
 			add_action( 'bp_after_activate_content', array(&$this, 'widget'));
 		}
@@ -788,11 +789,11 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	function bp_process_invitations(){
 	
 		global $bp;
-		if( ! isset( $bp->current_action) &&  $bp->current_action != 'wsi-accept-invitation' )
+		if( defined('BP_VERSION') && ! isset( $bp->current_action) &&  $bp->current_action != 'wsi-accept-invitation' )
 		{
 			return null;
 		}
-		if( isset($bp->action_variables[0]) && $bp->action_variables[0] != '' )
+		if( defined('BP_VERSION') &&  isset($bp->action_variables[0]) && $bp->action_variables[0] != '' )
 		{
 			$this->bp_handle_user_invitations();
 		}
@@ -824,7 +825,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		
 		global $bp;
 		
-		if( ! isset( $_REQUEST[ 'wsi-accept-invitation' ] ) && $bp->current_action != 'wsi-accept-invitation'   )
+		if( ! isset( $_REQUEST[ 'wsi-accept-invitation' ] ) || ( defined('BP_VERSION') && $bp->current_action != 'wsi-accept-invitation' )  )
 		{
 				return;
 		}
@@ -835,9 +836,9 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		// This is a royal hack until there is a filter on bp_get_signup_allowed()
 		if ( is_multisite() ) 
 		{
-			if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
+			if ( defined('BP_VERSION') &&  !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'blog' ) {
 				$bp->site_options['registration'] = 'all';
-			} else if ( !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
+			} else if ( defined('BP_VERSION') && !empty( $bp->site_options['registration'] ) && $bp->site_options['registration'] == 'none' ) {
 				$bp->site_options['registration'] = 'user';
 			}
 		} 
@@ -1276,7 +1277,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 					<label for="message"><?php _e('Message', 'wsi');?></label>
 
 					<div class="box-wrapper">
-						<?php wp_editor(apply_filters( 'the_content', self::getFieldValue(apply_filters('wsi_html_message',$settings['html_message']))) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
+						<?php wp_editor( self::getFieldValue(apply_filters('wsi_html_message',$settings['html_message'])) ,'message' , array('media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));?>
 					</div>
 						
 				
@@ -1357,7 +1358,8 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 				'%%INVITERNAME%%',
 				'%%SITENAME%%',
 				'%%CURRENTURL%%',
-				'%%CURRENTTITLE%%'
+				'%%CUSTOMURL%%',
+				'%%CURRENTTITLE%%',
 			);
 			
 			$post_data = get_post(self::$_obj_id);
@@ -1366,6 +1368,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 				apply_filters('wsi_placeholder_invitername'	, isset(self::$_profile->displayName) ? self::$_profile->displayName : __('A friend of you', self::$PREFIX)),
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
 				apply_filters('wsi_current_url'			    , isset(self::$_current_url) ? self::$_current_url : ''),
+				apply_filters('wsi_placeholder_custom_url'  , ''),
 				apply_filters('wsi_current_title'			, isset($post_data->post_title) ? $post_data->post_title : '')
 				
 			);

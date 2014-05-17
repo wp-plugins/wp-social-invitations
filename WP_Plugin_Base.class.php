@@ -322,7 +322,7 @@ class WP_Plugin_Base_free {
 			case 'html':
 				
 				$text =  $options[$id]  == '' ? $std :  $options[$id] ;
-				wp_editor(apply_filters( 'the_content', html_entity_decode($text) ),$id , array('textarea_name' => $this->options_name.'[' . $id . ']','media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));
+				wp_editor( html_entity_decode($text) ,$id , array('textarea_name' => $this->options_name.'[' . $id . ']','media_buttons' => false,'quicktags' => false,'textarea_rows' => 15));
 
 				
 				if ( $desc != '' )
