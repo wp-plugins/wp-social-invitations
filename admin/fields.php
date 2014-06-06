@@ -88,7 +88,7 @@
 	);
 	$this->settings['enable_facebook'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable Facebook Invitations.' , $this->WPB_PREFIX). 'This will post to Facebook\'s wall. To deliver chat messages you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>',
+		'desc'    => __( 'Enable / Disable Facebook Invitations.' , $this->WPB_PREFIX). 'Share dialog. To use SEND dialog you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>',
 		'std'     => 'false',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -106,12 +106,18 @@
 		'section' => 'wsi_general'
 	);
 
-	$this->settings['facebook_secret'] = array(
-		'title'   => __( 'Client Secret' , $this->WPB_PREFIX),
-		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/#facebook' ),
-		'std'     => '',
-		'type'    => 'text',
-		'section' => 'wsi_general'
+		$this->settings['facebook_share_url'] = array(
+		'title'   => __( 'Url to Share' , $this->WPB_PREFIX),
+		'desc'    => __( 'Will share current url. For more options you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>' , $this->WPB_PREFIX),
+		'std'     => 'registration',
+		'type'    => 'select',
+		'disabled'=> 'yes',
+		'section' => 'wsi_general',
+		'choices' => array(
+			'registration' => __( 'Registration Url' , $this->WPB_PREFIX),
+			'current' 	   => __( 'Current URL' , $this->WPB_PREFIX),
+			'custom_url'   => __( 'Custom URL' , $this->WPB_PREFIX),
+		)
 	);
 
 	$this->settings['t_heading'] = array(
@@ -459,42 +465,7 @@ $this->settings['g_heading'] = array(
 			'false' => __( 'No' , $this->WPB_PREFIX)
 		)
 	);
-	
-	$this->settings['default_heading4'] = array(
-		'section' 	=> 'wsi_messages',
-		'std'   	=> __( 'Facebook default text.' , $this->WPB_PREFIX), // Not used for headings.
-		'title'		=> '',
-		'desc'   	=> __( 'Default plain text Message for Facebook. HTML is not allowed.' , $this->WPB_PREFIX),
-		'class'	 	=> '',
-		'type'   	=> 'heading'
-	);		
 
-	$this->settings['fb_message'] = array(
-		'title'   => __( 'Text Message' , $this->WPB_PREFIX),
-		'desc'    => __('Default plain text Message for Facebook invitations.',$this->WPB_PREFIX),
-		'std'     => __('%%INVITERNAME%% would like you to join %%SITENAME%%', $this->WPB_PREFIX),
-		'type'    => 'textarea',
-		'section' => 'wsi_messages'
-	);
-	$this->settings['fb_message_editable'] = array(
-		'title'   => __( 'Editable' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable users to change the default Facebook message.' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
-		'std'     => 'true',
-		'type'    => 'select',
-		'section' => 'wsi_messages',
-		'disabled'=> 'yes',
-		'choices' => array(
-			'true' => __( 'Yes' , $this->WPB_PREFIX),
-			'false' => __( 'No' , $this->WPB_PREFIX)
-		)
-	);	
-	$this->settings['text_non_editable_message'] = array(
-		'title'   => __( 'Non editable Message' , $this->WPB_PREFIX),
-		'desc'    => __('This section will be added after normal message. It\'s not editable by users',$this->WPB_PREFIX),
-		'std'     => __('Please accept the invitation in %%ACCEPTURL%%', $this->WPB_PREFIX),
-		'type'    => 'textarea',
-		'section' => 'wsi_messages'
-	);
 
 	$this->settings['default_heading3'] = array(
 		'section' 	=> 'wsi_messages',

@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.5.2
+Version: 1.5.3
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -80,7 +80,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.5.2';
+		$this->WPB_VERSION		=	'1.5.3';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -325,7 +325,13 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	public function load_wsi_js(){
 	
 			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
-			wp_localize_script( 'wsi-js', 'WsiMyAjax', array( 'url' => site_url( 'wp-login.php' ),'admin_url' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'wsi-ajax-nonce' ) ) );
+			wp_localize_script( 'wsi-js', 'WsiMyAjax', array( 
+				'url' 				=> site_url( 'wp-login.php' ),
+				'admin_url'			=> admin_url( 'admin-ajax.php' ), 
+				'nonce' 			=> wp_create_nonce( 'wsi-ajax-nonce' ),
+				'locale' 			=> get_bloginfo('language'), 
+				'appId' 			=> $this->_options['facebook_key'],  
+			) );
 
 	}
 	/**

@@ -210,3 +210,6 @@ box-shadow: none;
 -webkit-box-shadow: none;
 -moz-box-shadow: none;
 }
+.mce-edit-area iframe {
+	min-height: 200px;
+}

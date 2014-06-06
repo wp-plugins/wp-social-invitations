@@ -1,4 +1,18 @@
-/* Based on http://wordpress.org/extend/plugins/social-connect/ */
+//Load Facebook SDK
+window.fbAsyncInit = function() {
+FB.init({
+  appId      : WsiMyAjax.appId,
+  xfbml      : false,
+  version    : 'v2.0'
+});
+};
+(function(d, s, id){
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) {return;}
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/"+WsiMyAjax.locale+"/sdk.js";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 
 (function($){ 
 	$(function(){
@@ -20,12 +34,34 @@
 		    	$(this).closest('.service-filter-content').attr('id',widget_id);
 				wsi_locker = false;
 		    	
-		    }	
-			window.open(
-				WsiMyAjax.admin_url+"?action=wsi_authenticate&redirect_to="+encodeURIComponent(popupurl)+"&provider="+provider+ "&widget_id="+widget_id+"&wsi_locker="+wsi_locker+"&current_url="+encodeURIComponent(current_url)+"&wsi_obj_id="+obj_id+"&_ts=" + (new Date()).getTime(),
-				"hybridauth_social_sing_on", 
-				"directories=no,copyhistory=no,toolbar=0,location=0,menubar=0,status=0,scrollbars=1,width=600,height=640,top=" + top + ", left=" + left
-			); 
+		    }
+		    if( 'facebook' == provider) {
+		    		var link = current_url;
+		    		FB.ui(
+					  {
+					    method: 'send',
+					    link: link,
+					  },
+					  function(response) {
+					    if (response && !response.error_code) {
+					        $('#'+widget_id+' #facebook-provider').addClass('completed');
+							$('#'+widget_id+' #wsi_provider').html(provider);
+							$('#'+widget_id+' .wsi_success').fadeIn('slow',function(){
+								if( wsi_locker == 'true' ) {
+									setCookie("wsi-lock["+widget_id+"]",1,365);
+									window.location.reload();
+								}
+					    	});
+					  	}
+					  }	 
+					);
+		    } else {		    	
+				window.open(
+					WsiMyAjax.admin_url+"?action=wsi_authenticate&redirect_to="+encodeURIComponent(popupurl)+"&provider="+provider+ "&widget_id="+widget_id+"&wsi_locker="+wsi_locker+"&current_url="+encodeURIComponent(current_url)+"&wsi_obj_id="+obj_id+"&_ts=" + (new Date()).getTime(),
+					"hybridauth_social_sing_on", 
+					"directories=no,copyhistory=no,toolbar=0,location=0,menubar=0,status=0,scrollbars=1,width=600,height=640,top=" + top + ", left=" + left
+				);
+			}	 
 		});
 	});
 })(jQuery);
