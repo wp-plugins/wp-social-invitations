@@ -21,7 +21,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		if( $options['enable_'.$p] == 'true' ) :
 		?>
 			<li id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>">
-	             <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="sprite sprite-<?php echo $p;?>" data-provider="<?php echo $p;?>"></a>
+	             <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="" data-provider="<?php echo $p;?>"><i class="wsiicon-<?php echo $p;?>"></i></a>
 	        </li>
 		
 		<?php

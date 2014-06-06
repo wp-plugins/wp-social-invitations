@@ -1,11 +1,65 @@
+@font-face {
+	font-family: 'wsi-social';
+	src:url('../fonts/wsi-social.eot?-ucnimv');
+	src:url('../fonts/wsi-social.eot?#iefix-ucnimv') format('embedded-opentype'),
+		url('../fonts/wsi-social.woff?-ucnimv') format('woff'),
+		url('../fonts/wsi-social.ttf?-ucnimv') format('truetype'),
+		url('../fonts/wsi-social.svg?-ucnimv#wsi-social') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="wsiicon-"], [class*=" wsiicon-"] {
+	font-family: 'wsi-social';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	background: none !important;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wsiicon-google:before {
+	content: "\e602";
+}
+.wsiicon-yahoo:before {
+	content: "\e603";
+}
+.wsiicon-twitter:before {
+	content: "\e604";
+}
+.wsiicon-linkedin:before {
+	content: "\e605";
+}
+.wsiicon-foursquare:before {
+	content: "\e606";
+}
+.wsiicon-live:before {
+	content: "\e607";
+}
+.wsiicon-facebook:before {
+	content: "\e601";
+}
+.wsiicon-tux:before {
+	content: "\e600";
+}
+.wsiicon-mail:before {
+	content: "\e608";
+}
+
 .service-filters {
 background-color: #F0F0F0;
 border-top: 1px solid #D7D7D7;
 padding: 0 10px 6px 10px;
 width: 100%;
+border-bottom: 1px solid #D7D7D7;
 overflow: hidden;
 }
-.service-filters li {
+.service-filter-content .service-filters li {
 float: left;
 text-align: center;
 background-color: #FFF;
@@ -15,24 +69,36 @@ display: inline-block;
 vertical-align: middle;
 zoom: 1;
 position: relative;
+list-style: none !important;
 height: 64px;
 border: 1px solid #D7D7D7;
 cursor: pointer;
+color: #fff;
 }
 .service-filters li a {
 display: block;
 position: relative;
 z-index: 2;
-padding: 40px 0 0 2px;
 width: 79px;
+font-size: 44px;
+line-height: 69px;
+height: 64px;
+color: inherit;
+text-decoration: none;
 }
-.service-filters li:hover, .service-filters li.selected,.service-filters li.completed {
+.service-filter-content .service-filters li:hover,
+.service-filter-content .service-filters li.selected,
+.service-filter-content .service-filters li.completed {
 border: 1px solid #23639C;
 -webkit-box-shadow: #909090 0px 2px 5px 0px;
 -moz-box-shadow: #909090 0px 2px 5px 0px;
 box-shadow: #909090 0px 2px 5px 0px;
+opacity: 0.9;
 }
-.service-filters li.completed{
+.service-filter-content .service-filters li a:hover{
+	color: inherit;
+}
+.service-filter-content .service-filters li.completed{
 	background: #FFF url(../img/completed.png) no-repeat 2px 2px;
 }
 .ready-label.hidden{ display: none;}
@@ -42,32 +108,55 @@ display: table-cell;
 text-decoration: none;
 vertical-align: middle;
 }
-.service-filters li .service-filter-name-container .service-filter-name-outer {
+.service-filter-content .service-filters li .service-filter-name-container .service-filter-name-outer {
 height: 100%;
 width: 100%;
 display: table;
 position: relative;
 overflow: hidden;
 }
-.service-filters li .service-filter-name-container .service-filter-name-outer .service-filter-name-inner {
+.service-filter-content .service-filters li .service-filter-name-container .service-filter-name-outer .service-filter-name-inner {
 top: 50%;
 display: table-cell;
 vertical-align: middle;
 left: 0;
 }
-.service-filters li .service-filter-name-container .service-filter-name-outer .service-filter-name-inner a {
+.service-filter-content .service-filters li .service-filter-name-container .service-filter-name-outer .service-filter-name-inner a {
 top: -50%;
 padding: 0;
 }
+.service-filters li:last-child {
+margin-right: 0px;
+}
+#facebook-provider{
+	background-color: #3B5998;
+}
+#google-provider{
+	background-color: #ca3f2f;
+}
+#yahoo-provider{
+	background-color: #82138b;
+}
+#linkedin-provider{
+	background-color: #388cb3;
+}
 
-.sprite-linkedin{ background: url(../img/32x32/wpzoom/linkedin.png) center 6px no-repeat; }
-.sprite-google{ background: url(../img/32x32/wpzoom/google.png) center 6px no-repeat; }
-.sprite-yahoo{ background: url(../img/32x32/wpzoom/yahoo.png) center 6px no-repeat; }
-.sprite-live{ background: url(../img/32x32/wpzoom/live.png) center 6px no-repeat; }
-.sprite-facebook{ background: url(../img/32x32/wpzoom/facebook.png) center 6px no-repeat; }
-.sprite-twitter{ background: url(../img/32x32/wpzoom/twitter.png) center 6px no-repeat; }
-.sprite-foursquare{ background: url(../img/32x32/wpzoom/foursquare.png) center 6px no-repeat; }
-.sprite-myspace{ background: url(../img/32x32/wpzoom/myspace.png) center 6px no-repeat; }
+#live-provider{
+	background-color: #19608a;
+}
+
+#twitter-provider{
+	background-color: #7cd2f2;
+}
+
+#foursquare-provider{
+	background-color: #34a0ca;
+}
+
+#mail-provider{
+	background-color: #744848;
+}
+
 
 .wsi_success {
 	display: none;
@@ -87,7 +176,7 @@ padding: 0;
 .wsi-sidebar.service-filters li {
 border: none;
 height: auto;
-margin: 0 5px 0 0;
+margin: 0 3px 3px 0;
 width: auto;
 }
 .wsi-sidebar.service-filters li:hover {
@@ -100,15 +189,27 @@ opacity: 0.8;
 .wsi-sidebar.service-filters li a {
 padding: 0;
 width: 36px;
-height: 42px;
+height: 38px;
+font-size: 22px;
+line-height: 38px;
+color: inherit;
+}
+.wsi-sidebar.service-filters li a:hover{
+	color: inherit;
 }
 .wsi_success.small {
 width: auto;
 }
+#wsi_provider{
+	text-transform:capitalize;
+}	
 .wsi-sidebar.service-filters li.completed {
 background: none;
 border: none;
 box-shadow: none;
 -webkit-box-shadow: none;
 -moz-box-shadow: none;
+}
+.mce-edit-area iframe {
+	min-height: 200px;
 }

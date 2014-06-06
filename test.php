@@ -14,7 +14,7 @@
 @session_start();
 $_SESSION["wsi::plugin"] = "WordPress Social Invitations ";
 if ( isset( $_REQUEST['xhrurl'] ) ) {
-	$testing = @ $_REQUEST['xhrurl'];
+	$testing = @ htmlspecialchars( $_REQUEST['xhrurl'] );
 
 	if ( $testing == "http://www.example.com" ) {
 		echo "<b style='color:green;'>OK!</b><br />The rewrite rules on your server appear to be setup correctly for this plugin to work.";
@@ -82,7 +82,7 @@ if ( isset( $_REQUEST['fsock'] ) ) {
 	<p id="urlrewrite">
 <?php   
 	if ( isset( $_REQUEST['url'] ) ) {
-		$testing = @ $_REQUEST['url'];
+		$testing = @ htmlspecialchars($_REQUEST['url']);
 
 		if ( $testing == "http://www.example.com" ) {
 			echo "<b style='color:green;'>OK!</b><br />The rewrite rules on your server appear to be setup correctly for this plugin to work.";
@@ -127,7 +127,7 @@ if ( isset( $_REQUEST['fsock'] ) ) {
 	<p>
 <?php
 	if ( isset( $_SESSION["wsi::plugin"] ) ){
-		echo "<b style='color:green;'>OK!</b><br />PHP Sessions are working correctly for {$_SESSION["wsi::plugin"]} to work."; 
+		echo "<b style='color:green;'>OK!</b><br />PHP Sessions are working correctly for {".htmlspecialchars($_SESSION["wsi::plugin"])."} to work."; 
 	}
 	else{ 
 		?>
