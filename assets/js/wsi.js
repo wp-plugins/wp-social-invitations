@@ -39,8 +39,8 @@ FB.init({
 		    		var link = current_url;
 		    		FB.ui(
 					  {
-					    method: 'send',
-					    link: link,
+					    method: 'share',
+					    href: link,
 					  },
 					  function(response) {
 					    if (response && !response.error_code) {
