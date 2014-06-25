@@ -24,7 +24,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 		parent::initialize();
 
 		// Provider api end-points
-		$this->api->api_base_url      = 'http://social.yahooapis.com/v1/';
+		$this->api->api_base_url      = 'https://social.yahooapis.com/v1/';
 		$this->api->authorize_url     = 'https://api.login.yahoo.com/oauth/v2/request_auth';
 		$this->api->request_token_url = 'https://api.login.yahoo.com/oauth/v2/get_request_token';
 		$this->api->access_token_url  = 'https://api.login.yahoo.com/oauth/v2/get_token';
@@ -73,7 +73,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 			$this->user->profile->email         = $email;
 			$this->user->profile->emailVerified = $email;
 		}
-		
+
 		$this->user->profile->age           = (property_exists($data,'displayAge'))?$data->displayAge:"";
 		$this->user->profile->photoURL      = (property_exists($data,'image'))?$data->image->imageUrl:"";
 
@@ -93,7 +93,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 		$parameters = array();
 		$parameters['format']	= 'json';
 		$parameters['count'] = 'max';
-		
+
 		$response = $this->api->get('user/' . $userId . '/contacts', $parameters);
 
 		if ( $this->api->http_code != 200 )
@@ -118,7 +118,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 
 			$contacts[] = $uc;
 		}
-		
+
 		return $contacts;
 	}
 
@@ -132,7 +132,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 		$parameters = array();
 		$parameters['format']	= 'json';
 		$parameters['count']	= 'max';
-		
+
 		$response = $this->api->get('user/' . $userId . '/updates', $parameters);
 
 		if( ! $response->updates || $this->api->http_code != 200 )
@@ -194,7 +194,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 	function selectName( $v )
 	{
 		$s = $this->select($v, 'name');
-		
+
 		if( ! $s ){
 			$s = $this->select($v, 'nickname');
 			return ($s)?$s->value:"";
