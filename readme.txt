@@ -92,6 +92,12 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
+= 1.5.4 - Jun 25, 2014 =
+
+* Improved error page
+* Updated hybrid auth
+* Updated Google providers for new api
+
 = 1.5.3 - Jun 6, 2014 =
 
 * Changed facebook to SHARE dialog. Thanks API 2.0 :\

@@ -9,7 +9,7 @@
  * Hybrid_Provider_Adapter is the basic class which Hybrid_Auth will use
  * to connect users to a given provider. 
  * 
- * Basically Hybrid_Provider_Adapterwill create a bridge from your php 
+ * Basically Hybrid_Provider_Adapter will create a bridge from your php
  * application to the provider api.
  * 
  * Hybrid_Auth will automatically load Hybrid_Provider_Adapter and create
@@ -112,7 +112,16 @@ class Hybrid_Provider_Adapter
 		$this->logout();
 
 		# get hybridauth base url
-		$HYBRID_AUTH_URL_BASE = Hybrid_Auth::$config["base_url"];
+		if (empty(Hybrid_Auth::$config["base_url"])) {
+	        // the base url wasn't provide, so we must use the current
+	        // url (which makes sense actually)
+			$url  = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+			$url .= '://' . $_SERVER['HTTP_HOST'];
+			$url .= $_SERVER['REQUEST_URI'];
+			$HYBRID_AUTH_URL_BASE = $url;
+		} else {
+			$HYBRID_AUTH_URL_BASE = Hybrid_Auth::$config["base_url"];
+		}
 
 		# we make use of session_id() as storage hash to identify the current user
 		# using session_regenerate_id() will be a problem, but ..
@@ -242,7 +251,7 @@ class Hybrid_Provider_Adapter
 		// get the stored callback url
 		$callback_url = Hybrid_Auth::storage()->get( "hauth_session.{$this->id}.hauth_return_to" );
 
-		// remove some unneed'd stored data 
+		// remove some unneeded stored data
 		Hybrid_Auth::storage()->delete( "hauth_session.{$this->id}.hauth_return_to"    );
 		Hybrid_Auth::storage()->delete( "hauth_session.{$this->id}.hauth_endpoint"     );
 		Hybrid_Auth::storage()->delete( "hauth_session.{$this->id}.id_provider_params" );
