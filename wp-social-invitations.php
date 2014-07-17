@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.5.4
+Version: 1.5.5
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -15,7 +15,7 @@ Domain Path: languages
 
 ****************************************************************************
 * License http://codecanyon.net/licenses/regular
-****************************************************************************
+**************************************************************************** 
 */
 //token we use in url to fire cron
 global $blog_id;
@@ -80,7 +80,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.5.4';
+		$this->WPB_VERSION		=	'1.5.5';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -117,7 +117,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		
 		//load js and css 
 		add_action( 'init',array(&$this,'load_back_scripts' ),50 );	
-		add_action( 'init',array(&$this,'load_front_scripts' ));	
+		add_action( 'wp_enqueue_scripts',array(&$this,'load_front_scripts' ));	
 		
 		#$this->upgradePlugin();
 			
@@ -1459,8 +1459,9 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	*/
 	function process_login_render_error_page( $e, $config, $hybridauth, $adapter, $profile )
 	{
-		
+			 	
 	 	wsi_get_template('popup/error.php', array( 'e' => $e, 'options' => $this->_options, 'WPB_PREFIX' => $this->WPB_PREFIX, 'assets_url' => $this->assets_url  ) ); 
+
 	 	die();
 	
 	}// error page
