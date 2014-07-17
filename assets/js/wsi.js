@@ -1,10 +1,13 @@
 //Load Facebook SDK
+wsifbApiInit = false;
 window.fbAsyncInit = function() {
-FB.init({
-  appId      : WsiMyAjax.appId,
-  xfbml      : false,
-  version    : 'v2.0'
-});
+	FB.init({
+	  appId      : WsiMyAjax.appId,
+	  xfbml      : true,
+	  version    : 'v2.0'
+	});
+	wsifbApiInit = true; //init flag
+
 };
 (function(d, s, id){
  var js, fjs = d.getElementsByTagName(s)[0];
@@ -16,6 +19,13 @@ FB.init({
 
 (function($){ 
 	$(function(){
+		if(!wsifbApiInit && typeof(FB) != 'undefined' && FB != null){
+			FB.init({
+			  appId      : WsiMyAjax.appId,
+			  xfbml      : true,
+			  version    : 'v2.0'
+			});
+		}		
 		$(".service-filters a").unbind('click');
 		$(".service-filters a").click(function(){
 			popupurl = $("#wsi_base_url").val();
@@ -51,6 +61,10 @@ FB.init({
 									setCookie("wsi-lock["+widget_id+"]",1,365);
 									window.location.reload();
 								}
+								if( WsiMyAjax.redirect_url != '' ) {	
+									window.location.href = WsiMyAjax.redirect_url;
+								}
+
 					    	});
 					  	}
 					  }	 
