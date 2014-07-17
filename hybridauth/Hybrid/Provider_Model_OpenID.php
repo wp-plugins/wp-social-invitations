@@ -87,20 +87,20 @@ class Hybrid_Provider_Model_OpenID extends Hybrid_Provider_Model
 	*/
 	function loginFinish()
 	{
-		# if user don't garant acess of their data to your site, halt with an Exception
+		# if user don't grant access of their data to your site, halt with an Exception
 		if( $this->api->mode == 'cancel'){
 			throw new Exception( "Authentication failed! User has canceled authentication!", 5 );
 		}
 
 		# if something goes wrong
 		if( ! $this->api->validate() ){
-			throw new Exception( "Authentication failed. Invalid request recived!", 5 );
+			throw new Exception( "Authentication failed. Invalid request received!", 5 );
 		}
 
-		# fetch recived user data
+		# fetch received user data
 		$response = $this->api->getAttributes();
 
-		# sotre the user profile
+		# store the user profile
 		$this->user->profile->identifier  = $this->api->identity;
 
 		$this->user->profile->firstName   = (array_key_exists("namePerson/first",$response))?$response["namePerson/first"]:"";
@@ -117,16 +117,12 @@ class Hybrid_Provider_Model_OpenID extends Hybrid_Provider_Model
 		$this->user->profile->birthMonth  = (array_key_exists("birthDate/birthMonth",$response))?$response["birthDate/birthMonth"]:""; 
 		$this->user->profile->birthYear   = (array_key_exists("birthDate/birthDate",$response))?$response["birthDate/birthDate"]:"";  
 
-		if( ! $this->user->profile->displayName ) {
-			$this->user->profile->displayName = trim( $this->user->profile->lastName . " " . $this->user->profile->firstName ); 
-		}
-
 		if( isset( $response['namePerson/friendly'] ) && ! empty( $response['namePerson/friendly'] ) && ! $this->user->profile->displayName ) { 
-			$this->user->profile->displayName = (array_key_exists("namePerson/friendly",$response))?$response["namePerson/friendly"]:"" ; 
+			$this->user->profile->displayName = $response["namePerson/friendly"]; 
 		}
 
 		if( isset( $response['birthDate'] ) && ! empty( $response['birthDate'] ) && ! $this->user->profile->birthDay ) {
-			list( $birthday_year, $birthday_month, $birthday_day ) = (array_key_exists('birthDate',$response))?$response['birthDate']:"";
+			list( $birthday_year, $birthday_month, $birthday_day ) = $response['birthDate'];
 
 			$this->user->profile->birthDay      = (int) $birthday_day;
 			$this->user->profile->birthMonth    = (int) $birthday_month;

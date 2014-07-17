@@ -12,11 +12,29 @@
 		'class'	 	=> '',
 		'type'   	=> 'heading'
 	);
+
+	 if(!get_option('users_can_register') && !empty($bp)) :
+		
+		$this->settings['bypass_registration_lock'] = array(
+				'title'   => __( 'Bypass Registration lock' , $this->WPB_PREFIX),
+				'desc'    => __( 'Your site is blocked for new registations. Check here to bypass this on new Invitations' , $this->WPB_PREFIX),
+				'std'     => '',
+				'type'    => 'checkbox',
+				'choices' => array(
+					'yes' => __( 'Yes' , $this->WPB_PREFIX)
+				),
+				'section' => 'wsi_general'
+			
+		);	 
+	 
+	 
+	 endif;
+	
 	$this->settings['redirect_url'] = array(
-			'title'   => __( '"Redirect to" URL' , $this->WPB_PREFIX) . '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+			'title'   => __( '"Redirect to" URL' , $this->WPB_PREFIX) . '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 			'desc'    => __( 'Users will be redirected to this url after they send invitations' , $this->WPB_PREFIX),
 			'std'     => '',
-			'type'    => 'test',
+			'type'    => 'text',
 			'disabled'=> 'yes',
 			'section' => 'wsi_general'
 		
@@ -25,12 +43,11 @@
 	If (is_active('buddypress/bp-loader.php')) {
 	
 		$this->settings['hook_buddypress'] = array(
-			'title'   => __( 'Buddypress' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+			'title'   => __( 'Buddypress' , $this->WPB_PREFIX),
 			'desc'    => __( 'Show in buddypress after user activates his new account' , $this->WPB_PREFIX),
 			'std'     => 'true',
 			'type'    => 'select',
 			'section' => 'wsi_general',
-			 'disabled'=> 'yes',
 			'choices' => array(
 				'true' => __( 'Yes' , $this->WPB_PREFIX),
 				'false' => __( 'No' , $this->WPB_PREFIX)
@@ -41,12 +58,11 @@
 	If (is_active('invite-anyone/invite-anyone.php')) {
 	
 		$this->settings['hook_invite_anyone'] = array(
-			'title'   => __( 'Invite Anyone Plugin' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+			'title'   => __( 'Invite Anyone Plugin' , $this->WPB_PREFIX),
 			'desc'    => __( 'Hook into Invite Anyone Plugin' , $this->WPB_PREFIX),
 			'std'     => 'true',
 			'type'    => 'select',
 			'section' => 'wsi_general',
-			'disabled'=> 'yes',
 			'choices' => array(
 				'true' => __( 'Yes' , $this->WPB_PREFIX),
 				'false' => __( 'No' , $this->WPB_PREFIX)
@@ -72,7 +88,7 @@
 	);
 	$this->settings['enable_facebook'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable Facebook Invitations.' , $this->WPB_PREFIX). 'This will post to Facebook\'s wall. To deliver chat messages you need <a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red">Premium version</a>',
+		'desc'    => __( 'Enable / Disable Facebook Invitations.' , $this->WPB_PREFIX). 'Share dialog. To use SEND dialog you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>',
 		'std'     => 'false',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -90,12 +106,18 @@
 		'section' => 'wsi_general'
 	);
 
-	$this->settings['facebook_secret'] = array(
-		'title'   => __( 'Client Secret' , $this->WPB_PREFIX),
-		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/#facebook' ),
-		'std'     => '',
-		'type'    => 'text',
-		'section' => 'wsi_general'
+		$this->settings['facebook_share_url'] = array(
+		'title'   => __( 'Url to Share' , $this->WPB_PREFIX),
+		'desc'    => __( 'Will share current url. For more options you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>' , $this->WPB_PREFIX),
+		'std'     => 'registration',
+		'type'    => 'select',
+		'disabled'=> 'yes',
+		'section' => 'wsi_general',
+		'choices' => array(
+			'registration' => __( 'Registration Url' , $this->WPB_PREFIX),
+			'current' 	   => __( 'Current URL' , $this->WPB_PREFIX),
+			'custom_url'   => __( 'Custom URL' , $this->WPB_PREFIX),
+		)
 	);
 
 	$this->settings['t_heading'] = array(
@@ -108,7 +130,7 @@
 	);
 	$this->settings['enable_twitter'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable Twitter Invitations.' , $this->WPB_PREFIX). 'This will post a tweet. To deliver Direct Messages you need<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red">Premium Version</a>',
+		'desc'    => __( 'Enable / Disable Twitter Invitations.' , $this->WPB_PREFIX). 'This will post a tweet. To deliver Direct Messages you need<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium Version</a>',
 		'std'     => 'false',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -180,7 +202,7 @@ $this->settings['g_heading'] = array(
 	);
 	$this->settings['enable_linkedin'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable Linkedin Invitations.' , $this->WPB_PREFIX). 'This will post to Linkedin\'s wall. To deliver private messages you need <a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red">Premium version</a>',
+		'desc'    => __( 'Enable / Disable Linkedin Invitations.' , $this->WPB_PREFIX). 'This will post to Linkedin\'s wall. To deliver private messages you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>',
 		'std'     => 'false',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -286,17 +308,10 @@ $this->settings['g_heading'] = array(
 		'type'    => 'heading'
 	);
 
-/*	$this->settings['myspace_heading'] = array(
-		'section' => 'wsi_general',
-		'std'   => 'MySpace', // Not used for headings.
-		'title'	=> '',
-		'desc'    => '',
-		'class'	  => 'myspace-heading  wsi-providers',
-		'type'    => 'heading'
-	);
-	$this->settings['enable_myspace'] = array(
+	
+	$this->settings['enable_live'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable MySpace.' , $this->WPB_PREFIX),
+		'desc'    => __( 'Enable / Disable Windows Live Invitations.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -305,25 +320,21 @@ $this->settings['g_heading'] = array(
 			'false' => __( 'No' , $this->WPB_PREFIX)
 		)
 	);
-		$this->settings['myspace_key'] = array(
-		'title'   => __( 'Consumer Key' , $this->WPB_PREFIX),
-		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/#myspace' ),
-		'std'     => '',
-		'type'    => 'text',
-		'section' => 'wsi_general'
+	
+	$this->settings['email_heading'] = array(
+		'section' => 'wsi_general',
+		'std'   => 'Emails', // Not used for headings.
+		'title'	=> '',
+		'desc'    => '',
+		'class'	  => 'mail-heading  wsi-providers',
+		'type'    => 'heading'
 	);
 
-	$this->settings['myspace_secret'] = array(
-		'title'   => __( 'Consumer Secret' , $this->WPB_PREFIX),
-		'desc'    => sprintf(__( '<a href="%s" target="_blank">Where do i get this info?</a>' , $this->WPB_PREFIX), 'http://wp.timersys.com/wordpress-social-invitations/docs/configuration/#myspace' ),
-		'std'     => '',
-		'type'    => 'text',
-		'section' => 'wsi_general'
-	);*/
+
 	
-	$this->settings['enable_live'] = array(
+	$this->settings['enable_mail'] = array(
 		'title'   => __( 'Enabled' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable Windows Live Invitations.' , $this->WPB_PREFIX),
+		'desc'    => __( 'Enable / Disable Emails invitations.' , $this->WPB_PREFIX),
 		'std'     => 'true',
 		'type'    => 'select',
 		'section' => 'wsi_general',
@@ -357,7 +368,7 @@ $this->settings['g_heading'] = array(
 	
 	$this->settings['subject_editable'] = array(
 		'title'   => __( 'Editable' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable users to change the default subject. Facebook, Twitter and Linkedin don\'t use subject field' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __( 'Enable / Disable users to change the default subject. Facebook, Twitter and Linkedin don\'t use subject field' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => 'true',
 		'type'    => 'select',
 		'disabled'=> 'yes',
@@ -377,7 +388,7 @@ $this->settings['g_heading'] = array(
 	
 	$this->settings['html_message_editable'] = array(
 		'title'   => __( 'Editable' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable users to change the default html message.' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __( 'Enable / Disable users to change the default html message.' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => 'true',
 		'type'    => 'select',
 		'disabled'=> 'yes',
@@ -398,7 +409,7 @@ $this->settings['g_heading'] = array(
 		
 	$this->settings['footer'] = array(
 		'title'   => __( 'Footer Message' , $this->WPB_PREFIX),
-		'desc'    => __('The footer it\'s only used by email providers. A good practice is to add your company address to avoid spam filters' ,$this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __('The footer it\'s only used by email providers. A good practice is to add your company address to avoid spam filters' ,$this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => __('Powered by <a href="http://www.timersys.com/plugins/wordpress-social-invitations/">Wordpress Social Invitions</a>', $this->WPB_PREFIX),
 		'type'    => 'disabled',
 		'section' => 'wsi_messages'
@@ -423,7 +434,7 @@ $this->settings['g_heading'] = array(
 	
 	$this->settings['text_subject_editable'] = array(
 		'title'   => __( 'Editable' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable users to change the default subject. Linkedin policy says that users must be able to edit this' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __( 'Enable / Disable users to change the default subject. Linkedin policy says that users must be able to edit this' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => 'true',
 		'type'    => 'select',
 		'disabled'=> 'yes',
@@ -436,15 +447,15 @@ $this->settings['g_heading'] = array(
 	
 	$this->settings['message'] = array(
 		'title'   => __( 'Text Message' , $this->WPB_PREFIX),
-		'desc'    => __('Default plain text Message for invitations. <strong>Non HTML providers are Facebook and Linkedin.</strong> ',$this->WPB_PREFIX),
-		'std'     => __('%%INVITERNAME%% would like you to join %%SITENAME%%.', $this->WPB_PREFIX),
+		'desc'    => sprintf(__('Default plain text Message for Linkedin invitations.Keep it under 200 characters(%%ACCEPTURL%% will be converted to a 22 characters string) Characters left: %s',$this->WPB_PREFIX),'<span id="char_left_lk">200</span>'),
+		'std'     => __('%%INVITERNAME%% would like you to join %%SITENAME%% , click on %%ACCEPTURL%%', $this->WPB_PREFIX),
 		'type'    => 'textarea',
 		'section' => 'wsi_messages'
 	);
 	
 	$this->settings['message_editable'] = array(
 		'title'   => __( 'Editable' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable users to change the default message. Linkedin policy says that users must be able to edit this' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __( 'Enable / Disable users to change the default message. Linkedin policy says that users must be able to edit this' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => 'true',
 		'type'    => 'select',
 		'disabled'=> 'yes',
@@ -454,14 +465,7 @@ $this->settings['g_heading'] = array(
 			'false' => __( 'No' , $this->WPB_PREFIX)
 		)
 	);
-	
-	$this->settings['text_non_editable_message'] = array(
-		'title'   => __( 'Non editable Message' , $this->WPB_PREFIX),
-		'desc'    => __('This section will be added after normal message. It\'s not editable by users',$this->WPB_PREFIX),
-		'std'     => __('Please accept the invitation in %%ACCEPTURL%%', $this->WPB_PREFIX),
-		'type'    => 'textarea',
-		'section' => 'wsi_messages'
-	);
+
 
 	$this->settings['default_heading3'] = array(
 		'section' 	=> 'wsi_messages',
@@ -483,7 +487,7 @@ $this->settings['g_heading'] = array(
 	
 	$this->settings['tw_message_editable'] = array(
 		'title'   => __( 'Editable' , $this->WPB_PREFIX),
-		'desc'    => __( 'Enable / Disable users to change the default Twitter message.' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __( 'Enable / Disable users to change the default Twitter message.' , $this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => 'true',
 		'type'    => 'select',
 		'disabled'=> 'yes',
@@ -676,7 +680,7 @@ $this->settings['g_heading'] = array(
 	
 	$this->settings['widget_order'] = array(
 		'title'   => __( 'Widget Order' , $this->WPB_PREFIX),
-		'desc'    => __('Drag and drop to order widget providers',$this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank" style="color:red"> (Premium Only)</a>',
+		'desc'    => __('Drag and drop to order widget providers',$this->WPB_PREFIX). '<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red"> (Premium Only)</a>',
 		'std'     => WP_Social_Invitations::get_providers(),
 		'type'	  => 'sortable',
 		'disabled'=> 'yes',

@@ -105,17 +105,3 @@ jQuery(document).ready(function($) {
     listFilter($("#searchinput"), $("#FriendsList"));
   });
 }(jQuery));
-
-  
-jQuery(window).load(function(){
-	var total_heigh = jQuery(window).height() + 50;
-	window.resizeTo(600, total_heigh);
-	
-	var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
-
-    var left = ((screen.width / 2) - (600 / 2)) + dualScreenLeft;
-    var top = ((screen.height / 2) - (640 / 2)) + dualScreenTop;
-    
-    window.moveTo( top,left);
-});

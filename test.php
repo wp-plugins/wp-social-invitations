@@ -14,7 +14,7 @@
 @session_start();
 $_SESSION["wsi::plugin"] = "WordPress Social Invitations ";
 if ( isset( $_REQUEST['xhrurl'] ) ) {
-	$testing = @ $_REQUEST['xhrurl'];
+	$testing = @ htmlspecialchars( $_REQUEST['xhrurl'] );
 
 	if ( $testing == "http://www.example.com" ) {
 		echo "<b style='color:green;'>OK!</b><br />The rewrite rules on your server appear to be setup correctly for this plugin to work.";
@@ -82,7 +82,7 @@ if ( isset( $_REQUEST['fsock'] ) ) {
 	<p id="urlrewrite">
 <?php   
 	if ( isset( $_REQUEST['url'] ) ) {
-		$testing = @ $_REQUEST['url'];
+		$testing = @ htmlspecialchars($_REQUEST['url']);
 
 		if ( $testing == "http://www.example.com" ) {
 			echo "<b style='color:green;'>OK!</b><br />The rewrite rules on your server appear to be setup correctly for this plugin to work.";
@@ -127,7 +127,7 @@ if ( isset( $_REQUEST['fsock'] ) ) {
 	<p>
 <?php
 	if ( isset( $_SESSION["wsi::plugin"] ) ){
-		echo "<b style='color:green;'>OK!</b><br />PHP Sessions are working correctly for {$_SESSION["wsi::plugin"]} to work."; 
+		echo "<b style='color:green;'>OK!</b><br />PHP Sessions are working correctly for {".htmlspecialchars($_SESSION["wsi::plugin"])."} to work."; 
 	}
 	else{ 
 		?>
@@ -218,15 +218,21 @@ if ( isset( $_REQUEST['fsock'] ) ) {
 		echo "<b style='color:green;'>OK!</b><br />REGISTER_GLOBALS = OFF. [http://php.net/manual/en/security.globals.php]";
 	}
 	?>
-	<h5>6. Check FACEBOOK STATUS</h5> 
-
-	<p>Sometimes Facebook Chat system in unavailable. And there is nothing we can do about that. Check if you system is connecting to Facebook:</p>
-	<p id="fsock">Testing facebook status....... please wait and be patient</p>
-		<script>
-			jQuery(document).ready(function($) {
-				$("#fsock").load( "?fsock=test" );
-			});
-		</script>
-	</p>  
+	<h5>6. Check Google Status</h5> 
+	<p>
+	<?php require_once('classes/Googl.class.php'); 
+		$goo = new Googl;
+		$short_url = $goo->shorten('http://example.com');
+		if( $short_url ){
+			echo "<b style='color:green;'>OK!</b><br />Googl service working normally " . $short_url ;
+		}
+		else{ 
+			echo "<b style='color:red;'>FAIL!</b><br />Googl service not working";
+			echo '<pre>';
+			var_dump($short_url);
+			echo '</pre>';
+		}
+	?>
+	</p>
 </body>
 </html>
