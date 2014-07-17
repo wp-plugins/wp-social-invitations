@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>Wordpress Social Invitation </title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+
+		img {
+			border: solid 5px #DCDCDC;
+		}
+
+		code {
+			background: #EAEAEA;
+			padding: 1px 3px;
+			margin: 0 1px;
+			font-size: 11px;
+			font-family: Consolas,Monaco,monospace;
+		}
+
+		pre {
+			background: #EAEAEA;
+			padding: 1px 3px;
+			font-size: 11px;
+			font-family: Consolas,Monaco,monospace;
+		}
+	</style>
+</head>
+
+
+<body>
+	<div class="container">
+	
+		<h3 class="center alt">Wordpress Social Invitations v1.3</h3>
+		
+		<hr>
+		
+		<h1 class="center">Wordpress Social Invitations</h1>
+		
+		<div class="borderTop">
+			<div id="contact" class="span-6 colborder info prepend-1">
+				<p class="prepend-top">
+					<strong>
+					Created: 20/05/2013<br>
+					Updated: 31/05/2013<br>
+					By: Damian Logghe<br>
+					Email: <a href="mailto:info@timersys.com">info@timersys.com</a><br>
+					Website: <a href="http://www.timersys.com/">timersys.com</a><br>
+					Twitter: <a href="http://twitter.com/chifliiiii">@chifliiiii</a>
+					</strong>
+				</p>
+			</div><!-- end div .span-6 -->		
+	
+			<div class="span-12 last">
+				<p class="prepend-top append-0">Thank you for downloading my plugin. If you have any questions that are beyond the scope of this help file, please feel free to email me or contact me via my <a href="http://www.timersys.com/en/contact/">contact form</a> on my website. Thanks so much!</p>
+				
+				<p>For support visit <a href="http://timersys.ticksy.com/" target="_blank">http://timersys.ticksy.com/</a>
+			</div>
+		</div><!-- end div .borderTop -->
+		
+		<hr>
+		
+		<h2 id="toc" class="alt">Table of Contents</h2>
+		<ol class="alpha">
+			<li><a href="#installation">Installation</a></li>
+			<li><a href="#configuration">Configuration</a>
+			<ol>
+				<li><a href="#google">Google</a></li>
+				<li><a href="#yahoo">Yahoo</a></li>
+				<li><a href="#linkedin">Linkedin</a></li>
+				<li><a href="#live">Live, Hotmail, Msn</a></li>
+				<li><a href="#facebook">Facebook</a></li>
+				<li><a href="#twitter">Twitter</a></li>
+				<li><a href="#foursquare">Foursquare</a></li>
+			</ol>
+			</li>
+			<li><a href="#shortcodes">Shortcodes</a></li>
+			<li><a href="#dev">PHP Functions</a></li>
+			<li><a href="#hooks">Hooks & Redirection</a></li>
+			<li><a href="#translate">Translation</a></li>
+			<li><a href="#credits">Sources and Credits</a></li>
+		</ol>
+		
+		<hr>
+		
+		<h3 id="installation"><strong>A) Installation</strong> - <a href="#toc">top</a></h3>
+
+		<p>Move the folder named <b>wordpress-social-invitations</b> (located inside the <b>wsi-plugin</b> folder you just downloaded and extracted from CodeCanyon to your WordPress <b>/wp-content/plugins/</b> folder.</p>
+
+		<p>Navigate to <b>Plugins</b> inside the admin interface of your WordPress website and click <b>Activate</b> for <b>Wordpress Social Invitation</b>. Congratulations! the plugin is now installed and activated.</p>
+
+		<p>If you have any trouble with the installation, please feel free to <a href="#contact">contact</a> me for help.</p>
+
+		<hr>
+
+		<h3 id="configuration"><strong>B) Configuration</strong> - <a href="#toc">top</a></h3>
+
+		<p>Once you have installed and activated Wordpress Social Invitations, you can follow this guide for configuring the different providers. Please read it carefully, you will need to properly configure the providers in order to make them work.</p>
+
+		<h4 id="google"><strong>1. Google</strong> - <a href="#toc">top</a></h4>
+
+		<p>To enable authentication with this provider and to register a new Google API Application, carefully follow the steps :</p>
+		
+		<ol>
+			<li>Go to <a href="https://code.google.com/apis/console/" target="_blank">https://code.google.com/apis/console/</a> and <strong>create a new application</strong>.</li>
+			<li>On the <strong>Dashboard sidebar</strong> click on <strong>API Access</strong> then Click <strong>"Create an OAuth 2.0 client ID..."</strong>.</li>
+			<li>On the "Create Client ID" popup:
+				<ul>
+				<li>Choose <strong>"Web application"</strong></li>
+				<li>On <strong>"Your site or hostname"</strong> enter your website url followed by <strong>/wp-content/plugins/wordpress-social-invitations/hybridauth/?hauth.done=google</strong>. If your site is www.example.com , you need to enter <strong>www.example.com/wp-content/plugins/wordpress-social-invitations/hybridauth/?hauth.done=google</strong> and that should be shown in the <strong>Redirect URI</strong> field </li>
+				<li>Click on <strong>"Create Client ID"</strong> to finish</li>
+				</ul>
+			</li>
+			<li>Once created copy the Client ID and Client Secret to the Wordpress Social Invitations Plugin</li>
+		</ol>
+
+		<img src="assets/img/screen1.jpg" alt="Google App" /><br><br>
+
+		
+		<hr>
+
+		<h4 id="yahoo"><strong>2. Yahoo</strong> - <a href="#toc">top</a></h4>
+
+		<p>To enable authentication with this provider and to register a new Yahoo API Application, carefully follow the steps :</p>
+		
+		<ol>
+			<li>Go to <a href="https://developer.apps.yahoo.com/dashboard/createKey.html" target="_blank">https://developer.apps.yahoo.com/dashboard/createKey.html</a> and <strong>create a new application</strong>.</li>
+			<li>Fill out any required fields such as the application name and description.</li>
+			<li>Choose <strong>"Web-based"</strong> as application type.</li>
+			<li>On <strong>"Access Scopes"</strong> choose <strong>"This app requires access to private user data"</strong>.</li>
+			<li>Enter your website again on the <strong>"Application domain"</strong> field.</li>
+			<li>Check <strong>"Contacts"</strong> API checkbox with Read access.</li>
+			<li>Accept terms and create project</li>
+			<li>Optional (but recommended) once the project is created you can verify the domain in <a href="https://developer.apps.yahoo.com/manage">https://developer.apps.yahoo.com/manage</a></li>
+			<li>Once created copy the API Key and Secret Key to the Wordpress Social Invitations Plugin</li>
+		</ol>
+
+		<img src="assets/img/screen2.jpg" alt="Yahoo App" /><br><br>
+
+		
+		<hr>
+
+		<h4 id="linkedin"><strong>3. Linkedin</strong> - <a href="#toc">top</a></h4>
+
+
+		<p>To enable authentication with this provider and to register a new Linkedin API Application, carefully follow the steps :</p>
+		
+		<ol>
+			<li>Go to <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a> and <strong>create a new application</strong>.</li>
+			<li>Fill out any required fields such as the application name and description , website, etc.</li>
+			<li>Choose <strong>"Live"</strong> on <strong>"Live Status"</strong>.</li>
+			<li>Agree with terms and click on Add Application</li>
+			<li>Once created copy the API Key and Secret Key to the Wordpress Social Invitations Plugin</li>
+		</ol>
+
+		<img src="assets/img/screen3.jpg" alt="Linkedin App" /><br><br>
+
+		
+		<hr>
+
+		<h4 id="live"><strong>4. Live</strong> - <a href="#toc">top</a></h4>
+
+
+		<p>Live, Msn or Hotmail do not require any other step. Just activate it on the settings page :</p>
+		
+		
+		
+		<hr>
+		
+		<h4 id="facebook"><strong>5. Facebook</strong> - <a href="#toc">top</a></h4>
+
+
+		<p>To enable authentication with this provider and to register a new Facebook API Application, carefully follow the steps :</p>
+		
+		<ol>
+			<li>Go to <a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a> and <strong>create a new application</strong>.</li>
+			<li>Fill out <strong>App Name</strong>, <strong>App Namespace</strong> and click continue</li>
+			<li>Enter your domain in <strong>"App Domains"</strong> field. eg: example.com</li>
+			<li><strong>Desactivate</strong> Sandbox Mode </li>
+			<li>Check <strong>"Website with Facebook Login"</strong> and enter your website url</li>
+			<li>Click on Save Changes and copy <strong>App ID</strong> and <strong>App Secret</strong> into Wordpress Social Invitations</li>
+		</ol>
+
+		<img src="assets/img/screen4.jpg" alt="facebook App" /><br><br>
+		<img src="assets/img/screen5.jpg" alt="facebook App" /><br><br>
+
+		
+		<hr>
+
+		<h4 id="twitter"><strong>6. Twitter</strong> - <a href="#toc">top</a></h4>
+
+
+		<p>To enable authentication with this provider and to register a new Twitter API Application, carefully follow the steps :</p>
+		
+		<ol>
+			<li>Go to <a href="https://dev.twitter.com/apps" target="_blank">https://dev.twitter.com/apps</a> and <strong>create a new application</strong>.</li>
+			<li>Fill out any required fields such as the application name and description , website, etc.</li>
+			<li>On <strong>"Callback URL"</strong> enter your website url followed by <strong>/wp-content/plugins/wordpress-social-invitations/hybridauth/?hauth.done=twitter</strong>. If your site is www.example.com , you need to enter <strong>http://www.example.com/wp-content/plugins/wordpress-social-invitations/hybridauth/?hauth.done=twitter</strong> and that should be shown in the <strong>Redirect URI</strong> field </li>
+			<li>Accept terms and create the application</li>
+			<li>Go the the <strong>settings tab</strong> and change your <strong>application type</strong> to <strong>"Read, Write and Access direct messages"</strong></li>
+			<li>Copy <strong>Consumer Key</strong> and <strong>Consumer Secret</strong> into Wordpress Social Invitations</li>
+		</ol>
+
+		<img src="assets/img/screen6.jpg" alt="twitter App" /><br><br>
+		<img src="assets/img/screen7.jpg" alt="twitter App" /><br><br>
+
+		
+		<hr>
+
+		<h4 id="foursquare"><strong>7. Foursquare</strong> - <a href="#toc">top</a></h4>
+
+
+		<p>To enable authentication with this provider and to register a new Foursquare API Application, carefully follow the steps :</p>
+		
+		<ol>
+			<li>Go to <a href="https://es.foursquare.com/developers/register" target="_blank">https://es.foursquare.com/developers/register</a> and <strong>create a new application</strong>.</li>
+			<li>Fill out your <strong>"Welcome page"</strong> with your website url</li>
+			<li>On <strong>"Redirect URI"</strong> enter your website url followed by <strong>/wp-content/plugins/wordpress-social-invitations/hybridauth/?hauth.done=foursquare</strong>. If your site is www.example.com , you need to enter <strong>http://www.example.com/wp-content/plugins/wordpress-social-invitations/hybridauth/?hauth.done=foursquare</strong> and that should be shown in the <strong>Redirect URI</strong> field </li>
+			<li>Save the changes</li>
+			<li>Copy <strong>Client ID</strong> and <strong>Client Secret</strong> into Wordpress Social Invitations</li>
+		</ol>
+
+		<img src="assets/img/screen8.jpg" alt="Foursquare App" /><br><br>
+
+		
+		<hr>
+
+		<h3 id="shortcodes"><strong>C) Shortcodes</strong> - <a href="#toc">top</a></h3>
+
+
+		<p>You can display Wordpress social Invitation in any page by using shortcodes:</p>
+
+		<h5>Basic Shortcode</h5>
+
+		<p><code>[wsi title="Invite your friends!"]</code></p>
+
+
+		<hr>
+
+		<h3 id="dev"><strong>D) PHP function</strong> - <a href="#toc">top</a></h3>
+
+		<p>It works the same way as shortcodes. Just call it like:</p>
+	
+
+		<pre>&lt;?php WP_Social_Invitations::widget('Invite some friends!!') ?&gt;</pre>
+		
+
+		<hr>
+
+		<h3 id="hooks"><strong>E) Hooks</strong> - <a href="#toc">top</a></h3>
+
+		<p>Wordpress Social invitations hooks into <a href="http://buddypress.org/">Buddypress</a> activation page and <a href="http://wordpress.org/plugins/invite-anyone/">Invite Anyone plugin</a>.</p>
+		
+		<p>Be aware that with Invite Anyone plugin not all the providers will work. Only the ones that return user emails (Yahoo, Live, Gmail)</p>			
+		
+		<p>You can also redirect users to a specific page after they send the invitations</p>
+
+		<hr>
+
+		<h3 id="credits"><strong>F) Translation</strong> - <a href="#toc">top</a></h3>
+		
+		<p>With <a href="http://www.poedit.net/download.php">Poedit</a> you can edit wsi.po that is located in the root of the plugin. Once translated save it into the languages folder and rename both .po and .mo to the translated language. For example if you translated the plugin into spanish, save it as es_ES.mo and es_ES.po</p>
+		
+		<hr>
+		
+		<h3 id="credits"><strong>G) Sources and Credits</strong> - <a href="#toc">top</a></h3>
+
+		<ul>
+			<li><b><a href="http://wordpress.org/">WordPress</a></b></li>
+			<li><b><a href="https://github.com/abhinavsingh/JAXL">JAXL</a></b></li>
+			<li><b><a href="http://oauth.net/">OAuth</a></b> - OAuth protocol</li>
+			<li><b><a href="https://github.com/abraham/twitteroauth">twitteroauth</a></b> - Twitter PHP OAuth Library by abraham</li>
+			<li><b><a href="http://www.wpzoom.com/">WPZOOM icons</a></b></li>
+		</ul>
+
+		<hr>
+		
+		<p>Once again, thank you so much for purchasing this plugin. As I said at the beginning, I'd be glad to help you if you have any questions relating to this plugin. No guarantees, but I'll do my best to assist. If you have a more general question relating to the plugins on CodeCanyon, you might consider visiting the forums and asking your question in the "Item Discussion" section.</p> 
+		
+		<p class="append-bottom alt large"><strong>Timersys</strong></p>
+		<p><a href="#toc">Go To Table of Contents</a></p>
+		
+		<hr class="space">
+	</div><!-- end div .container -->
+</body>
+</html>
