@@ -55,6 +55,18 @@ Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/
 * Spanish - Eruedados Colombia 
 * Serbo/Croatian - Borisa Djuraskovic
 
+= Install Multiple plugins at once with WpFavs  =
+
+Bulk plugin installation tool, import WP favorites and create your own lists ([http://wordpress.org/extend/plugins/wpfavs/](http://wordpress.org/extend/plugins/wpfavs/))
+
+= Increase your twitter followers  =
+
+Increase your Twitter followers with Twitter likebox Plugin ([http://wordpress.org/extend/plugins/twitter-like-box-reloaded/](http://wordpress.org/extend/plugins/twitter-like-box-reloaded/))
+
+= Wordpress Social Invitations  =
+
+Enhance your site by letting your users send Social Invitations ([http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=social-popup&utm_medium=readme))
+
 == Installation ==
 
 = 1. The super easy way =
