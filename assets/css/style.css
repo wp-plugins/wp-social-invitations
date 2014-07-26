@@ -59,7 +59,7 @@ width: 100%;
 border-bottom: 1px solid #D7D7D7;
 overflow: hidden;
 }
-.service-filter-content .service-filters li {
+.service-filter-content .service-filters .divprovider {
 float: left;
 text-align: center;
 background-color: #FFF;
@@ -75,7 +75,7 @@ border: 1px solid #D7D7D7;
 cursor: pointer;
 color: #fff;
 }
-.service-filters li a {
+.service-filters .divprovider a {
 display: block;
 position: relative;
 z-index: 2;
@@ -86,19 +86,19 @@ height: 64px;
 color: inherit;
 text-decoration: none;
 }
-.service-filter-content .service-filters li:hover,
-.service-filter-content .service-filters li.selected,
-.service-filter-content .service-filters li.completed {
+.service-filter-content .service-filters .divprovider:hover,
+.service-filter-content .service-filters .divprovider.selected,
+.service-filter-content .service-filters .divprovider.completed {
 border: 1px solid #23639C;
 -webkit-box-shadow: #909090 0px 2px 5px 0px;
 -moz-box-shadow: #909090 0px 2px 5px 0px;
 box-shadow: #909090 0px 2px 5px 0px;
 opacity: 0.9;
 }
-.service-filter-content .service-filters li a:hover{
+.service-filter-content .service-filters .divprovider a:hover{
 	color: inherit;
 }
-.service-filter-content .service-filters li.completed{
+.service-filter-content .service-filters .divprovider.completed{
 	background: #FFF url(../img/completed.png) no-repeat 2px 2px;
 }
 .ready-label.hidden{ display: none;}
@@ -108,24 +108,24 @@ display: table-cell;
 text-decoration: none;
 vertical-align: middle;
 }
-.service-filter-content .service-filters li .service-filter-name-container .service-filter-name-outer {
+.service-filter-content .service-filters .divprovider .service-filter-name-container .service-filter-name-outer {
 height: 100%;
 width: 100%;
 display: table;
 position: relative;
 overflow: hidden;
 }
-.service-filter-content .service-filters li .service-filter-name-container .service-filter-name-outer .service-filter-name-inner {
+.service-filter-content .service-filters .divprovider .service-filter-name-container .service-filter-name-outer .service-filter-name-inner {
 top: 50%;
 display: table-cell;
 vertical-align: middle;
 left: 0;
 }
-.service-filter-content .service-filters li .service-filter-name-container .service-filter-name-outer .service-filter-name-inner a {
+.service-filter-content .service-filters .divprovider .service-filter-name-container .service-filter-name-outer .service-filter-name-inner a {
 top: -50%;
 padding: 0;
 }
-.service-filters li:last-child {
+.service-filters .divprovider:last-child {
 margin-right: 0px;
 }
 #facebook-provider{
@@ -173,20 +173,20 @@ background: none;
 border: none;
 padding: 0;
 }
-.wsi-sidebar.service-filters li {
+.wsi-sidebar.service-filters .divprovider {
 border: none;
 height: auto;
 margin: 0 3px 3px 0;
 width: auto;
 }
-.wsi-sidebar.service-filters li:hover {
+.wsi-sidebar.service-filters .divprovider:hover {
 box-shadow: none;
 -webkit-box-shadow: none;
 -moz-box-shadow: none;
 border: none;
 opacity: 0.8;
 }
-.wsi-sidebar.service-filters li a {
+.wsi-sidebar.service-filters .divprovider a {
 padding: 0;
 width: 36px;
 height: 38px;
@@ -194,7 +194,7 @@ font-size: 22px;
 line-height: 38px;
 color: inherit;
 }
-.wsi-sidebar.service-filters li a:hover{
+.wsi-sidebar.service-filters .divprovider a:hover{
 	color: inherit;
 }
 .wsi_success.small {
@@ -203,7 +203,7 @@ width: auto;
 #wsi_provider{
 	text-transform:capitalize;
 }	
-.wsi-sidebar.service-filters li.completed {
+.wsi-sidebar.service-filters .divprovider.completed {
 background: none;
 border: none;
 box-shadow: none;

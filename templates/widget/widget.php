@@ -24,7 +24,7 @@ global $wp_query;
 
 
 <div class="service-filter-content">
-  <ul class="service-filters ">
+  <div class="service-filters ">
 <?php
 	
 	
@@ -32,19 +32,19 @@ global $wp_query;
 		
 		if( isset($options['enable_'.$p]) && $options['enable_'.$p] == 'true' ) :
 		?>
-			<li id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>">
+			<div id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>" class="divprovider">
 	        <span class="ready-label hidden">Ready</span>
 	            <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="" data-provider="<?php echo $p;?>">
 		            <i class="wsiicon-<?php echo $p;?>"></i>
 	            </a>
 	        
-	      </li>
+	      </div>
 		
 		<?php
 		endif;
 	endforeach;
 ?>		  
-  </ul>
+  </div>
    <div class="wsi_success"><?php echo sprintf( __('Thanks for inviting your %s friends. Please try other network if you wish.',$WPB_PREFIX),'<span id="wsi_provider"></span>');?></div>
 </div>
 
