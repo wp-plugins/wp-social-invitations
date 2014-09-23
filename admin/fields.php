@@ -40,7 +40,7 @@
 		
 	);
 		
-	If (is_active('buddypress/bp-loader.php')) {
+	If (wsi_is_active('buddypress/bp-loader.php')) {
 	
 		$this->settings['hook_buddypress'] = array(
 			'title'   => __( 'Buddypress' , $this->WPB_PREFIX),
@@ -55,7 +55,7 @@
 		);
 	}
 	
-	If (is_active('invite-anyone/invite-anyone.php')) {
+	If (wsi_is_active('invite-anyone/invite-anyone.php')) {
 	
 		$this->settings['hook_invite_anyone'] = array(
 			'title'   => __( 'Invite Anyone Plugin' , $this->WPB_PREFIX),
@@ -741,10 +741,10 @@ $this->settings['g_heading'] = array(
 		)
 	);	
 	
-	function is_active( $plugin ) {
-	        return in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) || is_network_active( $plugin );
+	function wsi_is_active( $plugin ) {
+	        return in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) || wsi_is_network_active( $plugin );
 	}
-		function is_network_active( $plugin ) {
+		function wsi_is_network_active( $plugin ) {
 	        if ( !is_multisite() )
 	                return false;
 	

@@ -3,8 +3,8 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.5.6
-Tested up to: 3.9.1
+Stable Tag: 1.5.7
+Tested up to: 4.0
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
 
@@ -59,13 +59,15 @@ Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/
 
 Bulk plugin installation tool, import WP favorites and create your own lists ([http://wordpress.org/extend/plugins/wpfavs/](http://wordpress.org/extend/plugins/wpfavs/))
 
+= Wordpress Popups  =
+
+Best popups plugin ever ([http://wp.timersys.com/popups/](http://wp.timersys.com/popups/?utm_source=wsi-free-plugin&utm_medium=readme))
+
 = Increase your twitter followers  =
 
 Increase your Twitter followers with Twitter likebox Plugin ([http://wordpress.org/extend/plugins/twitter-like-box-reloaded/](http://wordpress.org/extend/plugins/twitter-like-box-reloaded/))
 
-= Wordpress Social Invitations  =
 
-Enhance your site by letting your users send Social Invitations ([http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=social-popup&utm_medium=readme))
 
 == Installation ==
 
@@ -103,6 +105,11 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.5.7 - Sept 23, 2014
+
+* Prefixed custom functions
+* Update oAuth for imcompatibility problems
 
 = 1.5.6 - Jul 26, 2014
 
