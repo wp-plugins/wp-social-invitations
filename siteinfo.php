@@ -18,7 +18,7 @@
 
 global $wsi, $wpdb;
 
-if( isset($_GET['support']) && $_GET['support'] == 'yes' && $_GET['page'] == 'wp-social-invitations')
+if( isset($_GET['support']) && $_GET['support'] == 'yes' && $_GET['page'] == 'wordpress-social-invitations')
 {
 	delete_option('wsi-lock-fb');
 	delete_option('wsi-lock-tw');
@@ -29,8 +29,15 @@ if( isset($_GET['support']) && $_GET['support'] == 'yes' && $_GET['page'] == 'wp
 
 
 	
-<p>You can do a simple test to see if you meet the <a href="http://wp.timersys.com/wordpress-social-invitations/docs/requirements/">requirements</a>: <a class="button-primary" href="<?php echo $wsi->WPB_PLUGIN_URL.'/test.php';?>" target="_blank">WSI TEST</a></p>
-<p>Enable DEV mode to see errors and fill php logs with more debugging info</p>
+<p>You can do a simple test to see if you meet the <a href="http://wp.timersys.com/wordpress-social-invitations/docs/requirements/" target="_blank">requirements</a>: <a class="button-primary" href="<?php echo $wsi->WPB_PLUGIN_URL.'/test.php';?>" target="_blank">WSI TEST</a></p>
+
+<p>Check first <a href="http://wp.timersys.com/wordpress-social-invitations/docs/common-problems/" target="_blank">Common Problems section</a></p>
+
+<p>Enable DEV mode to see errors and fill the php error_log with more debugging info</p>
+
+<p>WSI Server Cron url: <?php echo site_url('wp-cron.php').'?wsi_server_cron='.WSI_CRON_TOKEN;?>  <a href="http://wp.timersys.com/wordpress-social-invitations/docs/cron-jobs/" target="_blank">View instructions</a> for server cron jobs</p>
+
+<p>Unlock the Queue:  <a href="<?php echo site_url('?wsi_queue_unlock='.WSI_CRON_TOKEN);?>" target="_blank">Click here to unlock queue</a> - Use it only if the queue remains locked no matter what.</p>
 	
  
 <p>
@@ -50,6 +57,13 @@ FB LOCKED:				  <?php echo get_option('wsi-lock-fb') == 'yes' ? 'Yes' : 'No'; ec
 TW LOCKED:				  <?php echo get_option('wsi-lock-tw') == 'yes' ? 'Yes' : 'No'; echo "\n";?>
 LK LOCKED:				  <?php echo get_option('wsi-lock-lk') == 'yes' ? 'Yes' : 'No'; echo "\n";?>
 EMAILS LOCKED:			  <?php echo get_option('wsi-lock-emails') == 'yes' ? 'Yes' : 'No'; echo "\n";?>
+
+EMAILS NEXT:		  <?php $en = $wpdb->get_var("SELECT send_at FROM {$wpdb->base_prefix}wsi_queue WHERE send_at != 'NULL' AND provider = 'google' OR provider = 'yahoo' OR provider = 'live' OR provider = 'foursquare'"); echo $en ? date('D, d M Y H:i:s',$en):''; echo "\n";?>
+TW NEXT:			  <?php $twn = $wpdb->get_var("SELECT send_at FROM {$wpdb->base_prefix}wsi_queue WHERE send_at != 'NULL' AND provider = 'twitter'"); echo $twn ? date('D, d M Y H:i:s',$twn):''; echo "\n";?>
+LINKEDIN NEXT:		  <?php $lkn = $wpdb->get_var("SELECT send_at FROM {$wpdb->base_prefix}wsi_queue WHERE send_at != 'NULL' AND provider = 'linkedin'"); echo $lkn ? date('D, d M Y H:i:s',$lkn):''; echo "\n";?>
+FACEBOOK NEXT:		  <?php $fbn = $wpdb->get_var("SELECT send_at FROM {$wpdb->base_prefix}wsi_queue WHERE send_at != 'NULL' AND provider = 'facebook'");  echo $fbn ? date('D, d M Y H:i:s',$fbn):''; echo "\n";?>
+
+
 SERVER_TIME:              <?php echo date('l jS \of F Y h:i:s A') . "\n"; ?>
 SITE_URL:                 <?php echo site_url() . "\n"; ?>
 PLUGIN_URL:               <?php echo plugins_url() . "\n"; ?>
