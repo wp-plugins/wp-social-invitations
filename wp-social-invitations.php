@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.5.7
+Version: 1.6
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -23,6 +23,8 @@ define('WSI_CRON_TOKEN',md5(__FILE__.$blog_id));
 
 @ session_start();
 $_SESSION["wsi::plugin"] = "WordPress Social Invitations ";
+@ session_write_close();
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -80,7 +82,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.5.7';
+		$this->WPB_VERSION		=	'1.6';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -326,6 +328,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	
 			wp_enqueue_script('wsi-js', plugins_url( 'assets/js/wsi.js', __FILE__ ), array('jquery'),$this->WPB_VERSION,true);
 			wp_localize_script( 'wsi-js', 'WsiMyAjax', array( 
+				'site_url' 			=> site_url( ),
 				'url' 				=> site_url( 'wp-login.php' ),
 				'admin_url'			=> admin_url( 'admin-ajax.php' ), 
 				'nonce' 			=> wp_create_nonce( 'wsi-ajax-nonce' ),
@@ -938,6 +941,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	*/
 	function process_login_auth() {
 	
+		@session_start();
 		// let display a loading message. should be better than a white screen
 		if( isset( $_REQUEST["provider"] ) && ! isset( $_REQUEST["redirect_to_provider"] ) ){
 			$this->process_login_render_loading_page();
@@ -1146,7 +1150,8 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			
 				</body>
 			</html>
-			<?php			
+			<?php	
+			session_write_close();		
 		}// if we are connected to a provider or is live
 	}
 	catch( Exception $e ){
@@ -1369,12 +1374,14 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			);
 			
 			$post_data = get_post(self::$_obj_id);
+
+			$wsi =  self::get_instance();
 			
 			$por = array(
 				apply_filters('wsi_placeholder_invitername'	, isset(self::$_profile->displayName) ? self::$_profile->displayName : __('A friend of you', self::$PREFIX)),
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
 				apply_filters('wsi_current_url'			    , isset(self::$_current_url) ? self::$_current_url : ''),
-				apply_filters('wsi_placeholder_custom_url'  , ''),
+				apply_filters('wsi_placeholder_custom_url'  , $wsi->_options['custom_url'] ),
 				apply_filters('wsi_current_title'			, isset($post_data->post_title) ? $post_data->post_title : '')
 				
 			);

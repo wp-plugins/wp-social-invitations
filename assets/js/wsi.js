@@ -46,7 +46,7 @@ window.fbAsyncInit = function() {
 		    	
 		    }
 		    if( 'facebook' == provider) {
-		    		var link = current_url;
+		    		var link = WsiMyAjax.site_url;
 		    		FB.ui(
 					  {
 					    method: 'share',

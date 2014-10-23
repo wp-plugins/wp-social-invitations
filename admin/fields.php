@@ -108,12 +108,13 @@
 
 		$this->settings['facebook_share_url'] = array(
 		'title'   => __( 'Url to Share' , $this->WPB_PREFIX),
-		'desc'    => __( 'Will share current url. For more options you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>' , $this->WPB_PREFIX),
-		'std'     => 'registration',
+		'desc'    => __( 'Will share site url. For more options you need <a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free" target="_blank" style="color:red">Premium version</a>' , $this->WPB_PREFIX),
+		'std'     => 'site_url',
 		'type'    => 'select',
 		'disabled'=> 'yes',
 		'section' => 'wsi_general',
 		'choices' => array(
+			'site_url' 	   => __( 'Site Url' , $this->WPB_PREFIX),
 			'registration' => __( 'Registration Url' , $this->WPB_PREFIX),
 			'current' 	   => __( 'Current URL' , $this->WPB_PREFIX),
 			'custom_url'   => __( 'Custom URL' , $this->WPB_PREFIX),
@@ -349,7 +350,13 @@ $this->settings['g_heading'] = array(
 	* Default Messages
 	*/
 	
-	
+	$this->settings['custom_url'] = array(
+		'title'   => __( 'Custom Url' , $this->WPB_PREFIX),
+		'desc'    => __('Fill this field to use it with %%CUSTOMURL%%',$this->WPB_PREFIX),
+		'type'    => 'text',
+		'section' => 'wsi_messages'
+	);
+
 	$this->settings['default_heading'] = array(
 		'section' 	=> 'wsi_messages',
 		'std'   	=> __( 'Default HTML Message for emails.' , $this->WPB_PREFIX), // Not used for headings.

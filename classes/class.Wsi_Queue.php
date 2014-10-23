@@ -240,6 +240,7 @@ if( !class_exists('Wsi_Queue') ) {
 		
 		public static function replacePlaceholders($display_name, $queue_id, $user_id, $content)
 		{
+			global $wsi;
 			/*
 			%%INVITERNAME%%: Display name of the inviter
 			%%SITENAME%%: Name of your website 
@@ -272,7 +273,7 @@ if( !class_exists('Wsi_Queue') ) {
 				apply_filters('wsi_placeholder_sitename'	, get_bloginfo('name')),
 				apply_filters('wsi_placeholder_accepturl'	, $accept_url),
 				apply_filters('wsi_placeholder_inviter_url'	, $inviter_url),
-				apply_filters('wsi_placeholder_custom_url'	, ''),
+				apply_filters('wsi_placeholder_custom_url'	, $wsi->_options['custom_url'] ),
 				
 			);
 	
