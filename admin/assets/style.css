@@ -24,8 +24,8 @@
 .foursquare-heading h2, .sortable-list li.foursquare{
 	background: url(img/wpzoom/foursquare.png) no-repeat left center;
 }
-.-heading h2, .sortable-list li.myspace{
-	background: url(img/wpzoom/myspace.png) no-repeat left center;
+.mail-heading h2, .sortable-list li.mail{
+	background: url(img/wpzoom/mailru.png) no-repeat left center;
 }
 
 #sortable-form {
@@ -49,6 +49,9 @@
 }
 .widefat.ia-stats td {
 text-align: center;
+}
+.mce-edit-area iframe {
+	min-height: 200px;
 }
 #sending .updated, 
 #sending .error, 

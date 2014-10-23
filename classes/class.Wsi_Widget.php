@@ -29,12 +29,14 @@ class Wsi_Widget extends WP_Widget {
 		extract( $args );
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		$CURRENT_URL = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+		global $wp_query;
 		
 		echo $before_widget;
 		if ( ! empty( $title ) )
 			echo $before_title . $title . $after_title;
 			?>
 			<input type="hidden" id="wsi_base_url" value="<?php echo $CURRENT_URL;?>">
+			<input type="hidden" id="wsi_obj_id" value="<?php echo $wp_query->queried_object->ID;?>">
 			<?php
 			
 			$providers = $this->wsi->get_providers();

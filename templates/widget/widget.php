@@ -1,11 +1,11 @@
 <?php
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
-
+global $wp_query;
 /**
  * Big widget template used in pages
  *
- * @version	1.0
+ * @version	1.1
  * @since 1.4
  * @package	Wordpress Social Invitations
  * @author Timersys
@@ -20,10 +20,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 <h2 class="wsi-title"><?php echo isset($title) && $title != '' ? $title : apply_filters('wsi_widget_title', sprintf(__('Invite your friends to join %s',$WPB_PREFIX), get_bloginfo('name')));?></h2>
 
 <input type="hidden" id="wsi_base_url" value="<?php echo $CURRENT_URL;?>">
+<input type="hidden" id="wsi_obj_id" value="<?php echo $wp_query->queried_object->ID;?>">
 
 
 <div class="service-filter-content">
-  <ul class="service-filters ">
+  <div class="service-filters ">
 <?php
 	
 	
@@ -31,25 +32,19 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		if( isset($options['enable_'.$p]) && $options['enable_'.$p] == 'true' ) :
 		?>
-			<li id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>">
+			<div id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>" class="divprovider">
 	        <span class="ready-label hidden">Ready</span>
-	            <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="sprite sprite-<?php echo $p;?>" data-provider="<?php echo $p;?>"></a>
-	        <div class="service-filter-name-container">
-	          <div class="service-filter-name-outer">
-	            <div class="service-filter-name-inner">
-	                  <a rel="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" data-provider="<?php echo $p;?>">
-	                    <?php echo $p_name;?>
-	                  </a>
-	            </div>
-	          </div>
-	        </div>
-	      </li>
+	            <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="" data-provider="<?php echo $p;?>">
+		            <i class="wsiicon-<?php echo $p;?>"></i>
+	            </a>
+	        
+	      </div>
 		
 		<?php
 		endif;
 	endforeach;
 ?>		  
-  </ul>
+  </div>
    <div class="wsi_success"><?php echo sprintf( __('Thanks for inviting your %s friends. Please try other network if you wish.',$WPB_PREFIX),'<span id="wsi_provider"></span>');?></div>
 </div>
 

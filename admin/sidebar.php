@@ -14,22 +14,20 @@
 				<p>
 						<a href="http://wordpress.org/plugins/wp-social-invitations/"><?php _e('Rate the plugin 5★ on Wordpress', $this->WPB_PREFIX);?></a>
 				</p>
-				<p>
-						<a href="http://wp.timersys.com/wordpress-social-invitations/"><?php _e('Get Premium version', $this->WPB_PREFIX);?></a>
+				<p style="font-weigh:bold">
+						<a href="http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=sidebar&utm_campaign=wsi" style="color:red"><?php _e('Get Premium Features', $this->WPB_PREFIX);?></a>
 				</p>
 				<p>
 						<a href="<?php echo $this->WPB_PLUGIN_URL.'/'.$this->WPB_PREFIX.'.po';?>"><?php _e('Translate the plugin to your language', $this->WPB_PREFIX);?></a>
 				</p>
 				
-				<b>Upcoming Features</b>
+				<b>New Premium features</b>
 				<ul>
 					<li>Content locker</li>
-					<li>More providers</li>
-					<li>Cubepoints Integration</li>
-					<li>Developers Tools</li>
+					<li>Cubepoints/MyCreed Integration</li>
 				</ul>
 				
-				<h5><a href="http://support.timersys.com" target="_blank">CLICK HERE FOR SUPPORT</a></h5>
+				
 		
 				
 			
