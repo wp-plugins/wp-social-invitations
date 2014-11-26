@@ -12,7 +12,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 ?>
 <div class="service-filter-content ">
-  <ul class="service-filters wsi-sidebar ">
+  <div class="service-filters wsi-sidebar ">
 <?php
 
 	
@@ -20,14 +20,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		if( $options['enable_'.$p] == 'true' ) :
 		?>
-			<li id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>">
-	             <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="sprite sprite-<?php echo $p;?>" data-provider="<?php echo $p;?>"></a>
-	        </li>
+			<div id="<?php echo $p;?>-provider" data-li-origin="<?php echo $p;?>" class="divprovider">
+	             <a title="<?php echo $p_name;?>" href="#-service-<?php echo $p;?>" class="" data-provider="<?php echo $p;?>"><i class="wsiicon-<?php echo $p;?>"></i></a>
+	        </div>
 		
 		<?php
 		endif;
 	endforeach;
 ?>		  
-  </ul>
+  </div>
    <div class="wsi_success small"><?php echo sprintf( __('Thanks for inviting your %s friends. Please try other network if you wish.',$WPB_PREFIX),'<span id="wsi_provider"></span>');?></div>
 </div>
