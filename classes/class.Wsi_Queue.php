@@ -261,7 +261,7 @@ if( !class_exists('Wsi_Queue') ) {
 			if( function_exists('bp_get_root_domain') )
 			{
 				//BP is alive
-				$accept_url 	= bp_get_root_domain() . '/' . bp_get_signup_slug() . '/wsi-accept-invitation/' . base64_encode( $queue_id );
+				$accept_url 	= bp_get_root_domain() . '/' . bp_get_signup_slug() . '/?action=register&wsi-accept-invitation=' . base64_encode( $queue_id );
 				$inviter_url 	= bp_core_get_user_domain($user_id);	
 			}
 			else

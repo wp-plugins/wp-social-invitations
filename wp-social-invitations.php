@@ -3,7 +3,7 @@
 Plugin Name: WP Social Invitations
 Plugin URI: http://wp.timersys.com/wordpress-social-invitations
 Description: Allow your visitors to invite friends of their social networks such as Twitter, Facebook, Linkedin, Google, Yahoo, Hotmail and more.
-Version: 1.6
+Version: 1.6.1
 Author: timersys
 Author URI: http://www.timersys.com
 License: MIT License
@@ -82,7 +82,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		self::$PREFIX			=	'wsi';
 		$this->WPB_SLUG			=	'wp-social-invitations'; // Need to match plugin folder name
 		$this->WPB_PLUGIN_NAME	=	'Wordpress Social Invitatios';
-		$this->WPB_VERSION		=	'1.6';
+		$this->WPB_VERSION		=	'1.6.1';
 		$this->PLUGIN_FILE		=   plugin_basename(__FILE__);
 		$this->options_name		=   $this->WPB_PREFIX.'_settings';
 		$this->CLASSES_DIR		=	dirname( __FILE__ ) . '/classes';
@@ -798,13 +798,13 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 	function bp_process_invitations(){
 	
 		global $bp;
-		if( defined('BP_VERSION') && ! isset( $bp->current_action) &&  $bp->current_action != 'wsi-accept-invitation' )
+		if( defined('BP_VERSION') && ! isset( $_REQUEST[ 'wsi-accept-invitation' ] ) )
 		{
 			return null;
 		}
-		if( defined('BP_VERSION') &&  isset($bp->action_variables[0]) && $bp->action_variables[0] != '' )
+		if( defined('BP_VERSION') &&  $_REQUEST[ 'wsi-accept-invitation' ] != "" &&  isset($_REQUEST['action']) && $_REQUEST['action'] == 'register' )
 		{
-			$this->bp_handle_user_invitations();
+			$this->handle_user_invitations();
 		}
 		
 	}
@@ -834,7 +834,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		
 		global $bp;
 		
-		if( ! isset( $_REQUEST[ 'wsi-accept-invitation' ] ) || ( defined('BP_VERSION') && $bp->current_action != 'wsi-accept-invitation' )  )
+		if( ! isset( $_REQUEST[ 'wsi-accept-invitation' ]  )  )
 		{
 				return;
 		}
@@ -897,44 +897,6 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 		echo $html;
 	 }
 
-/**
-	 * Function to process invitations in BP
-	 *
-	 */
-	 
-	 function bp_handle_user_invitations(){
-
-	 	global $wpdb,$bp;
-	 	
-
-	 	$queue_id = (int)base64_decode(  $bp->action_variables[0] );
-	 	
-	 	$stat 	  = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->base_prefix}wsi_stats WHERE queue_id = %d", array($queue_id)));
-	 	
-	 	$html = '';
-	 	
-
-	 	if( isset($stat->id) )
-	 	{
-	 		$inviter_text = '';
-			if( $stat->display_name != '' ) $inviter_text = sprintf( __("by %s", $this->WPB_PREFIX),$stat->display_name );	 		
-	 		ob_start();
-	
-	 		wsi_get_template('registration.php', array( 
-				'options' 					=> $this->_options,
-				'WPB_PREFIX' 				=> $this->WPB_PREFIX, 
-				'assets_url'				=> $this->assets_url, 
-				'data' 						=> $stat,
-				'inviter_text'				=> $inviter_text,
-				'is_bp'						=> 'yes'
-				) 
-			);
-			$html = ob_get_contents();
-			ob_clean();
-	 	}
-		
-		echo $html;
-	 }
 	 
 	/**
 	* Function that handle auth
@@ -1046,11 +1008,15 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			</head>
 			<body>
 			<?php 
+			// get current user in case we using live or mail to save display name
+			global $current_user;
+   			get_currentuserinfo();			
 			/**
 			 * Live importer
 			 */
 			if( $provider == 'live' ) : 
 					
+					$display_name  	= isset( $current_user->display_name ) ?  $current_user->display_name :'';
 					require( 'admin/my-providers/live.php');
 					
 			endif; //if provider is live we showed the uploader	
@@ -1060,7 +1026,7 @@ class WP_Social_Invitations extends WP_Plugin_Base_free
 			 */
 			if( $provider == 'mail' )
 			{
-			
+				$display_name  	= isset( $current_user->display_name ) ?  $current_user->display_name :'';
 				require( 'admin/my-providers/mail.php');
 			
 			}

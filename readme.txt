@@ -3,14 +3,19 @@ Author: Damian Logghe
 Contributors: timersys
 Description: Allow your visitors to invite friends of their social networks such as Google, Yahoo, Hotmail and more.
 Website: http://www.timersys.com
-Stable Tag: 1.6
-Tested up to: 4.0
+Stable Tag: 1.6.1
+Tested up to: 4.0.1
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, foursquare, google, social invites, invitations, social, social inviter
 License: http://codecanyon.net/licenses/regular
 
 Allow your visitors to invite friends of their social networks into your Wordpress site. 
 
 == Description ==
+
+> <strong>Black Friday Plus!</strong><br>
+> 
+> Check our ([Black Friday Offer](https://wp.timersys.com/black-friday-plus/))
+> 
 
 Allow your visitors to invite friends of their social networks such as Facebbok, Twitter, Foursquare Google, Yahoo, Hotmail and more directly into your Wordpress site. This plugin works perfectly with Buddypress and Invite Anyone Plugin.
 
@@ -33,20 +38,20 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 * Translation ready
 * Documentation
 
-= Premium version =
-
-* Content locker - Share you content only to users that invited their friends by using a simple shortcode
-* MyCRED & Cubepoints integration
-* Bypass registration lock- To use the plugin on private sites that works with invitation only
-* Facebook uses SEND DIALOG
-* Linkedin delivers private messages instead of posting into user status
-* Twitter delivers Private messages instead of posting a tweet
-* GMAIL & SMTP SUPPORT
-* Predefined invitations can't be edited by users
-* Redirect users after they send invitations
-* Change order of providers
-* Free Support
-
+> <strong>Premium version</strong><br>
+> 
+> * Content locker - Share you content only to users that invited their friends by using a simple shortcode
+> * MyCRED & Cubepoints integration
+> * Bypass registration lock- To use the plugin on private sites that works with invitation only
+> * Facebook uses SEND DIALOG
+> * Linkedin delivers private messages instead of posting into user status
+> * Twitter delivers Private messages instead of posting a tweet
+> * GMAIL & SMTP SUPPORT
+> * Predefined invitations can't be edited by users
+> * Redirect users after they send invitations
+> * Change order of providers
+> * Free Support
+> 
 Get the premium version on [http://wp.timersys.com/wordpress-social-invitations/](http://wp.timersys.com/wordpress-social-invitations/?utm_source=wsi-free&utm_medium=readme&utm_campaign=wsi)
 
 
@@ -105,6 +110,11 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 1.6.1 - Nov 26, 2014
+
+* Added display name to live provider
+* Updated for better buddypress compability
 
 = 1.6 - Oct 23, 2014
 
