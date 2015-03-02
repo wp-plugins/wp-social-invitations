@@ -4,7 +4,7 @@ Website: http://www.timersys.com
 Contributors: Timersys
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo
 License: http://codecanyon.net/licenses/regular
-Stable Tag: 2.0.0
+Stable Tag: 2.0.1
 Tested on: 4.1.1
 
 == Description ==
@@ -87,7 +87,12 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
-= 2.0.0 - Nov 26, 2014
+
+= 2.0.1
+
+* Fixxed undefined error in admin preventing plugins settings to work
+
+= 2.0.0
 
 * Plugin recoded from scracth to improve usability and performance
 * Added Debug Logs right in the debug tab

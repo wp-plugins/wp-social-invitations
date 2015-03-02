@@ -14,13 +14,6 @@
 
 		var send_method = $('.send_with').val();
 
-		show_email_settings(send_method);
-
-		$('.send_with').change(function(){
-			var send_method = $(this).val();
-			show_email_settings(send_method);
-		});
-
 
 		$('.wsi_test_email').on('click',function(e){
 			e.preventDefault();
