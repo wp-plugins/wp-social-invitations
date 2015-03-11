@@ -170,3 +170,36 @@ function wsi_get_data( $data ) {
 		return true;
 	return false;
 }
+
+/**
+ * Check if a user already sent invites using the plugin.
+ * @param $user_id
+ *
+ * @return bool
+ */
+function wsi_user_already_invited( $user_id ) {
+	global $wpdb;
+
+	if( empty($user_id) )
+		if( ! $user_id = get_current_user_id() )
+			return false;
+
+	$invites = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}wsi_invites WHERE user_id = %d", array($user_id) ) );
+
+	return ($invites);
+}
+
+/**
+ * Retrieve the total of invites users
+ * @param $user_id
+ *
+ * @return bool|int number of invites
+ */
+function wsi_get_total_invites( $user_id = '' ) {
+
+	if( empty($user_id) )
+		if( ! $user_id = get_current_user_id() )
+			return false;
+
+	return get_user_meta($user_id, 'wsi_total_invites', true);
+}

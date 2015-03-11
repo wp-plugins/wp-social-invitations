@@ -79,9 +79,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<td align="center"><br /><img src="<?php echo WSI_PLUGIN_URL ?>/public/assets/img/alert.png" /></td>
 		</tr>
 		<tr>
-		<td align="center"><br /><h4><?php _e("Something bad happen!", 'wsi') ?></h4><br /></td>
-		</tr>
-		<tr>
 		<td align="center">
 			<p style="line-height: 20px;padding: 8px;background-color: #FFEBE8;border:1px solid #CC0000;border-radius: 3px;padding: 10px;text-align:center;">
 				<?php echo $message ; ?> 

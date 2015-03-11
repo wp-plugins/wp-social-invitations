@@ -58,50 +58,50 @@ class Wsi_Mailer {
 
 		$sent_on_batch = 0;
 		Wsi_Logger::log( "Mails sending queue #".$this->data->id);
+		if( empty($this->data->friends)){
+			$delete_row = true;
+			Wsi_Logger::log( "Empty friends list in Queue #".$this->data->id);
+		} else {
 
-		foreach( $this->data->friends as $key => $f )
-		{
-			$this->send_email($f, $this->data->subject, $this->get_email_content() );
+			foreach ( $this->data->friends as $key => $f ) {
+				$this->send_email( $f, $this->data->subject, $this->get_email_content() );
 
-			$this->total_sent++;
+				$this->total_sent ++;
 
-			$sent_on_batch++;
+				$sent_on_batch ++;
 
-			do_action('wsi/invitation_sent', $this->data->user_id, $this->data->wsi_obj_id );
+				do_action( 'wsi/invitation_sent', $this->data->user_id, $this->data->wsi_obj_id );
 
-			unset($this->data->friends[$key]);
+				unset( $this->data->friends[ $key ] );
 
-			//if we reach our limit
-			if( $this->total_sent == $this->limit )
-			{
-				$send_at = time() + $this->every; //when to send next bacth
+				//if we reach our limit
+				if ( $this->total_sent == $this->limit ) {
+					$send_at = time() + $this->every; //when to send next bacth
 
-				//if we still have mails on this batch
-				if( $sent_on_batch < $this->data->i_count)
-				{
-					//we update count and send date
-					$mails_left = $this->data->i_count - $sent_on_batch;
+					//if we still have mails on this batch
+					if ( $sent_on_batch < $this->data->i_count ) {
+						//we update count and send date
+						$mails_left = $this->data->i_count - $sent_on_batch;
 
-					$friends_a 	= serialize($this->data->friends);
+						$friends_a = serialize( $this->data->friends );
 
-					$wpdb->query( "UPDATE {$wpdb->prefix}wsi_queue SET i_count = '$mails_left', send_at = '$send_at', friends = '$friends_a'  WHERE id = '".$this->data->id."'");
+						$wpdb->query( "UPDATE {$wpdb->prefix}wsi_queue SET i_count = '$mails_left', send_at = '$send_at', friends = '$friends_a'  WHERE id = '" . $this->data->id . "'" );
 
-					$delete_row = false; // we can't delete this yet
+						$delete_row = false; // we can't delete this yet
+					} else //we don't have more mails on this batch but we reached our $this->_limit  limit every $this->_every
+					{
+						//be sure to update the next record in db that send emails
+						$next_id = $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}wsi_queue WHERE id > '" . $this->data->id . "' AND (provider = 'google' OR provider = 'yahoo' OR provider = 'mail' OR provider = 'live' OR provider = 'foursquare') ORDER BY id ASC LIMIT 1" );
+
+						$wpdb->query( "UPDATE {$wpdb->prefix}wsi_queue SET send_at = '$send_at' WHERE id = '$next_id' " );
+					}
+
+					//exit our sending routine
+					break;
 				}
-				else //we don't have more mails on this batch but we reached our $this->_limit  limit every $this->_every
-				{
-					//be sure to update the next record in db that send emails
-					$next_id = $wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsi_queue WHERE id > '".$this->data->id."' AND (provider = 'google' OR provider = 'yahoo' OR provider = 'mail' OR provider = 'live' OR provider = 'foursquare') ORDER BY id ASC LIMIT 1");
 
-					$wpdb->query( "UPDATE {$wpdb->prefix}wsi_queue SET send_at = '$send_at' WHERE id = '$next_id' ");
-				}
-
-				//exit our sending routine
-				break;
-			}
-
-		}//endforeach
-
+			}//endforeach
+		}
 		//save stats
 		Wsi_Logger::log_stat($this->data->provider, $this->data->user_id, $sent_on_batch, $this->data->id, $this->data->display_name, $this->data->wsi_obj_id);
 		Wsi_Logger::log( "Mails finished sending queue #".$this->data->id);

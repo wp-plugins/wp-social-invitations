@@ -90,6 +90,7 @@ class Wsi_Public {
 	public function enqueue_scripts() {
 
 		global $wsi_plugin;
+		$current_user = wp_get_current_user();
 		$opts = $wsi_plugin->get_opts();
 
 		wp_enqueue_script( 'wsi-js', plugin_dir_url( __FILE__ ) . 'assets/js/wsi-public.js', array( 'jquery' ), $this->version, false );
@@ -105,6 +106,7 @@ class Wsi_Public {
 			'redirect_url'		=> $opts['redirect_url'],
 			'wsi_obj_id'		=> wsi_get_obj_id(),
 			'current_url'	    => wsi_current_url(),
+			'user_id'           => $current_user->ID,
 		) );
 	}
 
@@ -136,7 +138,6 @@ class Wsi_Public {
 	function catch_invited_users(){
 
 		if( !empty( $_REQUEST[ 'wsi_invitation' ] ) &&  isset($_REQUEST['wsi_action']) && $_REQUEST['wsi_action'] == 'accept-invitation' ) {
-			setcookie ("wsi-pre-accept", $_REQUEST[ 'wsi_invitation' ], time() + 84600, '/');
 
 			if ( in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php', 'wp-signup.php' ) ) ) {
 				remove_action( 'bp_init', 'bp_core_wpsignup_redirect' );
@@ -148,6 +149,9 @@ class Wsi_Public {
 			if( isset($_REQUEST['wsi_referral'])){
 				add_action('wp_head', array($this, 'add_fb_og_tags'), 1);
 				add_action('login_head', array($this, 'add_fb_og_tags'), 1);
+				setcookie ("wsi-fb-pre-accept", $_REQUEST[ 'wsi_invitation' ], time() + 84600, '/'); // we are really passing a user id instead of queue_id -damn fb!
+			} else {
+				setcookie ("wsi-pre-accept", $_REQUEST[ 'wsi_invitation' ], time() + 84600, '/');
 			}
 			return null;
 		}
@@ -187,9 +191,13 @@ class Wsi_Public {
 	public function showRegistrationMessage(){
 		global $wpdb;
 
-		$queue_id = (int)base64_decode( $_REQUEST[ 'wsi_invitation' ] );
-
-		$stat 	  = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}wsi_stats WHERE queue_id = %d", array($queue_id)));
+		if( isset($_REQUEST['wsi_referral'])){
+			$user_id = (int) base64_decode( $_REQUEST['wsi_invitation'] );
+			$stat = get_userdata($user_id);
+		} else {
+			$queue_id = (int) base64_decode( $_REQUEST['wsi_invitation'] );
+			$stat = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wsi_stats WHERE queue_id = %d", array( $queue_id ) ) );
+		}
 
 		$html = '';
 
@@ -240,15 +248,24 @@ class Wsi_Public {
 	function check_new_registered_user($invited_id)
 	{
 		global $wpdb;
-		if( !isset($_COOKIE['wsi-pre-accept']) )
+		if( !isset($_COOKIE['wsi-pre-accept']) && !isset($_COOKIE['wsi-fb-pre-accept']) )
 			return;
 
-		//if the cookie exists, the user was invited with our plugin. Lets give some points aways
-		$queue_id = (int)base64_decode($_COOKIE['wsi-pre-accept']);
-		$stat 	  = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}wsi_stats WHERE queue_id = %d", array($queue_id)));
-		do_action('wsi/invitation_accepted', $stat->user_id, $stat, $invited_id);
-		//clear the cookie
-		setcookie ("wsi-pre-accept", "", time() - 3600, '/');
+		if( isset($_COOKIE['wsi-pre-accept']) ){
+			//if the cookie exists, the user was invited with our plugin. Lets give some points aways
+			$queue_id = (int) base64_decode( $_COOKIE['wsi-pre-accept'] );
+			$stat     = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wsi_stats WHERE queue_id = %d", array( $queue_id ) ) );
+			do_action( 'wsi/invitation_accepted', $stat->user_id, $stat, $invited_id );
+			//clear the cookie
+			setcookie( "wsi-pre-accept", "", time() - 3600, '/' );
+		} else {
+			//if the cookie exists, the user was invited with our plugin. Lets give some points aways
+			$user_id = (int) base64_decode( $_COOKIE['wsi-fb-pre-accept'] );
+			do_action( 'wsi/invitation_accepted', $user_id, '', $invited_id );
+			//clear the cookie
+			setcookie( "wsi-fb-pre-accept", "", time() - 3600, '/' );
+		}
+
 	}
 
 	/**

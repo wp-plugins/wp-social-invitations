@@ -111,12 +111,17 @@ class Wsi_Queue {
 	private function add_to_queue( $input ) {
 
 		$friends = isset($_POST['friend']) ? $_POST['friend'] : '';
-		$provider = wsi_get_data('provider');
+		$isFb = false;
 
 		// check if provider is sent in input (fb only)
-		if( empty($provider) && !empty($input['provider']) ) {
+		if( !empty($input['provider']) ) {
 			$provider = $input['provider'];
+			$friends  = array('demo'.rand(1,99999999).'@demo.com'); // Add an empty user for facebook
+			$isFb = true;
+		} else {
+			$provider = wsi_get_data('provider');
 		}
+
 
 		$wsi_ob_id = wsi_get_data('obj_id');
 		// check if provider is sent in input (fb only)
@@ -159,7 +164,7 @@ class Wsi_Queue {
 
 		);
 
-		$this->add_to_invited($friends);
+		$this->add_to_invited($friends, $isFb);
 
 		return $wpdb->insert_id;
 	}
@@ -189,7 +194,7 @@ class Wsi_Queue {
 	 * Save invites to db to filter later
 	 * @param $friends
 	 */
-	private function add_to_invited( $friends ) {
+	private function add_to_invited( $friends, $isFb ) {
 		$user_id = get_current_user_id();
 
 		if( empty($user_id) || empty($friends) )
@@ -197,10 +202,10 @@ class Wsi_Queue {
 
 		global $wpdb;
 
-		$provider = wsi_get_data('provider');
+		$provider = $isFb ? 'facebook' : wsi_get_data('provider');
 
 		//grab previous invites for user and provider
-		$already_invited = Wsi_Queue::getInvitedFriends();
+		$already_invited = Wsi_Queue::getInvitedFriends($user_id, $provider);
 
 		if( !empty( $already_invited ) ) {
 			$wpdb->update(
@@ -228,17 +233,27 @@ class Wsi_Queue {
 				array( '%s', '%s', '%d', '%s' )
 			);
 		}
+		//Update total invites
+		$this->updateTotals($user_id);
 
 	}
 
 	/**
 	 * Get already invited friends
+	 *
+	 * @param string $user_id
+	 * @param string $provider
+	 *
 	 * @return mixed|void
 	 */
-	public static function getInvitedFriends(){
+	public static function getInvitedFriends($user_id = '', $provider = ''){
 		global $wpdb;
-		$user_id  = get_current_user_id();
-		$provider = wsi_get_data('provider');
+
+		if( empty( $user_id ) )
+			$user_id  = get_current_user_id();
+		if( empty( $provider ) )
+			$provider = wsi_get_data('provider');
+
 		if( empty($user_id) || empty($provider) ) return;
 
 		return unserialize( $wpdb->get_var($wpdb->prepare( "SELECT friends FROM {$wpdb->prefix}wsi_invites WHERE user_id = %d AND provider = %s", array( $user_id, $provider ) ) ) );
@@ -397,4 +412,22 @@ class Wsi_Queue {
 			Wsi_Logger::log( "Facebook queue unlocked");
 		}
 	}
+
+	/**
+	 * Updates the total invites the user send
+	 * @param $user_id
+	 */
+	private function updateTotals( $user_id ) {
+		global $wpdb;
+
+		$counter = 0;
+		$rows = $wpdb->get_results( $wpdb->prepare("SELECT friends FROM {$wpdb->prefix}wsi_invites WHERE user_id = %d", array( $user_id) ) );
+		if( !empty($rows) ) {
+			foreach ( $rows as $r ) {
+				$counter += count( unserialize( $r->friends ) );
+			}
+		}
+		update_user_meta( $user_id, 'wsi_total_invites', $counter);
+	}
+
 }

@@ -33,13 +33,13 @@ abstract class Wsi_Providers {
 		global $wsi_plugin;
 		$opts = $wsi_plugin->get_opts();
 		$invited_friends = Wsi_Queue::getInvitedFriends();
+		$friends         = $this->getFriends();
 
 		$template = wsi_locate_template('popup/collector/hybridauth.php');
 		wsi_get_template('popup/collector.php', array(
 			'template' => $template,
 			'provider' => $this->name,
-			//'friends'  => array_merge(array_diff($this->getFriends(), $invited_friends), $invited_friends), // tried to move already invited to the bottom but they are object and not arrays, leaving for now
-			'friends'  => $this->getFriends(),
+			'friends'  => $friends,
 			'already_invited'  => $invited_friends,
 			'force_invites'    => @$opts['force_invites'],
 			)
@@ -82,7 +82,9 @@ abstract class Wsi_Providers {
 	private function getFriends() {
 		$contacts = $this->hybridauth->getUserContacts();
 		$already_invited = Wsi_Queue::getInvitedFriends();
-		if( !is_array($already_invited) )
+		$invited_contacts = array();
+
+		if( !is_array($already_invited) || is_empty($already_invited) )
 			return $contacts;
 		for($i=0, $n=count($contacts); $i<$n; ++$i) {
 			$identifier =  Wsi_Hybrid::getFriendId($contacts[$i]);

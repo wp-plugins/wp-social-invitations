@@ -100,7 +100,7 @@ class Wsi_Collector {
 		$this->opts         = $wsi_plugin->get_opts();
 
 		// selected provider
-		$provider = @ trim( strip_tags( $_REQUEST["provider"] ) );
+		$provider = @ trim( strip_tags( esc_attr( $_REQUEST["provider"] ) ) );
 		wsi_get_template('popup/loading.php',
 			array(
 				'options' => $this->opts,

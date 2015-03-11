@@ -1,10 +1,9 @@
-=== Wordpress Social Invitations - Lite===
+=== Wordpress Social Invitations - Lite ===
 Author: Damian Logghe
 Website: http://www.timersys.com
 Contributors: Timersys
-Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo
-License: http://codecanyon.net/licenses/regular
-Stable Tag: 2.0.1
+Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, invite friends, emails invites, invite anyone, buddypress invites, wordpress invites
+Stable Tag: 2.0.2
 Tested on: 4.1.1
 
 == Description ==
@@ -88,11 +87,18 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 == Changelog ==
 
 
-= 2.0.1
+= 2.0.2 =
+
+* Fixed issue with fb no closing, or being blocked
+* Updated error template
+* Added new functions to api wsi_user_already_invited wsi_get_total_invites
+* Minor bugfixes
+
+= 2.0.1 =
 
 * Fixxed undefined error in admin preventing plugins settings to work
 
-= 2.0.0
+= 2.0.0 =
 
 * Plugin recoded from scracth to improve usability and performance
 * Added Debug Logs right in the debug tab
