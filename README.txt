@@ -4,7 +4,9 @@ Website: http://www.timersys.com
 Contributors: Timersys
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, invite friends, emails invites, invite anyone, buddypress invites, wordpress invites
 Stable Tag: 2.0.2
-Tested on: 4.1.1
+Tested up to: 4.1.1
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
