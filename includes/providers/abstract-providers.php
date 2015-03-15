@@ -44,6 +44,7 @@ abstract class Wsi_Providers {
 			'force_invites'    => @$opts['force_invites'],
 			)
 		);
+		$this->provider->logout();
 	}
 
 	/**
@@ -84,7 +85,7 @@ abstract class Wsi_Providers {
 		$already_invited = Wsi_Queue::getInvitedFriends();
 		$invited_contacts = array();
 
-		if( !is_array($already_invited) || is_empty($already_invited) )
+		if( !is_array($already_invited) || empty( $already_invited ) )
 			return $contacts;
 		for($i=0, $n=count($contacts); $i<$n; ++$i) {
 			$identifier =  Wsi_Hybrid::getFriendId($contacts[$i]);

@@ -86,7 +86,7 @@ class Wsi_Collector {
 
 		include_once( WSI_PLUGIN_DIR . '/public/partials/collector-footer.php');
 
-		wsi_get_template('popup/sending.php', array( 'provider' => $provider->getName()  ));
+		wsi_get_template('popup/sending.php', array( 'provider' => $provider->getName() ) );
 
 		die(); // we die everything after
 	}

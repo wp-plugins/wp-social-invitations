@@ -87,6 +87,7 @@ class Wsi_Hybrid {
 				'adapter'   => $this->adapter
 			)
 		);
+		Hybrid_Auth::logoutAllProviders();
 		die();
 	}
 

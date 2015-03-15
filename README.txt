@@ -3,7 +3,7 @@ Author: Damian Logghe
 Website: http://www.timersys.com
 Contributors: Timersys
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, invite friends, emails invites, invite anyone, buddypress invites, wordpress invites
-Stable Tag: 2.0.2
+Stable Tag: 2.0.3
 Tested up to: 4.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -88,6 +88,11 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
+
+= 2.0.3 =
+* Fixed php error on collector
+* Now providers logout after sending invitations
+* Updated hybridauth library
 
 = 2.0.2 =
 
