@@ -24,6 +24,9 @@ class Wsi_Hybrid {
 		global $wsi_plugin;
 
 		$this->opts     = $wsi_plugin->get_opts();
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'hybridauth/hybridauth/Hybrid/Auth.php';
+
 		$this->config   = array(
 			// "base_url" the url that point to HybridAuth Endpoint (where index.php and config.php are found)
 			"base_url" => WSI_PLUGIN_URL .'hybridauth/hybridauth/',

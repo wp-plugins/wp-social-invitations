@@ -90,7 +90,7 @@ class Wsi {
 	public function __construct() {
 
 		$this->wsi = 'wsi';
-		$this->version = '2.0.3';
+		$this->version = '2.0.4';
 		$this->providers 		= 	array('facebook' 	=> __('Facebook','wsi'),
 		                                   'google' 	=> __('Gmail','wsi'),
 		                                   'yahoo'		=> __('Yahoo Mail','wsi'),
@@ -180,7 +180,6 @@ class Wsi {
 		 * The class resposible for popups and messages collector
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsi-collector.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'hybridauth/hybridauth/Hybrid/Auth.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsi-hybrid.php';
 
 		/**
