@@ -92,6 +92,7 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 = 2.0.4 =
 * Added language files
 * Fixed hybridauth error with other plugins
+* Removed friends collector from Twitter and Linkedin as not needed in the free version
 
 = 2.0.3 =
 * Fixed php error on collector

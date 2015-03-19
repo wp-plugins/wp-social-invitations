@@ -63,7 +63,7 @@ class Wsi_Hybrid {
 				),
 	        ),
 
-	        "debug_mode" => !empty( $this->opts['enable_dev'] ),
+	        "debug_mode" => ( !empty( $this->opts['enable_dev'] ) && is_writeable( WSI_PLUGIN_DIR . 'logs/hybrid.txt') ),
 
 	        // to enable logging, set 'debug_mode' to true, then provide here a path of a writable file
 	        "debug_file" => WSI_PLUGIN_DIR . 'logs/hybrid.txt',

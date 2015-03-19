@@ -91,7 +91,7 @@ function wsi_get_obj_id(){
 	// will be 0 if we are in home page or an archives page
 	$id = 0;
 
-	if( !empty( $wp_query->queried_object ) ) {
+	if( !empty( $wp_query->queried_object->ID ) ) {
 		$id =  $wp_query->queried_object->ID;
 	};
 
