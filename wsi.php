@@ -16,7 +16,7 @@
  * Plugin Name:       Wordpress Social Invitations - Lite
  * Plugin URI:        http://wp.timersys.com/wordpress-social-invitations/
  * Description:       WSI let's you invite your social friends to the site
- * Version:           2.0.3
+ * Version:           2.0.4
  * Author:            Damian Logghe
  * Author URI:        https://wp.timersys.com/
  * License:           GPL-2.0+
