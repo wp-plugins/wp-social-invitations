@@ -69,6 +69,7 @@ class Wsi_Googl
 			return json_decode(curl_exec($this->ch));
 		} else {
 			$ret = json_decode(curl_exec($this->ch))->id;
+			Wsi_Logger::log( "Googl Shorten result:". print_r($ret));
 			self::$buffer[$url] = $ret;
 			return $ret;
 		}
