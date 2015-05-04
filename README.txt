@@ -3,8 +3,8 @@ Author: Damian Logghe
 Website: http://www.timersys.com
 Contributors: Timersys
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, invite friends, emails invites, invite anyone, buddypress invites, wordpress invites
-Stable Tag: 2.0.4
-Tested up to: 4.1.1
+Stable Tag: 2.0.5
+Tested up to: 4.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,9 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
+= 2.0.5 =
+* Fixed bug preventing MyCred hooks to display
+* Fixed bug in popup collector that was printing other plugins stuff
 
 = 2.0.4 =
 * Added language files

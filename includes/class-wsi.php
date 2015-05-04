@@ -90,7 +90,7 @@ class Wsi {
 	public function __construct() {
 
 		$this->wsi = 'wsi';
-		$this->version = '2.0.4';
+		$this->version = '2.0.5';
 		$this->providers 		= 	array('facebook' 	=> __('Facebook','wsi'),
 		                                   'google' 	=> __('Gmail','wsi'),
 		                                   'yahoo'		=> __('Yahoo Mail','wsi'),

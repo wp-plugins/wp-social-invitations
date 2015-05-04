@@ -340,7 +340,7 @@ class Wsi_Public {
 		if( $this->opts['hook_buddypress'] ) {
 			add_action( 'bp_after_activate_content', array( $this, 'display_widget_bp') );
 		}
-		add_Action('mycred_setup_hooks',  array('Wsi_MyCreed', 'init' ) );
+
 	}
 
 }
