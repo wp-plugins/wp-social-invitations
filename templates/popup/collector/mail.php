@@ -10,6 +10,6 @@
 ?>
 <h2><?php _e("Invite your friends", 'wsi');?></h2>
 <div class="mail-wrapper">
-	<label for="subject"><?php _e('Enter your friends emails one by line', 'wsi');?></label>
+	<label for="subject"><?php _e('Enter your friends emails, one per line', 'wsi');?></label>
 	<textarea name="friend" id="emails" style="height:120px;"  class="form-control" required="required"></textarea>
 </div>

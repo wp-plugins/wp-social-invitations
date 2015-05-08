@@ -81,6 +81,10 @@ class Wsi_Upgrader {
 		{
 			$this->upgrade_2_5_0_options();
 		}
+		// show feedback box if updating plugin
+		if( !empty($current_version) && version_compare( $current_version, WSI_VERSION, '<' )) {
+			update_option('wsi_plugin_updated', true);
+		}
 	}
 
 	/**

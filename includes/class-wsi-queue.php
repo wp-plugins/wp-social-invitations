@@ -270,7 +270,8 @@ class Wsi_Queue {
 		$googl 		= new Wsi_Googl($api_key);
 		$shortened 	= $googl->shorten($url);
 		unset($googl);
-
+		if( empty($shortened))
+			return $url;
 		return $shortened;
 	}
 

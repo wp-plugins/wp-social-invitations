@@ -3,8 +3,8 @@ Author: Damian Logghe
 Website: http://www.timersys.com
 Contributors: Timersys
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, invite friends, emails invites, invite anyone, buddypress invites, wordpress invites
-Stable Tag: 2.0.4
-Tested up to: 4.1.1
+Stable Tag: 2.0.6
+Tested up to: 4.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,6 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 > * Stats widget
 > * Bypass registration lock- To use the plugin on private sites that works with invitation only
 > * Facebook uses SEND DIALOG
-> * Linkedin delivers private messages instead of posting into user status
 > * Twitter delivers Private messages instead of posting a tweet
 > * GMAIL & SMTP SUPPORT
 > * Predefined invitations can't be edited by users
@@ -88,6 +87,13 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 
 == Changelog ==
 
+= 2.0.6 =
+* Minor bugfixes
+* Code improvements
+
+= 2.0.5 =
+* Fixed bug preventing MyCred hooks to display
+* Fixed bug in popup collector that was printing other plugins stuff
 
 = 2.0.4 =
 * Added language files
