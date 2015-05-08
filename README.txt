@@ -39,7 +39,6 @@ Facebook, Twitter, Linkedin, Foursquare, Yahoo, Live, Gmail
 > * Stats widget
 > * Bypass registration lock- To use the plugin on private sites that works with invitation only
 > * Facebook uses SEND DIALOG
-> * Linkedin delivers private messages instead of posting into user status
 > * Twitter delivers Private messages instead of posting a tweet
 > * GMAIL & SMTP SUPPORT
 > * Predefined invitations can't be edited by users
