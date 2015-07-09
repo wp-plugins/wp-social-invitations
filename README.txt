@@ -3,7 +3,7 @@ Author: Damian Logghe
 Website: http://www.timersys.com
 Contributors: Timersys
 Tags: Social Invitations, twitter, facebook, linkedin, hotmail, yahoo, invite friends, emails invites, invite anyone, buddypress invites, wordpress invites
-Stable Tag: 2.0.6
+Stable Tag: 2.1
 Tested up to: 4.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,12 @@ Check our [Common problems section](http://wp.timersys.com/wordpress-social-invi
 4. Emails template
 
 == Changelog ==
+
+= 2.1 =
+* Added more debug info to logs
+* Current url and current title fix
+* jquery manually added into popup to avoid cache issues
+* Added some disable cache variables in popup
 
 = 2.0.6 =
 * Minor bugfixes

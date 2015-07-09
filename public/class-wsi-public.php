@@ -137,7 +137,7 @@ class Wsi_Public {
 	 */
 	function catch_invited_users(){
 
-		if( !empty( $_REQUEST[ 'wsi_invitation' ] ) &&  isset($_REQUEST['wsi_action']) && $_REQUEST['wsi_action'] == 'accept-invitation' ) {
+		if( isset( $_REQUEST[ 'wsi_invitation' ] ) &&  isset($_REQUEST['wsi_action']) && $_REQUEST['wsi_action'] == 'accept-invitation' ) {
 
 			if ( in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php', 'wp-signup.php' ) ) ) {
 				remove_action( 'bp_init', 'bp_core_wpsignup_redirect' );

@@ -60,6 +60,15 @@ class Wsi_Collector {
 		// if we are not trying to show collector exit
 		if( !isset( $_GET['action'] ) || 'wsi_collector' != $_GET['action'] || empty( $_REQUEST["provider"] ) )
 			return;
+		// prevent caching
+		if ( ! defined( 'DONOTCACHEPAGE' ) )
+			define( 'DONOTCACHEPAGE', true);
+
+		if ( ! defined( 'DONOTCACHCEOBJECT' ) )
+			define( 'DONOTCACHCEOBJECT', true );
+
+		if ( ! defined( 'DONOTMINIFY' ) )
+			define( 'DONOTMINIFY', true );
 
 		// let display a loading message. should be better than a white screen
 		if( isset( $_REQUEST["provider"] ) && ! isset( $_REQUEST["redirect_to_provider"] ) ) {
@@ -75,11 +84,11 @@ class Wsi_Collector {
 		$_SESSION['wsi_data'] = array(
 			'provider'      => $provider->getName(),
 			'current_url'   => wsi_current_url(),
-			'obj_id'        => wsi_get_obj_id(),
+			'obj_id'        => esc_attr($_GET['wsi_obj_id']),
 			'sdata'         => $sdata,
 			'user_info'     => $user_info
 		);
-
+		nocache_headers();
 		include_once( WSI_PLUGIN_DIR . '/public/partials/collector-header.php');
 
 		$provider->collector();
@@ -246,7 +255,7 @@ class Wsi_Collector {
 		$por = array(
 			apply_filters('wsi/placeholders/invitername'	, $invitername ),
 			apply_filters('wsi/placeholders/sitename'	    , get_bloginfo('name') ),
-			apply_filters('wsi/placeholders/current_url'    , wsi_current_url() ),
+			apply_filters('wsi/placeholders/current_url'    , isset( $post_data->ID ) ? get_permalink($post_data->ID) : ''),
 			apply_filters('wsi/placeholders/custom_url'     , $opts['custom_url'] ),
 			apply_filters('wsi/placeholders/inviter_url'    , $inviter_url ),
 			apply_filters('wsi/placeholders/current_title'  , isset( $post_data->post_title ) ? $post_data->post_title : '')

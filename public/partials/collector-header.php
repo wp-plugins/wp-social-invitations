@@ -30,7 +30,7 @@ $redirect_url   = !empty( $this->opts['redirect_url'] ) ? esc_attr( $this->opts[
 			redirect_url        = '<?php echo $redirect_url;?>',
 			wsi_url             = '<?php echo WSI_PLUGIN_URL;?>'
 	</script>
-
+	<script src="<?php echo site_url('wp-includes/js/jquery/jquery.js');?>"></script>
 </head>
 <body>
 <form id="collect_emails" method="post" action="">

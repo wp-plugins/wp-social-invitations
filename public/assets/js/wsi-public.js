@@ -80,7 +80,7 @@ window.fbAsyncInit = function() {
                             $('#'+widget_id+' #facebook-provider').addClass('completed');
                             $('#'+widget_id+' #wsi_provider').html(provider);
                             $('#'+widget_id+' .wsi_success').fadeIn('slow',function(){
-                                if( wsi_locker == 'true' ) {
+                                if( wsi_locker ) {
                                     setCookie("wsi-lock["+widget_id+"]",1,365);
                                     window.location.reload();
                                 }
@@ -106,7 +106,7 @@ window.fbAsyncInit = function() {
 
             } else {
                 window.open(
-                    WsiMyAjax.site_url+"?action=wsi_collector&redirect_to="+encodeURIComponent(current_url)+"&provider="+provider+"&widget_id="+widget_id+"&wsi_locker="+wsi_locker+"&wsi_hook="+wsi_hook+"&_ts=" + (new Date()).getTime(),
+                    WsiMyAjax.site_url+"?action=wsi_collector&wsi_obj_id="+WsiMyAjax.wsi_obj_id+"&redirect_to="+encodeURIComponent(current_url)+"&provider="+provider+"&widget_id="+widget_id+"&wsi_locker="+wsi_locker+"&wsi_hook="+wsi_hook+"&_ts=" + (new Date()).getTime(),
                     "hybridauth_social_sing_on",
                     "directories=no,copyhistory=no,location=0,toolbar=0,location=0,menubar=0,status=0,scrollbars=1,width=600,height=640,top=" + top + ", left=" + left
                 );
@@ -116,3 +116,10 @@ window.fbAsyncInit = function() {
     });
 
 })( jQuery );
+function setCookie(c_name,value,exdays)
+{
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString()) + "; path=/";
+    document.cookie=c_name + "=" + c_value;
+}

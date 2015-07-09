@@ -4,11 +4,11 @@
  */
 @font-face {
     font-family: 'wsi-social';
-    src:url('../fonts/wsi-social.eot?-ucnimv');
-    src:url('../fonts/wsi-social.eot?#iefix-ucnimv') format('embedded-opentype'),
-    url('../fonts/wsi-social.woff?-ucnimv') format('woff'),
-    url('../fonts/wsi-social.ttf?-ucnimv') format('truetype'),
-    url('../fonts/wsi-social.svg?-ucnimv#wsi-social') format('svg');
+    src:url('../fonts/wsi-social.eot');
+    src:url('../fonts/wsi-social.eot') format('embedded-opentype'),
+    url('../fonts/wsi-social.woff') format('woff'),
+    url('../fonts/wsi-social.ttf') format('truetype'),
+    url('../fonts/wsi-social.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }

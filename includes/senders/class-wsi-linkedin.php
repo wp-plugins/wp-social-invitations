@@ -41,7 +41,12 @@ class Wsi_Linkedin_Sender extends Wsi_Senders{
 		$this->limit	= 5000;
 		$this->every	= strtotime('tomorrow');
 		$this->setData($queue_data);
-		$this->connectSession();
+		try {
+			$this->connectSession();
+		} catch( Exception $e ) {
+			Wsi_Logger::log( "Wsi_Linkedin_Sender : connectSession -" . $e->getMessage());
+		}
+
 	}
 
 
@@ -60,7 +65,12 @@ class Wsi_Linkedin_Sender extends Wsi_Senders{
 
 		do_action('wsi/invitation_sent', $this->data->user_id, $this->data->wsi_obj_id );
 
-		$this->adapter->setUserStatus($this->data->message);
+		try {
+			$this->adapter->setUserStatus( $this->data->message );
+		} catch( Exception $e ) {
+			Wsi_Logger::log( "Wsi_Linkedin_Sender : setUserStatus - " . $e->getMessage());
+		}
+
 
 		Wsi_Logger::log_stat('linkedin',$this->data->user_id, $sent_on_batch, $this->data->id, $this->data->display_name, $this->data->wsi_obj_id);
 

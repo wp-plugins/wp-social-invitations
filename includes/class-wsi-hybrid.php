@@ -25,8 +25,6 @@ class Wsi_Hybrid {
 
 		$this->opts     = $wsi_plugin->get_opts();
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'hybridauth/hybridauth/Hybrid/Auth.php';
-
 		$this->config   = array(
 			// "base_url" the url that point to HybridAuth Endpoint (where index.php and config.php are found)
 			"base_url" => WSI_PLUGIN_URL .'hybridauth/hybridauth/',
@@ -73,7 +71,7 @@ class Wsi_Hybrid {
 			return $this->hybridauth   = new Hybrid_Auth($this->config);
 		}
 		catch( Exception $e ){
-			Wsi_Logger::log($e->getMessage());
+			Wsi_Logger::log('new Hybrid_Auth error: ' .$e->getMessage());
 			$this->checkException($e);
 		}
 	}
@@ -110,7 +108,7 @@ class Wsi_Hybrid {
 			return $this->adapter;
 		}
 		catch( Exception $e ) {
-			Wsi_Logger::log($e->getMessage());
+			Wsi_Logger::log('Connect error: ' .$e->getMessage());
 			$this->checkException($e);
 		}
 	}
@@ -128,7 +126,7 @@ class Wsi_Hybrid {
 			return $friends;
 		}
 		catch( Exception $e ) {
-			Wsi_Logger::log($e->getMessage());
+			Wsi_Logger::log('getUserContacts error: ' .$e->getMessage());
 			$this->checkException($e);
 		}
 	}
@@ -168,7 +166,7 @@ class Wsi_Hybrid {
 			$this->hybridauth->restoreSessionData($sdata);
 		}
 		catch( Exception $e ) {
-			Wsi_Logger::log($e->getMessage());
+			Wsi_Logger::log('restoreSessionData error: ' .$e->getMessage());
 			$this->checkException($e);
 		}
 	}
@@ -185,7 +183,7 @@ class Wsi_Hybrid {
 			return	$this->hybridauth->getAdapter($provider);
 		}
 		catch( Exception $e ) {
-			Wsi_Logger::log($e->getMessage());
+			Wsi_Logger::log('getAdapter error: ' .$e->getMessage());
 			$this->checkException($e);
 		}
 	}

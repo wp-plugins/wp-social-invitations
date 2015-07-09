@@ -153,7 +153,7 @@ class Wsi {
 	public function __construct() {
 
 		$this->wsi = 'wsi';
-		$this->version = '2.0.6';
+		$this->version = '2.1';
 		$this->providers 		= 	array('facebook' 	=> __('Facebook','wsi'),
 		                                   'google' 	=> __('Gmail','wsi'),
 		                                   'yahoo'		=> __('Yahoo Mail','wsi'),
@@ -197,6 +197,10 @@ class Wsi {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsi-loader.php';
+		/**
+		 * Hybridauth library
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'hybridauth/hybridauth/Hybrid/Auth.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
