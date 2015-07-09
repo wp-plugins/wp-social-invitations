@@ -38,7 +38,12 @@ class Wsi_Twitter_Sender extends Wsi_Senders {
 		$this->limit	= 250;
 		$this->every	= 60 * 60 * 24; //one day
 		$this->setData($queue_data);
-		$this->connectSession();
+		try {
+			$this->connectSession();
+		} catch( Exception $e ) {
+			Wsi_Logger::log( "Wsi_Twitter_Sender : connectSession -" . $e->getMessage());
+		}
+
 	}
 
 	/**
@@ -59,6 +64,7 @@ class Wsi_Twitter_Sender extends Wsi_Senders {
 			$sent_on_batch ++;
 			do_action( 'wsi/invitation_sent', $this->data->user_id, $this->data->wsi_obj_id );
 		} catch( Exception $e ) {
+			Wsi_Logger::log( "Wsi_Twitter_Sender: cannot post status -" . $e->getMessage());
 			//if we reach here if that we wasn't able to post DM or status so just delete the record from queue to avoid getting stuck
 			$delete_row = true;
 		}

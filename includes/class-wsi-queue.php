@@ -181,7 +181,7 @@ class Wsi_Queue {
 			'%%ACCEPTURL%%',
 		);
 
-		$accept_url 	= site_url('/wp-login.php?action=register&wsi_action=accept-invitation&wsi_invitation='.urlencode( base64_encode( $queue_id )) );
+		$accept_url 	= site_url('/wp-login.php?action=register&wsi_action=accept-invitation&wsi_invitation='.urlencode( base64_encode( esc_attr($queue_id) )) );
 
 		$por = array(
 			apply_filters('wsi/placeholders/accept_url'	, $accept_url),
@@ -270,8 +270,7 @@ class Wsi_Queue {
 		$googl 		= new Wsi_Googl($api_key);
 		$shortened 	= $googl->shorten($url);
 		unset($googl);
-
-		return $shortened;
+		return empty($shortened) ? $url : $shortened;
 	}
 
 

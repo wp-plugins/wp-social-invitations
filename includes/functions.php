@@ -91,9 +91,8 @@ function wsi_get_obj_id(){
 	// will be 0 if we are in home page or an archives page
 	$id = 0;
 
-	if( !empty( $wp_query->queried_object->ID ) ) {
+	if( isset( $wp_query->queried_object->ID ) )
 		$id =  $wp_query->queried_object->ID;
-	};
 
 	return $id;
 }
@@ -117,7 +116,7 @@ function wsi_get_display_name() {
 	$userInfo    = wsi_get_data('user_info');
 
 	// Check for provider display name or get current logged user
-	$displayName = isset( $userInfo->displayName ) ? $userInfo->displayName : $current_user->display_name;
+	@$displayName = isset( $userInfo->displayName ) ? $userInfo->displayName : $current_user->display_name;
 
 	return $displayName;
 }

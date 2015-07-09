@@ -137,7 +137,7 @@ class Wsi_Public {
 	 */
 	function catch_invited_users(){
 
-		if( !empty( $_REQUEST[ 'wsi_invitation' ] ) &&  isset($_REQUEST['wsi_action']) && $_REQUEST['wsi_action'] == 'accept-invitation' ) {
+		if( isset( $_REQUEST[ 'wsi_invitation' ] ) &&  isset($_REQUEST['wsi_action']) && $_REQUEST['wsi_action'] == 'accept-invitation' ) {
 
 			if ( in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php', 'wp-signup.php' ) ) ) {
 				remove_action( 'bp_init', 'bp_core_wpsignup_redirect' );
@@ -340,7 +340,7 @@ class Wsi_Public {
 		if( $this->opts['hook_buddypress'] ) {
 			add_action( 'bp_after_activate_content', array( $this, 'display_widget_bp') );
 		}
-		add_Action('mycred_setup_hooks',  array('Wsi_MyCreed', 'init' ) );
+
 	}
 
 }

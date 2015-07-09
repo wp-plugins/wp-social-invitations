@@ -45,7 +45,7 @@
 			</td>
 		</tr>
 		<tr valign="top" class="">
-			<th><label for="force_invites"><?php _e( 'Force Invites?', 'wsi' ); ?></label></th>
+			<th><label for="force_invites"><?php _e( 'Multiple Invites?', 'wsi' ); ?></label></th>
 			<td colspan="3">
 				<select name="wsi_settings[force_invites]" disabled>
 					<option value="1" <?php selected($opts['force_invites'], 1);?>><?php _e( 'Yes', 'wsi');?></option>

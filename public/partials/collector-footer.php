@@ -20,22 +20,21 @@ if( !empty( $wp_styles->queue )) {
 		wp_dequeue_style ($handle);
 	}
 }
-// add jquery
-wp_enqueue_script('jquery');
+
 //remove all actions
-remove_all_actions('wp_footer',52);
+remove_all_actions('wp_footer');
 //but print scripts
 add_action('wp_footer','wp_print_footer_scripts',10);
 ?>
 </form>
 <div id="footer">
 	<div id="credits">
-		Powered by <a href="http://wp.timersys.com/wordpress-social-invitations/" target="_blank">Wordpress Social Invitations</a>
+		<?php echo apply_filters('wsi/powered_by', 'Powered by <a href="https://wp.timersys.com/wordpress-social-invitations/" target="_blank">Wordpress Social Invitations</a>');?>
 	</div>
 </div>
-<?php
-	wp_footer();
-	?>
+<div style="display:none">
+	<?php wp_footer();?>
+</div>
 	<script src="<?php echo WSI_PLUGIN_URL . 'public/assets/js/collector.js';?>"></script>
 	<script src="<?php echo WSI_PLUGIN_URL . 'public/assets/js/jquery.lazyload.min.js';?>"></script>
 <?php

@@ -37,6 +37,7 @@ global $wpdb;
 					<option value="1" <?php selected($opts['enable_dev'],'1');?>><?php _e( 'Yes', 'wsi');?></option>
 				</select>
 				<p class="help"><?php _e( 'Enable / Disable Development mode. Use it on dev site to log errors.', 'wsi' ); ?></p>
+				<p class="help"><?php _e( 'Once you finish debugging <strong>it\'s important to delete logs and disable debug mode.</strong>', 'wsi' ); ?></p>
 			</td>
 		</tr>
 		<tr valign="top" class="">

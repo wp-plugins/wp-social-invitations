@@ -44,10 +44,12 @@ class Wsi_Mailer {
 	 * @param int $total_sent
 	 */
 	public function setData( $data, $total_sent = 0 ) {
-		$this->data = $data;
-		$this->data->friends = unserialize($this->data->friends);
-		$this->data->message = $this->data->message;
-		$this->total_sent = $total_sent;
+		if( !empty($data) ) {
+			$this->data          = $data;
+			$this->data->friends = unserialize( $this->data->friends );
+			$this->data->message = $this->data->message;
+			$this->total_sent    = $total_sent;
+		}
 		Wsi_Logger::log( "Mails data set");
 	}
 

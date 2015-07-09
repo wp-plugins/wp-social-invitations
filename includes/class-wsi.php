@@ -32,7 +32,18 @@ if(!isset($_SESSION))
 	session_start();
 }
 class Wsi {
-
+	/**
+	 * @var Wsi classes
+	 */
+	public $plugin_admin;
+	public $activator;
+	public $admin_settings;
+	public $wsi_public;
+	public $wsi_cron;
+	public $wsi_queue;
+	public $wsi_bp;
+	public $wsi_collector;
+	public $wsi_notices;
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
@@ -79,6 +90,58 @@ class Wsi {
 	private $defaults;
 
 	/**
+	 * Plugin Instance
+	 * @since 2.0.6
+	 * @var The Wsi plugin instance
+	 */
+	protected static $_instance = null;
+
+	/**
+	 * Main Wsi Instance
+	 *
+	 * Ensures only one instance of WSI is loaded or can be loaded.
+	 *
+	 * @since 2.0.6
+	 * @static
+	 * @see WSI()
+	 * @return Wsi - Main instance
+	 */
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	/**
+	 * Cloning is forbidden.
+	 * @since 2.0.6
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+	}
+
+	/**
+	 * Unserializing instances of this class is forbidden.
+	 * @since 2.0.6
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+	}
+
+	/**
+	 * Auto-load in-accessible properties on demand.
+	 * @param mixed $key
+	 * @since 2.0.6
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		if ( in_array( $key, array( 'payment_gateways', 'shipping', 'mailer', 'checkout' ) ) ) {
+			return $this->$key();
+		}
+	}
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -90,7 +153,7 @@ class Wsi {
 	public function __construct() {
 
 		$this->wsi = 'wsi';
-		$this->version = '2.0.4';
+		$this->version = '2.1';
 		$this->providers 		= 	array('facebook' 	=> __('Facebook','wsi'),
 		                                   'google' 	=> __('Gmail','wsi'),
 		                                   'yahoo'		=> __('Yahoo Mail','wsi'),
@@ -134,6 +197,10 @@ class Wsi {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsi-loader.php';
+		/**
+		 * Hybridauth library
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'hybridauth/hybridauth/Hybrid/Auth.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -219,6 +286,10 @@ class Wsi {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsi-googl.php';
+		/**
+		 * Admin notices
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsi-notices.php';
 
 
 
@@ -253,18 +324,20 @@ class Wsi {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin   = new Wsi_Admin( $this->get_wsi(), $this->get_version() );
-		$activator      = new Wsi_Activator();
-		$admin_settings = new Wsi_Settings( $this->wsi, $this->version );
+		$this->plugin_admin   = new Wsi_Admin( $this->get_wsi(), $this->get_version() );
+		$this->activator      = new Wsi_Activator();
+		$this->admin_settings = new Wsi_Settings( $this->wsi, $this->version );
+		$this->wsi_notices    = new Wsi_Notices( $this->wsi, $this->version );
+		if( get_option('wsi_plugin_updated') && !get_option('wsi_rate_plugin') )
+			$this->loader->add_action( 'admin_notices', $this->wsi_notices, 'rate_plugin' );
 
+		$this->loader->add_action( 'wpmu_new_blog', $this->activator , 'on_create_blog',10, 6 );
 
-		$this->loader->add_action( 'wpmu_new_blog', $activator , 'on_create_blog',10, 6 );
-
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_menu' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'wp_ajax_wsi_test_email', $plugin_admin, 'send_test_email' );
-		$this->loader->add_action( 'wp_ajax_wsi_delete_logs', $admin_settings, 'delete_logs' );
+		$this->loader->add_action( 'admin_menu', $this->plugin_admin, 'register_menu' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_ajax_wsi_test_email', $this->plugin_admin, 'send_test_email' );
+		$this->loader->add_action( 'wp_ajax_wsi_delete_logs', $this->admin_settings, 'delete_logs' );
 
 	}
 
@@ -277,41 +350,41 @@ class Wsi {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public  = new Wsi_Public( $this->get_wsi(), $this->get_version(), $this->settings );
-		$wsi_cron       = new Wsi_Cron( $this->get_wsi(), $this->get_version() );
-		$wsi_queue      = new Wsi_Queue( $this->get_wsi(), $this->get_version() );
-		$wsi_bp         = new Wsi_BP();
-		$wsi_collector  = new Wsi_Collector( $this->get_wsi(), $this->get_version() );
+		$this->wsi_public     = new Wsi_Public( $this->get_wsi(), $this->get_version(), $this->settings );
+		$this->wsi_cron       = new Wsi_Cron( $this->get_wsi(), $this->get_version() );
+		$this->wsi_queue      = new Wsi_Queue( $this->get_wsi(), $this->get_version() );
+		$this->wsi_bp         = new Wsi_BP();
+		$this->wsi_collector  = new Wsi_Collector( $this->get_wsi(), $this->get_version() );
 
 
 		$this->loader->add_filter( 'wsi/get_opts', $this, 'set_defaults', 1 );
 
-		$this->loader->add_action( 'cron_schedules', $wsi_cron, 'add_cron_schedule' );
+		$this->loader->add_action( 'cron_schedules', $this->wsi_cron, 'add_cron_schedule' );
 		if( !defined('WSI_SERVER_CRON') )
-			$this->loader->add_action( 'wsi_queue_cron', $wsi_cron, 'run' );
+			$this->loader->add_action( 'wsi_queue_cron', $this->wsi_cron, 'run' );
 
-		$this->loader->add_action( 'init', $wsi_cron, 'server_cron' );
-
-
-		$this->loader->add_action( 'init', $wsi_collector, 'run', 1 );
-
-		$this->loader->add_action( 'wp_ajax_add_to_wsi_queue', $wsi_queue, 'send_to_queue' );
-		$this->loader->add_action( 'wp_ajax_nopriv_add_to_wsi_queue', $wsi_queue, 'send_to_queue' );
-		$this->loader->add_action( 'wp_ajax_wsi_fb_link', $wsi_queue, 'get_fb_queue_id' );
-		$this->loader->add_action( 'wp_ajax_nopriv_wsi_fb_link', $wsi_queue, 'get_fb_queue_id' );
-		$this->loader->add_action( 'admin_init', $wsi_queue, 'unlock_queue' );
-
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'widgets_init', $plugin_public, 'register_widgets' );
-		$this->loader->add_action( 'init', $plugin_public, 'catch_invited_users',9 );
-		$this->loader->add_action( 'user_register', $plugin_public, 'check_new_registered_user' );
-		$this->loader->add_action( 'init', $plugin_public, 'plugin_hooks' );
+		$this->loader->add_action( 'init', $this->wsi_cron, 'server_cron' );
 
 
-		$this->loader->add_action( 'bp_setup_globals', $wsi_bp, 'setup_globals', 2 );
-		$this->loader->add_action( 'bp_setup_nav', $wsi_bp, 'setup_nav', 2 );
-		$this->loader->add_action( 'admin_bar_menu', $wsi_bp, 'add_menu', 2 );
+		$this->loader->add_action( 'init', $this->wsi_collector, 'run', 1 );
+
+		$this->loader->add_action( 'wp_ajax_add_to_wsi_queue', $this->wsi_queue, 'send_to_queue' );
+		$this->loader->add_action( 'wp_ajax_nopriv_add_to_wsi_queue', $this->wsi_queue, 'send_to_queue' );
+		$this->loader->add_action( 'wp_ajax_wsi_fb_link', $this->wsi_queue, 'get_fb_queue_id' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wsi_fb_link', $this->wsi_queue, 'get_fb_queue_id' );
+		$this->loader->add_action( 'admin_init', $this->wsi_queue, 'unlock_queue' );
+
+		$this->loader->add_action( 'wp_enqueue_scripts', $this->wsi_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $this->wsi_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'widgets_init', $this->wsi_public, 'register_widgets' );
+		$this->loader->add_action( 'init', $this->wsi_public, 'catch_invited_users',9 );
+		$this->loader->add_action( 'user_register', $this->wsi_public, 'check_new_registered_user' );
+		$this->loader->add_action( 'init', $this->wsi_public, 'plugin_hooks' );
+
+
+		$this->loader->add_action( 'bp_setup_globals', $this->wsi_bp, 'setup_globals', 2 );
+		$this->loader->add_action( 'bp_setup_nav', $this->wsi_bp, 'setup_nav', 2 );
+		$this->loader->add_action( 'admin_bar_menu', $this->wsi_bp, 'add_menu', 2 );
 
 	}
 
